@@ -3,10 +3,7 @@ package nl.belastingdienst.autogarage.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
@@ -19,8 +16,10 @@ public class Afspraak {
     private Long id;
     private LocalDate beginDatum;
     private LocalDate eindDatum;
-
-    //klant attribuut toevoegen wanneer relationships worden geimplementeerd
+    @ManyToOne
+    private Klant klant;
+    @ManyToOne
+    private Auto auto;
 
     public Afspraak() {
     }
