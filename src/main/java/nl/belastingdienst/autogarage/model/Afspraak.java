@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,14 +15,14 @@ public class Afspraak {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDate beginDatum;
-    private LocalDate eindDatum;
+    private LocalDateTime beginAfspraak;
+    private LocalDateTime eindeAfspraak;
 
     public Afspraak() {
     }
 
-    public Afspraak(LocalDate beginDatum, LocalDate eindDatum) {
-        this.beginDatum = beginDatum;
-        this.eindDatum = eindDatum;
+    public Afspraak(LocalDateTime beginAfspraak, LocalDateTime eindeAfspraak) {
+        this.beginAfspraak = beginAfspraak;
+        this.eindeAfspraak = eindeAfspraak;
     }
 }
