@@ -1,6 +1,5 @@
 package nl.belastingdienst.autogarage.controller;
 
-import lombok.Getter;
 import nl.belastingdienst.autogarage.model.Afspraak;
 import nl.belastingdienst.autogarage.repository.AfspraakRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController

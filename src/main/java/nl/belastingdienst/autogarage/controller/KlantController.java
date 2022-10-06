@@ -1,8 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.model.Auto;
 import nl.belastingdienst.autogarage.model.Klant;
-import nl.belastingdienst.autogarage.repository.AutoRepository;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
