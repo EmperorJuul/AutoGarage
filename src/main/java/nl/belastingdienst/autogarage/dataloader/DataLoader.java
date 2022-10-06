@@ -36,7 +36,7 @@ public class DataLoader {
         autoRepository.save(auto1);
         autoRepository.save(auto2);
 
-        Klant klant1 = new Klant("Juul", "Konings", "0612345678", "j.konings@belastingdienst.nl");
+        Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
         Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
         klantRepository.save(klant1);
         klantRepository.save(klant2);
