@@ -15,8 +15,6 @@ public class Reparatie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String naam;
-    @OneToOne
-    private Onderdeel onderdeel;
     private double prijs;
 
     public Reparatie() {

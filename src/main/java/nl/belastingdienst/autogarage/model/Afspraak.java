@@ -16,10 +16,6 @@ public class Afspraak {
     private Long id;
     private LocalDate beginDatum;
     private LocalDate eindDatum;
-    @ManyToOne
-    private Klant klant;
-    @ManyToOne
-    private Auto auto;
 
     public Afspraak() {
     }
