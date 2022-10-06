@@ -1,26 +1,23 @@
 package nl.belastingdienst.autogarage.dataloader;
 
-import nl.belastingdienst.autogarage.model.Auto;
-import nl.belastingdienst.autogarage.model.Klant;
-import nl.belastingdienst.autogarage.model.Onderdeel;
-import nl.belastingdienst.autogarage.model.Reparatie;
+import nl.belastingdienst.autogarage.model.*;
 import nl.belastingdienst.autogarage.repository.*;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader {
 
     private AfspraakRepository afspraakRepository;
     private AutoRepository autoRepository;
-    private BonRepository bonRepository;
     private KlantRepository klantRepository;
     private OnderdeelRepository onderdeelRepository;
     private ReparatieRepository reparatieRepository;
 
-    public DataLoader(AfspraakRepository afspraakRepository, AutoRepository autoRepository, BonRepository bonRepository, KlantRepository klantRepository, OnderdeelRepository onderdeelRepository, ReparatieRepository reparatieRepository) {
+    public DataLoader(AfspraakRepository afspraakRepository, AutoRepository autoRepository, KlantRepository klantRepository, OnderdeelRepository onderdeelRepository, ReparatieRepository reparatieRepository) {
         this.afspraakRepository = afspraakRepository;
         this.autoRepository = autoRepository;
-        this.bonRepository = bonRepository;
         this.klantRepository = klantRepository;
         this.onderdeelRepository = onderdeelRepository;
         this.reparatieRepository = reparatieRepository;
