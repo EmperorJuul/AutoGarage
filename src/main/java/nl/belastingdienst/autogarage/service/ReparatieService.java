@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.ReparatieDto;
-import nl.belastingdienst.autogarage.exception.NotFoundException;
+import nl.belastingdienst.autogarage.exception.ReparatieNotFoundException;
 import nl.belastingdienst.autogarage.model.Reparatie;
 import nl.belastingdienst.autogarage.repository.ReparatieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ReparatieService {
     }
 
     public ReparatieDto reparatieOpId(Long id){
-        return vanReparatieNaarReparatieDto(reparatieRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen reparatie gevonden met dit id")));
+        return vanReparatieNaarReparatieDto(reparatieRepository.findById(id).orElseThrow(() -> new ReparatieNotFoundException(id)));
     }
 
     public ReparatieDto nieuweReparatie(Reparatie reparatie){
@@ -35,7 +35,7 @@ public class ReparatieService {
     }
 
     public void updateReparatie(Long id, Reparatie nieuweReparatie){
-        Reparatie reparatie = reparatieRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen reparatie gevonden met dit id"));
+        Reparatie reparatie = reparatieRepository.findById(id).orElseThrow(() -> new ReparatieNotFoundException(id));
         nieuweReparatie.setId(reparatie.getId());
         reparatieRepository.save(nieuweReparatie);
     }
