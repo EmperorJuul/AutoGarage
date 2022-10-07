@@ -29,8 +29,9 @@ public class AutoService {
         return vanAutoNaarAutoDto(autoRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen auto gevonden met dit id")));
     }
 
-    public void nieuweAuto(Auto auto){
+    public AutoDto nieuweAuto(Auto auto){
         autoRepository.save(auto);
+        return vanAutoNaarAutoDto(auto);
     }
 
     public void updateAuto(Long id, Auto nieuweAuto){

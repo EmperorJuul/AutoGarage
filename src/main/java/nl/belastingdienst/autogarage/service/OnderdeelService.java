@@ -29,8 +29,9 @@ public class OnderdeelService {
         return vanOnderdeelNaarOnderdeelDto(onderdeelRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen onderdeel gevonden met dit id")));
     }
 
-    public void nieuwOnderdeel(Onderdeel onderdeel){
+    public OnderdeelDto nieuwOnderdeel(Onderdeel onderdeel){
         onderdeelRepository.save(onderdeel);
+        return vanOnderdeelNaarOnderdeelDto(onderdeel);
     }
 
     public void updateOnderdeel(Long id, Onderdeel nieuwOnderdeel){

@@ -6,7 +6,9 @@ import nl.belastingdienst.autogarage.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,19 +30,21 @@ public class AutoController {
 
     @PostMapping
     public ResponseEntity<Object> nieuweAuto(@RequestBody Auto auto){
-        autoService.nieuweAuto(auto);
-        return ResponseEntity.created(null).build();
+        AutoDto autoDto = autoService.nieuweAuto(auto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(autoDto.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAuto(@PathVariable Long id, @RequestBody Auto nieuweAuto){
         autoService.updateAuto(id, nieuweAuto);
-        return ResponseEntity.created(null).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderAuto(@PathVariable Long id){
         autoService.verwijderAuto(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

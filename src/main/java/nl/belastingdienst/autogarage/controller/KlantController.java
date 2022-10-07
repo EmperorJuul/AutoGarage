@@ -6,7 +6,9 @@ import nl.belastingdienst.autogarage.service.KlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,19 +30,21 @@ public class KlantController {
 
     @PostMapping
     public ResponseEntity<Object> nieuweKlant(@RequestBody Klant klant){
-        klantService.nieuweKlant(klant);
-        return ResponseEntity.created(null).build();
+        KlantDto klantDto = klantService.nieuweKlant(klant);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(klantDto.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateKlant(@PathVariable Long id, @RequestBody Klant nieuweKlant){
         klantService.updateKlant(id, nieuweKlant);
-        return ResponseEntity.created(null).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderKlant(@PathVariable Long id){
         klantService.verwijderKlant(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

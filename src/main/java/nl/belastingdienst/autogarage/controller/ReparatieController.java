@@ -6,7 +6,9 @@ import nl.belastingdienst.autogarage.service.ReparatieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,19 +30,21 @@ public class ReparatieController {
 
     @PostMapping
     public ResponseEntity<Object> nieuweReparatie(@RequestBody Reparatie reparatie){
-        reparatieService.nieuweReparatie(reparatie);
-        return ResponseEntity.created(null).build();
+        ReparatieDto reparatieDto = reparatieService.nieuweReparatie(reparatie);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(reparatieDto.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateReparatie(@PathVariable Long id, @RequestBody Reparatie nieuweReparatie){
         reparatieService.updateReparatie(id, nieuweReparatie);
-        return ResponseEntity.created(null).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderReparatie(@PathVariable Long id){
         reparatieService.verwijderReparatie(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

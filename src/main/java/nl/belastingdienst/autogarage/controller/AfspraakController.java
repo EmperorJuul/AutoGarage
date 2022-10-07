@@ -6,7 +6,9 @@ import nl.belastingdienst.autogarage.service.AfspraakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,19 +30,21 @@ public class AfspraakController {
 
     @PostMapping
     public ResponseEntity<Object> nieuweAfspraak(@RequestBody Afspraak afspraak){
-        afspraakService.nieuweAfspraak(afspraak);
-        return ResponseEntity.created(null).build();
+        AfspraakDto afspraakDto =  afspraakService.nieuweAfspraak(afspraak);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(afspraakDto.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAfspraak(@PathVariable Long id, @RequestBody Afspraak nieuweAfspraak){
         afspraakService.updateAfspraak(id, nieuweAfspraak);
-        return ResponseEntity.created(null).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderAfspraak(@PathVariable Long id){
         afspraakService.verwijderAfspraak(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

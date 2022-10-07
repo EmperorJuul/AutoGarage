@@ -29,8 +29,9 @@ public class ReparatieService {
         return vanReparatieNaarReparatieDto(reparatieRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen reparatie gevonden met dit id")));
     }
 
-    public void nieuweReparatie(Reparatie reparatie){
+    public ReparatieDto nieuweReparatie(Reparatie reparatie){
         reparatieRepository.save(reparatie);
+        return vanReparatieNaarReparatieDto(reparatie);
     }
 
     public void updateReparatie(Long id, Reparatie nieuweReparatie){

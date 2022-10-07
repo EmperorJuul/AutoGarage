@@ -29,8 +29,9 @@ public class AfspraakService {
         return vanAfspraakNaarAfspraakDto(afspraakRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen afspraak gevonden met dit id")));
     }
 
-    public void nieuweAfspraak(Afspraak afspraak){
+    public AfspraakDto nieuweAfspraak(Afspraak afspraak){
         afspraakRepository.save(afspraak);
+        return vanAfspraakNaarAfspraakDto(afspraak);
     }
 
     public void updateAfspraak(Long id, Afspraak nieuweAfspraak){

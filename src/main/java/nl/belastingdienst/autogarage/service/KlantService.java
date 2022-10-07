@@ -29,8 +29,9 @@ public class KlantService {
         return vanKlantNaarKlantDto(klantRepository.findById(id).orElseThrow(() -> new NotFoundException("Geen klant gevonden met dit id")));
     }
 
-    public void nieuweKlant(Klant klant){
+    public KlantDto nieuweKlant(Klant klant){
         klantRepository.save(klant);
+        return vanKlantNaarKlantDto(klant);
     }
 
     public void updateKlant(Long id, Klant nieuweKlant){
