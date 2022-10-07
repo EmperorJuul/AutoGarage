@@ -2,7 +2,6 @@ package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.AutoDto;
 import nl.belastingdienst.autogarage.model.Auto;
-import nl.belastingdienst.autogarage.repository.AutoRepository;
 import nl.belastingdienst.autogarage.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/auto")
 public class AutoController {
-
-    @Autowired
-    private AutoRepository autoRepository;
 
     @Autowired
     private AutoService autoService;
