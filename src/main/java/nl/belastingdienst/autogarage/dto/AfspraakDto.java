@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class AfsrpaakDto {
+public class AfspraakDto {
 
     @NotNull
     private Long id;
@@ -17,7 +17,7 @@ public class AfsrpaakDto {
 
     private LocalDateTime eindeAfspraak;
 
-    public AfsrpaakDto(LocalDateTime beginAfsrpaak, LocalDateTime eindeAfspraak) {
+    public AfspraakDto(LocalDateTime beginAfsrpaak, LocalDateTime eindeAfspraak) {
         this.beginAfsrpaak = beginAfsrpaak;
         this.eindeAfspraak = eindeAfspraak;
     }
