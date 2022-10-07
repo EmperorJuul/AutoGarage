@@ -14,11 +14,11 @@ public class AutoDto {
 
     private String merk;
     private String model;
-    private String bouwjaar;
+    private int bouwjaar;
     @Length(min = 6, max = 8)
     private String kenteken;
 
-    public AutoDto(String merk, String model, String bouwjaar, String kenteken) {
+    public AutoDto(String merk, String model, int bouwjaar, String kenteken) {
         this.merk = merk;
         this.model = model;
         this.bouwjaar = bouwjaar;

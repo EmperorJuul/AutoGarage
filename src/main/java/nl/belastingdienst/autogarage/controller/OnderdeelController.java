@@ -1,53 +1,50 @@
 package nl.belastingdienst.autogarage.controller;
 
+import nl.belastingdienst.autogarage.dto.OnderdeelDto;
 import nl.belastingdienst.autogarage.model.Onderdeel;
-import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
+import nl.belastingdienst.autogarage.service.OnderdeelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/onderdeel")
 public class OnderdeelController {
 
     @Autowired
-    private OnderdeelRepository onderdeelRepository;
+    private OnderdeelService onderdeelService;
 
     @GetMapping
-    public ResponseEntity<List<Onderdeel>> alleOnderdelen(){
-        List<Onderdeel> onderdeelList = new ArrayList<>();
-        for(Onderdeel onderdeel : onderdeelRepository.findAll()){
-            onderdeelList.add(onderdeel);
-        }
-        return ResponseEntity.ok(onderdeelList);
+    public ResponseEntity<List<OnderdeelDto>> alleOnderdelen(){
+        return ResponseEntity.ok(onderdeelService.alleOnderdelen());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Onderdeel>> onderdeelOpId(@PathVariable Long id){
-        return ResponseEntity.ok(onderdeelRepository.findById(id));
+    public ResponseEntity<OnderdeelDto> onderdeelOpId(@PathVariable Long id){
+        return ResponseEntity.ok(onderdeelService.onderdeelOpId(id));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuwOnderdeel(@RequestBody Onderdeel onderdeel){
-        onderdeelRepository.save(onderdeel);
-        return ResponseEntity.created(null).build();
+        OnderdeelDto onderdeelDto = onderdeelService.nieuwOnderdeel(onderdeel);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(onderdeelDto.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateOnderdeel(@PathVariable Long id, @RequestBody Onderdeel nieuwOnderdeel){
-        Optional<Onderdeel> onderdeel = onderdeelRepository.findById(id);
-        nieuwOnderdeel.setId(onderdeel.get().getId());
-        onderdeelRepository.save(nieuwOnderdeel);
-        return ResponseEntity.created(null).build();
+        onderdeelService.updateOnderdeel(id, nieuwOnderdeel);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderOnderdeel(@PathVariable Long id){
-        onderdeelRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        onderdeelService.verwijderOnderdeel(id);
+        return ResponseEntity.noContent().build();
     }
 }
