@@ -1,14 +1,14 @@
 package nl.belastingdienst.autogarage.controller;
 
+import nl.belastingdienst.autogarage.dto.AutoDto;
 import nl.belastingdienst.autogarage.model.Auto;
 import nl.belastingdienst.autogarage.repository.AutoRepository;
+import nl.belastingdienst.autogarage.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auto")
@@ -17,37 +17,34 @@ public class AutoController {
     @Autowired
     private AutoRepository autoRepository;
 
+    @Autowired
+    private AutoService autoService;
+
     @GetMapping
-    public ResponseEntity<List<Auto>> alleAutos(){
-        List<Auto> autoList = new ArrayList<>();
-        for(Auto auto : autoRepository.findAll()){
-            autoList.add(auto);
-        }
-        return ResponseEntity.ok(autoList);
+    public ResponseEntity<List<AutoDto>> alleAutos(){
+        return ResponseEntity.ok(autoService.alleAutos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Auto>> AutoOpId(@PathVariable Long id){
-        return ResponseEntity.ok(autoRepository.findById(id));
+    public ResponseEntity<AutoDto> AutoOpId(@PathVariable Long id){
+        return ResponseEntity.ok(autoService.autoOpId(id));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuweAuto(@RequestBody Auto auto){
-        autoRepository.save(auto);
+        autoService.nieuweAuto(auto);
         return ResponseEntity.created(null).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAuto(@PathVariable Long id, @RequestBody Auto nieuweAuto){
-        Optional<Auto> auto = autoRepository.findById(id);
-        nieuweAuto.setId(auto.get().getId());
-        autoRepository.save(nieuweAuto);
+        autoService.updateAuto(id, nieuweAuto);
         return ResponseEntity.created(null).build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> verwijderAuto(@PathVariable Long id){
-        autoRepository.deleteById(id);
+        autoService.verwijderAuto(id);
         return ResponseEntity.ok().build();
     }
 }
