@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.dto;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
-import nl.belastingdienst.autogarage.model.Authority;
+import nl.belastingdienst.autogarage.model.Authoriteit;
 
 import java.util.Set;
 
@@ -15,5 +15,5 @@ public class GebruikerDto {
     public Boolean ingeschakeld;
     public String email;
     @JsonSerialize
-    public Set<Authority> authorities;
+    public Set<Authoriteit> authorities;
 }

@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.exception.GebruikerNotFoundException;
-import nl.belastingdienst.autogarage.model.Authority;
+import nl.belastingdienst.autogarage.model.Authoriteit;
 import nl.belastingdienst.autogarage.model.Gebruiker;
 import nl.belastingdienst.autogarage.repository.GebruikerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ public class CustomGebruikerDetailsService implements UserDetailsService {
 
     @Autowired
     private GebruikerService gebruikerService;
+    @Autowired
     private GebruikerRepository gebruikerRepository;
 
     @Override
@@ -29,10 +30,10 @@ public class CustomGebruikerDetailsService implements UserDetailsService {
 
         String password = gebruiker.getWachtwoord();
 
-        Set<Authority> authorities = gebruiker.getAuthorities();
+        Set<Authoriteit> authorities = gebruiker.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authority authority: authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
+        for (Authoriteit authoriteit : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authoriteit.getAuthority()));
         }
 
         return new org.springframework.security.core.userdetails.User(gebruikersnaam, password, grantedAuthorities);

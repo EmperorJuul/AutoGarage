@@ -17,13 +17,22 @@ public class DataLoader {
 
     private GebruikerRepository gebruikerRepository;
 
-    public DataLoader(AfspraakRepository afspraakRepository, AutoRepository autoRepository, KlantRepository klantRepository, OnderdeelRepository onderdeelRepository, ReparatieRepository reparatieRepository, GebruikerRepository gebruikerRepository) {
+    private AuthoriteitRepository authoriteitRepository;
+
+    public DataLoader(AfspraakRepository afspraakRepository,
+                      AutoRepository autoRepository,
+                      KlantRepository klantRepository,
+                      OnderdeelRepository onderdeelRepository,
+                      ReparatieRepository reparatieRepository,
+                      GebruikerRepository gebruikerRepository,
+                      AuthoriteitRepository authoriteitRepository) {
         this.afspraakRepository = afspraakRepository;
         this.autoRepository = autoRepository;
         this.klantRepository = klantRepository;
         this.onderdeelRepository = onderdeelRepository;
         this.reparatieRepository = reparatieRepository;
         this.gebruikerRepository = gebruikerRepository;
+        this.authoriteitRepository = authoriteitRepository;
         load();
     }
 
@@ -40,6 +49,10 @@ public class DataLoader {
 
         Gebruiker gebruiker1 = new Gebruiker("Juul", "wachtwoord", true, "jk@hotmail.com");
         gebruikerRepository.save(gebruiker1);
+
+        Authoriteit authoriteit1 = new Authoriteit("Juul", "ROLE_ADMIN");
+        authoriteitRepository.save(authoriteit1);
+
 
         Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
         Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");

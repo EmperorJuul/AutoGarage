@@ -27,12 +27,12 @@ public class Gebruiker {
     private String email;
 
     @OneToMany(
-            targetEntity = Authority.class,
+            targetEntity = Authoriteit.class,
             mappedBy = "gebruikersnaam",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Authoriteit> authorities = new HashSet<>();
 
     public Gebruiker() {
     }
