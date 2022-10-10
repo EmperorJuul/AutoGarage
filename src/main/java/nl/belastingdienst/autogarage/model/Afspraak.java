@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +18,15 @@ public class Afspraak {
     private Long id;
     private LocalDateTime beginAfspraak;
     private LocalDateTime eindeAfspraak;
+
+    @ManyToMany
+    private List<Reparatie> reparatie;
+
+    @ManyToOne
+    private Auto auto;
+
+    @ManyToOne
+    private Klant klant;
 
     public Afspraak() {
     }

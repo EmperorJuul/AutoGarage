@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,9 @@ public class Onderdeel {
     private Long id;
     private String naam;
     private String merk;
+
+    @OneToMany
+    private List<Reparatie> reparatieList;
 
     public Onderdeel() {
     }

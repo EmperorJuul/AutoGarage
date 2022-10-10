@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +20,12 @@ public class Auto {
     private String model;
     private int bouwjaar;
     private String kenteken;
+
+    @ManyToMany
+    private List<Klant> klantList;
+
+    @OneToMany
+    private List<Afspraak> afspraakList;
 
     public Auto() {
     }
