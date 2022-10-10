@@ -3,14 +3,13 @@ package nl.belastingdienst.autogarage.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "onderdelen")
 public class Onderdeel {
 
     @Id
@@ -18,6 +17,9 @@ public class Onderdeel {
     private Long id;
     private String naam;
     private String merk;
+
+    @OneToMany
+    private List<Reparatie> reparatieList;
 
     public Onderdeel() {
     }

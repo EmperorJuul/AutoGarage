@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "reparaties")
 public class Reparatie {
 
     @Id
@@ -16,6 +18,12 @@ public class Reparatie {
     private Long id;
     private String naam;
     private double prijs;
+
+    @ManyToMany
+    private List<Afspraak> afspraakList;
+
+    @ManyToOne
+    private Onderdeel onderdeel;
 
     public Reparatie() {
     }

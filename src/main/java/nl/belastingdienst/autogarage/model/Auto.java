@@ -1,18 +1,16 @@
 package nl.belastingdienst.autogarage.model;
 
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "autos")
 public class Auto {
 
     @Id
@@ -22,6 +20,12 @@ public class Auto {
     private String model;
     private int bouwjaar;
     private String kenteken;
+
+    @ManyToMany
+    private List<Klant> klantList;
+
+    @OneToMany
+    private List<Afspraak> afspraakList;
 
     public Auto() {
     }
