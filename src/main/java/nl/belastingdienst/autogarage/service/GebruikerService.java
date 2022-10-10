@@ -39,6 +39,9 @@ public class GebruikerService {
         gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
         gebruikerRepository.save(nieuweGebruiker);
     }
+    public void verwijderGebruiker(String gebruikersnaam){
+        gebruikerRepository.deleteById(gebruikersnaam);
+    }
 
     private GebruikerDto vanGebruikerNaarGebruikerDto(Gebruiker gebruiker){
         GebruikerDto gebruikerDto = new GebruikerDto();

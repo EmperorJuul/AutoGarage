@@ -39,6 +39,12 @@ public class GebruikerController {
     @PutMapping("/{gebruikersnaam}")
     public ResponseEntity<Object> updateGebruiker(@RequestBody Gebruiker nieuweGebruiker){
         gebruikerService.updateGebruiker(nieuweGebruiker);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{gebruikersnaam}")
+    public ResponseEntity<Object> verwijderGebruiker(@PathVariable String gebruikersnaam){
+        gebruikerService.verwijderGebruiker(gebruikersnaam);
         return ResponseEntity.noContent().build();
     }
 }
