@@ -19,6 +19,7 @@ public class Auto {
     private String merk;
     private String model;
     private int bouwjaar;
+    @Column(unique = true)
     private String kenteken;
 
     @ManyToMany
