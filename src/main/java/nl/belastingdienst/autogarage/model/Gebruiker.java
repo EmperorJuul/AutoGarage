@@ -28,11 +28,19 @@ public class Gebruiker {
 
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "username",
+            mappedBy = "gebruikersnaam",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
+    public Gebruiker() {
+    }
 
+    public Gebruiker(String gebruikersnaam, String wachtwoord, boolean ingeschakeld, String email) {
+        this.gebruikersnaam = gebruikersnaam;
+        this.wachtwoord = wachtwoord;
+        this.ingeschakeld = ingeschakeld;
+        this.email = email;
+    }
 }
