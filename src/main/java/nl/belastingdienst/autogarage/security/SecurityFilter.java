@@ -35,11 +35,11 @@ public class SecurityFilter {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**").hasRole("ADMIN")
                 .and()
-                .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

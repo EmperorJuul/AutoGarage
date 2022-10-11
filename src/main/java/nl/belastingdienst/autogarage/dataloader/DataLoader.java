@@ -2,6 +2,7 @@ package nl.belastingdienst.autogarage.dataloader;
 
 import nl.belastingdienst.autogarage.model.*;
 import nl.belastingdienst.autogarage.repository.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,13 +20,17 @@ public class DataLoader {
 
     private AuthoriteitRepository authoriteitRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     public DataLoader(AfspraakRepository afspraakRepository,
                       AutoRepository autoRepository,
                       KlantRepository klantRepository,
                       OnderdeelRepository onderdeelRepository,
                       ReparatieRepository reparatieRepository,
                       GebruikerRepository gebruikerRepository,
-                      AuthoriteitRepository authoriteitRepository) {
+                      AuthoriteitRepository authoriteitRepository,
+                      PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.afspraakRepository = afspraakRepository;
         this.autoRepository = autoRepository;
         this.klantRepository = klantRepository;
@@ -47,12 +52,11 @@ public class DataLoader {
         autoRepository.save(auto1);
         autoRepository.save(auto2);
 
-        Gebruiker gebruiker1 = new Gebruiker("Juul", "wachtwoord", true, "jk@hotmail.com");
+        Gebruiker gebruiker1 = new Gebruiker("Juul", "$2a$12$05GnLXeX7oAFIHZiiWW5jeuuWCRoGwB7vBW0.2/HiHjg5x5etX2A6", true, "jk@hotmail.com");
         gebruikerRepository.save(gebruiker1);
 
         Authoriteit authoriteit1 = new Authoriteit("Juul", "ROLE_ADMIN");
         authoriteitRepository.save(authoriteit1);
-
 
         Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
         Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
