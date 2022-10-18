@@ -23,6 +23,9 @@ public class Authority implements GrantedAuthority {
     @Column(nullable = false)
     private String Authority;
 
+    public Authority() {
+    }
+
     public Authority(String gebruikersnaam, String authority) {
         this.gebruikersnaam = gebruikersnaam;
         Authority = authority;

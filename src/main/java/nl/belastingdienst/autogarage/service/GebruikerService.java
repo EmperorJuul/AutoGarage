@@ -45,7 +45,7 @@ public class GebruikerService {
     }
 
     private GebruikerDto vanGebruikerNaarGebruikerDto(Gebruiker gebruiker){
-        GebruikerDto gebruikerDto = new GebruikerDto(gebruiker.getGebruikersnaam());
+        GebruikerDto gebruikerDto = new GebruikerDto(gebruiker.getGebruikersnaam(), gebruiker.getAuthorities());
         return gebruikerDto;
     }
 }
