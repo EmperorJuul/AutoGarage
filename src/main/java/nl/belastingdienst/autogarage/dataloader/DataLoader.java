@@ -2,9 +2,10 @@ package nl.belastingdienst.autogarage.dataloader;
 
 import nl.belastingdienst.autogarage.model.*;
 import nl.belastingdienst.autogarage.repository.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -16,12 +17,29 @@ public class DataLoader {
     private OnderdeelRepository onderdeelRepository;
     private ReparatieRepository reparatieRepository;
 
-    public DataLoader(AfspraakRepository afspraakRepository, AutoRepository autoRepository, KlantRepository klantRepository, OnderdeelRepository onderdeelRepository, ReparatieRepository reparatieRepository) {
+    private GebruikerRepository gebruikerRepository;
+
+    private AuthorityRepository authorityRepository;
+
+    private PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
+    public DataLoader(AfspraakRepository afspraakRepository,
+                      AutoRepository autoRepository,
+                      KlantRepository klantRepository,
+                      OnderdeelRepository onderdeelRepository,
+                      ReparatieRepository reparatieRepository,
+                      GebruikerRepository gebruikerRepository,
+                      AuthorityRepository authorityRepository){
         this.afspraakRepository = afspraakRepository;
         this.autoRepository = autoRepository;
         this.klantRepository = klantRepository;
         this.onderdeelRepository = onderdeelRepository;
         this.reparatieRepository = reparatieRepository;
+        this.gebruikerRepository = gebruikerRepository;
+        this.authorityRepository = authorityRepository;
         load();
     }
 
@@ -35,6 +53,15 @@ public class DataLoader {
         Auto auto2 = new Auto("Volkswagen", "ID4", 2021, "23-HC-6G");
         autoRepository.save(auto1);
         autoRepository.save(auto2);
+
+        Gebruiker gebruiker1 = new Gebruiker("Monteur", passwordEncoder().encode("Monteur"));
+        Gebruiker gebruiker2 = new Gebruiker("Backoffice", passwordEncoder().encode("Backoffice"));
+        gebruikerRepository.save(gebruiker1);
+        gebruikerRepository.save(gebruiker2);
+        Authority authority1 = new Authority("Monteur", "ROLE_MONTEUR");
+        Authority authority2 = new Authority("Backoffice", "ROLE_BACKOFFICE");
+        authorityRepository.save(authority1);
+        authorityRepository.save(authority2);
 
         Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
         Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
