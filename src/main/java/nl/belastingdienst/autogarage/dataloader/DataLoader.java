@@ -54,10 +54,14 @@ public class DataLoader {
         autoRepository.save(auto1);
         autoRepository.save(auto2);
 
-        Gebruiker gebruiker1 = new Gebruiker("Juul", passwordEncoder().encode("wachtwoord"));
+        Gebruiker gebruiker1 = new Gebruiker("Monteur", passwordEncoder().encode("Monteur"));
+        Gebruiker gebruiker2 = new Gebruiker("Backoffice", passwordEncoder().encode("Backoffice"));
         gebruikerRepository.save(gebruiker1);
-        Authority authority1 = new Authority("Juul", "ROLE_ADMIN");
+        gebruikerRepository.save(gebruiker2);
+        Authority authority1 = new Authority("Monteur", "ROLE_MONTEUR");
+        Authority authority2 = new Authority("Backoffice", "ROLE_BACKOFFICE");
         authorityRepository.save(authority1);
+        authorityRepository.save(authority2);
 
         Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
         Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");

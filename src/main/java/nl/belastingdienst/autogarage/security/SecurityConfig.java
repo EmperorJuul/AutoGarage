@@ -29,7 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .antMatchers("/afspraak").hasRole("MONTEUR")
+                .antMatchers("/auto").hasRole("MONTEUR")
+                .antMatchers("/klant").hasRole("MONTEUR")
+                .antMatchers("/onderdeel").hasAnyRole("BACKOFFICE", "MONTEUR")
+                .antMatchers("/reparatie").hasAnyRole("BACKOFFICE", "MONTEUR")
+                .antMatchers("/**").hasRole("MONTEUR")
+                .and().httpBasic();
 
     }
 

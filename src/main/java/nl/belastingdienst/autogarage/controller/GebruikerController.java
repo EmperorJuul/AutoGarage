@@ -29,7 +29,7 @@ public class GebruikerController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweGebruiker(Gebruiker gebruiker){
+    public ResponseEntity<Object> nieuweGebruiker(@RequestBody Gebruiker gebruiker){
         GebruikerDto gebruikerDto = gebruikerService.nieuweGebruiker(gebruiker);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{gebruikersnaam}")
                 .buildAndExpand(gebruikerDto.getGebruikersnaam()).toUri();
@@ -37,7 +37,7 @@ public class GebruikerController {
     }
 
     @PutMapping("/{gebruikersnaam}")
-    public ResponseEntity<Object> updateGebruiker(@PathVariable String gebruikersnaam, Gebruiker nieuweGebruiker){
+    public ResponseEntity<Object> updateGebruiker(@PathVariable String gebruikersnaam, @RequestBody Gebruiker nieuweGebruiker){
         gebruikerService.updateGebruiker(gebruikersnaam, nieuweGebruiker);
         return ResponseEntity.noContent().build();
     }
@@ -49,7 +49,7 @@ public class GebruikerController {
     }
 
     @GetMapping("/{gebruikersnaam}/authority")
-    public ResponseEntity<Object> alleAuthoryties(@PathVariable("gebruikersnaam") String gebruikersnaam){
+    public ResponseEntity<Object> getAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam){
         return ResponseEntity.ok(gebruikerService.getAuthorities(gebruikersnaam));
     }
 

@@ -20,7 +20,12 @@ public class Gebruiker {
     @Column(nullable = false)
     private String wachtwoord;
 
-    @OneToMany
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "gebruikersnaam",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
     public Gebruiker() {
