@@ -37,9 +37,9 @@ public class GebruikerController {
     }
 
     @PutMapping("/{gebruikersnaam}")
-    public ResponseEntity<Object> updateGebruiker(@RequestBody Gebruiker nieuweGebruiker){
-        gebruikerService.updateGebruiker(nieuweGebruiker);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Object> updateGebruiker(@PathVariable String gebruikersnaam, @RequestBody Gebruiker nieuweGebruiker){
+        gebruikerService.updateGebruiker(gebruikersnaam, nieuweGebruiker);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{gebruikersnaam}")
@@ -47,4 +47,22 @@ public class GebruikerController {
         gebruikerService.verwijderGebruiker(gebruikersnaam);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> getAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam){
+        return ResponseEntity.ok(gebruikerService.getAuthorities(gebruikersnaam));
+    }
+
+    @PostMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> addAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam, String authority){
+        gebruikerService.addAuthority(gebruikersnaam, authority);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> removeAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam, String authority){
+        gebruikerService.removeAuthority(gebruikersnaam, authority);
+        return ResponseEntity.noContent().build();
+    }
+
 }

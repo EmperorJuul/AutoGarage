@@ -7,40 +7,40 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "gebruikers")
 public class Gebruiker {
 
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String gebruikersnaam;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String wachtwoord;
 
-    @Column(nullable = false)
-    private boolean ingeschakeld = true;
-
-    @Column
-    private String email;
-
     @OneToMany(
-            targetEntity = Authoriteit.class,
+            targetEntity = Authority.class,
             mappedBy = "gebruikersnaam",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    private Set<Authoriteit> authorities = new HashSet<>();
+    private Set<Authority> authorities = new HashSet<>();
 
     public Gebruiker() {
     }
 
-    public Gebruiker(String gebruikersnaam, String wachtwoord, boolean ingeschakeld, String email) {
+    public Gebruiker(String gebruikersnaam, String wachtwoord) {
         this.gebruikersnaam = gebruikersnaam;
         this.wachtwoord = wachtwoord;
-        this.ingeschakeld = ingeschakeld;
-        this.email = email;
+    }
+
+    public void addAuthority(Authority authority){
+        this.authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority){
+        this.authorities.remove(authority);
     }
 }

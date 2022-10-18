@@ -6,27 +6,28 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "authoriteiten")
-public class Authoriteit implements GrantedAuthority {
+public class Authority implements GrantedAuthority {
+
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
     private String gebruikersnaam;
 
     @Column(nullable = false)
-    private String authority;
+    private String Authority;
 
-    public Authoriteit() {
+    public Authority() {
     }
 
-    public Authoriteit(String gebruikersnaam, String authority) {
+    public Authority(String gebruikersnaam, String authority) {
         this.gebruikersnaam = gebruikersnaam;
-        this.authority = authority;
+        Authority = authority;
     }
 }
