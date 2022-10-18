@@ -48,4 +48,21 @@ public class GebruikerController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> alleAuthoryties(@PathVariable("gebruikersnaam") String gebruikersnaam){
+        return ResponseEntity.ok(gebruikerService.getAuthorities(gebruikersnaam));
+    }
+
+    @PostMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> addAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam, String authority){
+        gebruikerService.addAuthority(gebruikersnaam, authority);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{gebruikersnaam}/authority")
+    public ResponseEntity<Object> removeAuthority(@PathVariable("gebruikersnaam") String gebruikersnaam, String authority){
+        gebruikerService.removeAuthority(gebruikersnaam, authority);
+        return ResponseEntity.noContent().build();
+    }
+
 }
