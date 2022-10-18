@@ -26,6 +26,11 @@ public class Gebruiker {
     public Gebruiker() {
     }
 
+    public Gebruiker(String gebruikersnaam, String wachtwoord) {
+        this.gebruikersnaam = gebruikersnaam;
+        this.wachtwoord = wachtwoord;
+    }
+
     public void addAuthority(Authority authority){
         this.authorities.add(authority);
     }
