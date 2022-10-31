@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -22,6 +23,11 @@ public class BestandenController {
 
     public BestandenController(BestandenService bestandenService){
         this.bestandenService = bestandenService;
+    }
+
+    @GetMapping
+    public List<String> downloadAll(){
+        return bestandenService.downLoad();
     }
 
     @GetMapping("/{bestandsnaam}")
