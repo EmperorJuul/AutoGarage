@@ -8,6 +8,7 @@ class AutoGarageApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
