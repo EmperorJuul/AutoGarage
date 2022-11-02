@@ -35,10 +35,11 @@ class AfspraakServiceTest {
     @BeforeEach
     public void setup(){
         afspraak1 = new Afspraak(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        afspraak1.setId(1L);     //Id wordt in het programma geregeld door springboot
-                                //om de test te laten slagen worden ze hier handmatig overschreven
+        afspraak1.setId(1L);
         afspraak2 = new Afspraak(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
         afspraak2.setId(2L);
+        //Id wordt in het programma geregeld door springboot
+        //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
 
@@ -55,6 +56,7 @@ class AfspraakServiceTest {
         List<AfspraakDto> verwacht = new ArrayList<>();
         verwacht.add(afspraakDto1);
         verwacht.add(afspraakDto2);
+
         Mockito
                 .when(afspraakRepository.findAll())
                 .thenReturn(afspraakList);
@@ -64,6 +66,10 @@ class AfspraakServiceTest {
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getBeginAfsrpaak(), uitkomst.get(0).getBeginAfsrpaak());
         assertEquals(verwacht.get(0).getEindeAfspraak(), uitkomst.get(0).getEindeAfspraak());
+
+        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
+        assertEquals(verwacht.get(1).getBeginAfsrpaak(), uitkomst.get(1).getBeginAfsrpaak());
+        assertEquals(verwacht.get(1).getEindeAfspraak(), uitkomst.get(1).getEindeAfspraak());
     }
 
     @Test
@@ -103,7 +109,7 @@ class AfspraakServiceTest {
 
     @Test
     void updateAfspraak(){
-        Afspraak nieuweAfspraak = new Afspraak(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
+        Afspraak nieuweAfspraak = new Afspraak(LocalDateTime.of(2020,10,6,12,30), LocalDateTime.of(2020,10,6,13,30));
         nieuweAfspraak.setId(1L);
 
         Mockito
