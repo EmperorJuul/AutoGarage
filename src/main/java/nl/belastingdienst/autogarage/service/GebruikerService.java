@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.UserDto;
-import nl.belastingdienst.autogarage.exception.GebruikerNotFoundException;
+import nl.belastingdienst.autogarage.exception.UserNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
 import nl.belastingdienst.autogarage.repository.GebruikerRepository;
@@ -28,7 +28,7 @@ public class GebruikerService {
     }
 
     public UserDto gebruikerOpGebruikersnaam(String gebruikersnaam){
-        return vanGebruikerNaarGebruikerDto(gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam)));
+        return vanGebruikerNaarGebruikerDto(gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam)));
     }
 
     public UserDto nieuweGebruiker(User user){
@@ -37,7 +37,7 @@ public class GebruikerService {
     }
 
     public void updateGebruiker(String gebruikersnaam, User nieuweUser){
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
         nieuweUser.setUsername(user.getUsername());
         gebruikerRepository.save(nieuweUser);
     }
@@ -47,19 +47,19 @@ public class GebruikerService {
     }
 
     public Set<Authority> getAuthorities(String gebruikersnaam){
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
         UserDto gebruikerDto = vanGebruikerNaarGebruikerDto(user);
         return gebruikerDto.getAuthorities();
     }
 
     public void addAuthority(String gebruikersnaam, String authority){
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
         user.addAuthority(new Authority(gebruikersnaam, authority));
         gebruikerRepository.save(user);
     }
 
     public void removeAuthority(String gebruikersnaam, String authority){
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
     }

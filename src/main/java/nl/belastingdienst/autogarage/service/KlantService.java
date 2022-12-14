@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.CustomerDto;
-import nl.belastingdienst.autogarage.exception.KlantNotFoundException;
+import nl.belastingdienst.autogarage.exception.CustomerNotFoundException;
 import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class KlantService {
     }
 
     public CustomerDto klantOpId(Long id){
-        return vanKlantNaarKlantDto(klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id)));
+        return vanKlantNaarKlantDto(klantRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id)));
     }
 
     public CustomerDto nieuweKlant(Customer customer){
@@ -35,7 +35,7 @@ public class KlantService {
     }
 
     public void updateKlant(Long id, Customer nieuweCustomer){
-        Customer customer = klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id));
+        Customer customer = klantRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
         nieuweCustomer.setId(customer.getId());
         klantRepository.save(nieuweCustomer);
     }

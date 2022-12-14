@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.PartDto;
-import nl.belastingdienst.autogarage.exception.OnderdeelNotFoundException;
+import nl.belastingdienst.autogarage.exception.PartNotFoundException;
 import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class OnderdeelService {
     }
 
     public PartDto onderdeelOpId(Long id){
-        return vanOnderdeelNaarOnderdeelDto(onderdeelRepository.findById(id).orElseThrow(() -> new OnderdeelNotFoundException(id)));
+        return vanOnderdeelNaarOnderdeelDto(onderdeelRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id)));
     }
 
     public PartDto nieuwOnderdeel(Part part){
@@ -35,7 +35,7 @@ public class OnderdeelService {
     }
 
     public void updateOnderdeel(Long id, Part nieuwPart){
-        Part part = onderdeelRepository.findById(id).orElseThrow(() -> new OnderdeelNotFoundException(id));
+        Part part = onderdeelRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id));
         nieuwPart.setId(part.getId());
         onderdeelRepository.save(nieuwPart);
     }

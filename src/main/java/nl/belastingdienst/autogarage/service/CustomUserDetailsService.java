@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.exception.GebruikerNotFoundException;
+import nl.belastingdienst.autogarage.exception.UserNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
 import nl.belastingdienst.autogarage.repository.GebruikerRepository;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String gebruikersnaam) throws UsernameNotFoundException {
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
 
         String wachtwoord = user.getPassword();
 

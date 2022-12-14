@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.CarDto;
-import nl.belastingdienst.autogarage.exception.AutoNotFoundException;
+import nl.belastingdienst.autogarage.exception.CarNotFoundException;
 import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AutoService {
     }
 
     public CarDto autoOpId(Long id){
-        return vanAutoNaarAutoDto(autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id)));
+        return vanAutoNaarAutoDto(autoRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id)));
     }
 
     public CarDto nieuweAuto(Car car){
@@ -35,7 +35,7 @@ public class AutoService {
     }
 
     public void updateAuto(Long id, Car nieuweCar){
-        Car car = autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id));
+        Car car = autoRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
         nieuweCar.setId(car.getId());
         autoRepository.save(nieuweCar);
     }

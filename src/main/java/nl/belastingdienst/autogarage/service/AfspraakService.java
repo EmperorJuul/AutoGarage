@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.AppointmentDto;
-import nl.belastingdienst.autogarage.exception.AfspraakNotFoundException;
+import nl.belastingdienst.autogarage.exception.AppointmentNotFoundException;
 import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.repository.AfspraakRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AfspraakService {
     }
 
     public AppointmentDto afspraakOpId(Long id){
-        return vanAfspraakNaarAfspraakDto(afspraakRepository.findById(id).orElseThrow(() -> new AfspraakNotFoundException(id)));
+        return vanAfspraakNaarAfspraakDto(afspraakRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(id)));
     }
 
     public AppointmentDto nieuweAfspraak(Appointment appointment){
@@ -35,7 +35,7 @@ public class AfspraakService {
     }
 
     public void updateAfspraak(Long id, Appointment nieuweAppointment){
-        Appointment appointment = afspraakRepository.findById(id).orElseThrow(() -> new AfspraakNotFoundException(id));
+        Appointment appointment = afspraakRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(id));
         nieuweAppointment.setId(appointment.getId());
         afspraakRepository.save(nieuweAppointment);
     }
