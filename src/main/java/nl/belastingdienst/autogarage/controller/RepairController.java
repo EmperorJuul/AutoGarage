@@ -12,39 +12,39 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reparatie")
-public class ReparatieController {
+@RequestMapping("/repair")
+public class RepairController {
 
     @Autowired
-    private RepairService reparatieService;
+    private RepairService repairService;
 
     @GetMapping
-    public ResponseEntity<List<RepairDto>> alleReparaties(){
-        return ResponseEntity.ok(reparatieService.allRepairs());
+    public ResponseEntity<List<RepairDto>> allRepairs(){
+        return ResponseEntity.ok(repairService.allRepairs());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RepairDto> reparatieOpId(@PathVariable Long id){
-        return ResponseEntity.ok(reparatieService.repairById(id));
+    public ResponseEntity<RepairDto> repairById(@PathVariable Long id){
+        return ResponseEntity.ok(repairService.repairById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweReparatie(@RequestBody Repair reparatie){
-        RepairDto reparatieDto = reparatieService.newRepair(reparatie);
+    public ResponseEntity<Object> newRepair(@RequestBody Repair repair){
+        RepairDto repairDto = repairService.newRepair(repair);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(reparatieDto.getId()).toUri();
+                .buildAndExpand(repairDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateReparatie(@PathVariable Long id, @RequestBody Repair nieuweReparatie){
-        reparatieService.updateRepair(id, nieuweReparatie);
+    public ResponseEntity<Object> updateRepair(@PathVariable Long id, @RequestBody Repair newRepair){
+        repairService.updateRepair(id, newRepair);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> verwijderReparatie(@PathVariable Long id){
-        reparatieService.deleteRepair(id);
+    public ResponseEntity<Object> deleteRepair(@PathVariable Long id){
+        repairService.deleteRepair(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -16,29 +16,29 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/bestand")
-public class BestandenController {
+@RequestMapping("/file")
+public class FileController {
 
-    private final FileService bestandenService;
+    private final FileService fileService;
 
-    public BestandenController(FileService bestandenService){
-        this.bestandenService = bestandenService;
+    public FileController(FileService fileService){
+        this.fileService = fileService;
     }
 
     @GetMapping
     public List<String> downloadAll(){
-        return bestandenService.downLoad();
+        return fileService.downLoad();
     }
 
-    @GetMapping("/{bestandsnaam}")
-    public ResponseEntity<Resource> downloadBestand(@PathVariable String bestandsnaam, HttpServletRequest verzoek){
+    @GetMapping("/{filename}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest request){
 
-        Resource resource = bestandenService.downloadFile(bestandsnaam);
+        Resource resource = fileService.downloadFile(filename);
 
         String mimeType;
 
         try {
-            mimeType = verzoek.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e){
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
@@ -47,15 +47,15 @@ public class BestandenController {
     }
 
     @PostMapping
-    public UploadResponse uploadBestand(@RequestParam("bestand") MultipartFile bestand){
+    public UploadResponse uploadFile(@RequestParam("file") MultipartFile file){
 
-        String bestandsnaam = bestandenService.uploadFile(bestand);
+        String filename = fileService.uploadFile(file);
 
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bestand/").path(bestandsnaam).toUriString();
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/file/").path(filename).toUriString();
 
-        String bestandsType =  bestand.getContentType();
+        String fileType =  file.getContentType();
 
-        return new UploadResponse(bestandsnaam, bestandsType, url);
+        return new UploadResponse(filename, fileType, url);
 
 
     }

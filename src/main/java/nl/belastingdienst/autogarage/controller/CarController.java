@@ -12,39 +12,39 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auto")
-public class AutoController {
+@RequestMapping("/car")
+public class CarController {
 
     @Autowired
-    private CarService autoService;
+    private CarService carService;
 
     @GetMapping
-    public ResponseEntity<List<CarDto>> alleAutos(){
-        return ResponseEntity.ok(autoService.allCars());
+    public ResponseEntity<List<CarDto>> allCars(){
+        return ResponseEntity.ok(carService.allCars());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CarDto> AutoOpId(@PathVariable Long id){
-        return ResponseEntity.ok(autoService.carById(id));
+    public ResponseEntity<CarDto> carById(@PathVariable Long id){
+        return ResponseEntity.ok(carService.carById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweAuto(@RequestBody Car car){
-        CarDto autoDto = autoService.newCar(car);
+    public ResponseEntity<Object> newCar(@RequestBody Car car){
+        CarDto carDto = carService.newCar(car);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(autoDto.getId()).toUri();
+                .buildAndExpand(carDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAuto(@PathVariable Long id, @RequestBody Car nieuweCar){
-        autoService.updateCar(id, nieuweCar);
+    public ResponseEntity<Object> updateCar(@PathVariable Long id, @RequestBody Car newCar){
+        carService.updateCar(id, newCar);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> verwijderAuto(@PathVariable Long id){
-        autoService.deleteCar(id);
+    public ResponseEntity<Object> deleteCar(@PathVariable Long id){
+        carService.deleteCar(id);
         return ResponseEntity.noContent().build();
     }
 }

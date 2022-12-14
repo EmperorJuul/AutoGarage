@@ -12,39 +12,39 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/klant")
-public class KlantController {
+@RequestMapping("/customer")
+public class CustomerController {
 
     @Autowired
-    private CustomerService klantService;
+    private CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> alleKlanten(){
-        return ResponseEntity.ok(klantService.allCustomers());
+    public ResponseEntity<List<CustomerDto>> allCustomers(){
+        return ResponseEntity.ok(customerService.allCustomers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> KlantOpId(@PathVariable Long id){
-        return ResponseEntity.ok(klantService.customerById(id));
+    public ResponseEntity<CustomerDto> customerById(@PathVariable Long id){
+        return ResponseEntity.ok(customerService.customerById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweKlant(@RequestBody Customer customer){
-        CustomerDto klantDto = klantService.newCustomer(customer);
+    public ResponseEntity<Object> newCustomer(@RequestBody Customer customer){
+        CustomerDto customerDto = customerService.newCustomer(customer);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(klantDto.getId()).toUri();
+                .buildAndExpand(customerDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateKlant(@PathVariable Long id, @RequestBody Customer nieuweCustomer){
-        klantService.updateCustomer(id, nieuweCustomer);
+    public ResponseEntity<Object> updateCustomer(@PathVariable Long id, @RequestBody Customer newCustomer){
+        customerService.updateCustomer(id, newCustomer);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> verwijderKlant(@PathVariable Long id){
-        klantService.deleteCustomer(id);
+    public ResponseEntity<Object> deleteCustomer(@PathVariable Long id){
+        customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
 }

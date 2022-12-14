@@ -12,39 +12,39 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/onderdeel")
-public class OnderdeelController {
+@RequestMapping("/part")
+public class PartController {
 
     @Autowired
-    private PartService onderdeelService;
+    private PartService partService;
 
     @GetMapping
-    public ResponseEntity<List<PartDto>> alleOnderdelen(){
-        return ResponseEntity.ok(onderdeelService.allParts());
+    public ResponseEntity<List<PartDto>> allParts(){
+        return ResponseEntity.ok(partService.allParts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PartDto> onderdeelOpId(@PathVariable Long id){
-        return ResponseEntity.ok(onderdeelService.partById(id));
+    public ResponseEntity<PartDto> partById(@PathVariable Long id){
+        return ResponseEntity.ok(partService.partById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuwOnderdeel(@RequestBody Part part){
-        PartDto onderdeelDto = onderdeelService.newPart(part);
+    public ResponseEntity<Object> newPart(@RequestBody Part part){
+        PartDto partDto = partService.newPart(part);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(onderdeelDto.getId()).toUri();
+                .buildAndExpand(partDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOnderdeel(@PathVariable Long id, @RequestBody Part nieuwPart){
-        onderdeelService.updatePart(id, nieuwPart);
+    public ResponseEntity<Object> updatePart(@PathVariable Long id, @RequestBody Part newPart){
+        partService.updatePart(id, newPart);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> verwijderOnderdeel(@PathVariable Long id){
-        onderdeelService.deletePart(id);
+    public ResponseEntity<Object> deletePart(@PathVariable Long id){
+        partService.deletePart(id);
         return ResponseEntity.noContent().build();
     }
 }
