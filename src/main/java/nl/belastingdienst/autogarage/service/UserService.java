@@ -37,8 +37,8 @@ public class UserService {
     }
 
     public void updateUser(String username, User newUser){
-        User user = userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
-        newUser.setUsername(user.getUsername());
+        userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
+        userRepository.deleteById(username);
         userRepository.save(newUser);
     }
 

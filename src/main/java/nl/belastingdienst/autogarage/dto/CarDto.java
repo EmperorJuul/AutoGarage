@@ -16,12 +16,12 @@ public class CarDto {
     private String model;
     private int year;
     @Length(min = 6, max = 8)
-    private String licensePlate;
+    private String licenseplate;
 
-    public CarDto(String brand, String model, int year, String licensePlate) {
+    public CarDto(String brand, String model, int year, String licenseplate) {
         this.brand = brand;
         this.model = model;
         this.year = year;
-        this.licensePlate = licensePlate;
+        this.licenseplate = licenseplate;
     }
 }

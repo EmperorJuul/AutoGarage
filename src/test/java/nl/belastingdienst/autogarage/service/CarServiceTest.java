@@ -65,13 +65,13 @@ class CarServiceTest {
         assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
         assertEquals(verwacht.get(0).getModel(), uitkomst.get(0).getModel());
         assertEquals(verwacht.get(0).getBrand(), uitkomst.get(0).getBrand());
-        assertEquals(verwacht.get(0).getLicensePlate(), uitkomst.get(0).getLicensePlate());
+        assertEquals(verwacht.get(0).getLicenseplate(), uitkomst.get(0).getLicenseplate());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
         assertEquals(verwacht.get(1).getYear(), uitkomst.get(1).getYear());
         assertEquals(verwacht.get(1).getModel(), uitkomst.get(1).getModel());
         assertEquals(verwacht.get(1).getBrand(), uitkomst.get(1).getBrand());
-        assertEquals(verwacht.get(1).getLicensePlate(), uitkomst.get(1).getLicensePlate());
+        assertEquals(verwacht.get(1).getLicenseplate(), uitkomst.get(1).getLicenseplate());
     }
 
     @Test
@@ -89,7 +89,7 @@ class CarServiceTest {
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
         assertEquals(verwacht.getModel(), uitkomst.getModel());
         assertEquals(verwacht.getYear(), uitkomst.getYear());
-        assertEquals(verwacht.getLicensePlate(), uitkomst.getLicensePlate());
+        assertEquals(verwacht.getLicenseplate(), uitkomst.getLicenseplate());
     }
 
     @Test
@@ -107,7 +107,7 @@ class CarServiceTest {
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
         assertEquals(verwacht.getModel(), uitkomst.getModel());
         assertEquals(verwacht.getYear(), uitkomst.getYear());
-        assertEquals(verwacht.getLicensePlate(), uitkomst.getLicensePlate());
+        assertEquals(verwacht.getLicenseplate(), uitkomst.getLicenseplate());
 
     }
 
