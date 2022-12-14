@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.CustomerDto;
 import nl.belastingdienst.autogarage.exception.CustomerNotFoundException;
 import nl.belastingdienst.autogarage.model.Customer;
-import nl.belastingdienst.autogarage.repository.KlantRepository;
+import nl.belastingdienst.autogarage.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class KlantService {
 
     @Autowired
-    private KlantRepository klantRepository;
+    private CustomerRepository klantRepository;
 
     public List<CustomerDto> alleKlanten(){
         List<Customer> customerList = klantRepository.findAll();

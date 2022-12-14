@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.CustomerDto;
 import nl.belastingdienst.autogarage.model.Customer;
-import nl.belastingdienst.autogarage.repository.KlantRepository;
+import nl.belastingdienst.autogarage.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CustomerServiceTest {
 
     @Mock
-    KlantRepository klantRepository;
+    CustomerRepository klantRepository;
 
     @InjectMocks
     KlantService klantService;

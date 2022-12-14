@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.RepairDto;
 import nl.belastingdienst.autogarage.model.Repair;
-import nl.belastingdienst.autogarage.repository.ReparatieRepository;
+import nl.belastingdienst.autogarage.repository.RepairRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ReparatieServiceTest {
 
     @Mock
-    ReparatieRepository reparatieRepository;
+    RepairRepository reparatieRepository;
 
     @InjectMocks
     ReparatieService reparatieService;

@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.PartDto;
 import nl.belastingdienst.autogarage.model.Part;
-import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
+import nl.belastingdienst.autogarage.repository.PartRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PartServiceTest {
 
     @Mock
-    OnderdeelRepository onderdeelRepository;
+    PartRepository onderdeelRepository;
 
     @InjectMocks
     OnderdeelService onderdeelService;

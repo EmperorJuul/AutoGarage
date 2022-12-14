@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.CarDto;
 import nl.belastingdienst.autogarage.exception.CarNotFoundException;
 import nl.belastingdienst.autogarage.model.Car;
-import nl.belastingdienst.autogarage.repository.AutoRepository;
+import nl.belastingdienst.autogarage.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class AutoService {
 
     @Autowired
-    private AutoRepository autoRepository;
+    private CarRepository autoRepository;
 
     public List<CarDto> alleAutos(){
         List<Car> carList = autoRepository.findAll();

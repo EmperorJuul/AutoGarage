@@ -4,7 +4,7 @@ import nl.belastingdienst.autogarage.dto.UserDto;
 import nl.belastingdienst.autogarage.exception.UserNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
-import nl.belastingdienst.autogarage.repository.GebruikerRepository;
+import nl.belastingdienst.autogarage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Set;
 public class GebruikerService {
 
     @Autowired
-    private GebruikerRepository gebruikerRepository;
+    private UserRepository gebruikerRepository;
 
     public List<UserDto> alleGebruikers(){
         List<User> userList = gebruikerRepository.findAll();

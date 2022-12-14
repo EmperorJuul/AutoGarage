@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.PartDto;
 import nl.belastingdienst.autogarage.exception.PartNotFoundException;
 import nl.belastingdienst.autogarage.model.Part;
-import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
+import nl.belastingdienst.autogarage.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class OnderdeelService {
 
     @Autowired
-    private OnderdeelRepository onderdeelRepository;
+    private PartRepository onderdeelRepository;
 
     public List<PartDto> alleOnderdelen(){
         List<Part> partList = onderdeelRepository.findAll();

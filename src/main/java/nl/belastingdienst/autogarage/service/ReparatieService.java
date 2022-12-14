@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.RepairDto;
 import nl.belastingdienst.autogarage.exception.RepairNotFoundException;
 import nl.belastingdienst.autogarage.model.Repair;
-import nl.belastingdienst.autogarage.repository.ReparatieRepository;
+import nl.belastingdienst.autogarage.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class ReparatieService {
 
     @Autowired
-    private ReparatieRepository reparatieRepository;
+    private RepairRepository reparatieRepository;
 
     public List<RepairDto> alleReparaties(){
         List<Repair> reparatieList = reparatieRepository.findAll();

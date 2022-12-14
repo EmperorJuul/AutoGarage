@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @Component
 public class DataLoader {
 
-    private AfspraakRepository afspraakRepository;
-    private AutoRepository autoRepository;
-    private KlantRepository klantRepository;
-    private OnderdeelRepository onderdeelRepository;
-    private ReparatieRepository reparatieRepository;
+    private AppointmentRepository afspraakRepository;
+    private CarRepository autoRepository;
+    private CustomerRepository klantRepository;
+    private PartRepository onderdeelRepository;
+    private RepairRepository reparatieRepository;
 
-    private GebruikerRepository gebruikerRepository;
+    private UserRepository gebruikerRepository;
 
     private AuthorityRepository authorityRepository;
 
@@ -26,12 +26,12 @@ public class DataLoader {
     }
 
 
-    public DataLoader(AfspraakRepository afspraakRepository,
-                      AutoRepository autoRepository,
-                      KlantRepository klantRepository,
-                      OnderdeelRepository onderdeelRepository,
-                      ReparatieRepository reparatieRepository,
-                      GebruikerRepository gebruikerRepository,
+    public DataLoader(AppointmentRepository afspraakRepository,
+                      CarRepository autoRepository,
+                      CustomerRepository klantRepository,
+                      PartRepository onderdeelRepository,
+                      RepairRepository reparatieRepository,
+                      UserRepository gebruikerRepository,
                       AuthorityRepository authorityRepository){
         this.afspraakRepository = afspraakRepository;
         this.autoRepository = autoRepository;

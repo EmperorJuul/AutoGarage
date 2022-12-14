@@ -3,7 +3,7 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.exception.AppointmentNotFoundException;
 import nl.belastingdienst.autogarage.model.Appointment;
-import nl.belastingdienst.autogarage.repository.AfspraakRepository;
+import nl.belastingdienst.autogarage.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class AfspraakService {
 
     @Autowired
-    private AfspraakRepository afspraakRepository;
+    private AppointmentRepository afspraakRepository;
 
     public List<AppointmentDto> alleAfspraken(){
         List<Appointment> appointmentList = afspraakRepository.findAll();
