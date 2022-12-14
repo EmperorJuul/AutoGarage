@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.AutoDto;
+import nl.belastingdienst.autogarage.dto.CarDto;
 import nl.belastingdienst.autogarage.exception.AutoNotFoundException;
 import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.repository.AutoRepository;
@@ -16,20 +16,20 @@ public class AutoService {
     @Autowired
     private AutoRepository autoRepository;
 
-    public List<AutoDto> alleAutos(){
+    public List<CarDto> alleAutos(){
         List<Car> carList = autoRepository.findAll();
-        List<AutoDto> autoDtoList = new ArrayList<>();
+        List<CarDto> autoDtoList = new ArrayList<>();
         for(Car car : carList){
             autoDtoList.add(vanAutoNaarAutoDto(car));
         }
         return autoDtoList;
     }
 
-    public AutoDto autoOpId(Long id){
+    public CarDto autoOpId(Long id){
         return vanAutoNaarAutoDto(autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id)));
     }
 
-    public AutoDto nieuweAuto(Car car){
+    public CarDto nieuweAuto(Car car){
         autoRepository.save(car);
         return vanAutoNaarAutoDto(car);
     }
@@ -44,8 +44,8 @@ public class AutoService {
         autoRepository.deleteById(id);
     }
 
-    private AutoDto vanAutoNaarAutoDto(Car car){
-        AutoDto autoDto = new AutoDto(car.getBrand(), car.getModel(), car.getYear(), car.getLicenseplate());
+    private CarDto vanAutoNaarAutoDto(Car car){
+        CarDto autoDto = new CarDto(car.getBrand(), car.getModel(), car.getYear(), car.getLicenseplate());
         autoDto.setId(car.getId());
         return autoDto;
     }

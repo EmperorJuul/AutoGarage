@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.dto.AutoDto;
+import nl.belastingdienst.autogarage.dto.CarDto;
 import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,18 @@ public class AutoController {
     private AutoService autoService;
 
     @GetMapping
-    public ResponseEntity<List<AutoDto>> alleAutos(){
+    public ResponseEntity<List<CarDto>> alleAutos(){
         return ResponseEntity.ok(autoService.alleAutos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AutoDto> AutoOpId(@PathVariable Long id){
+    public ResponseEntity<CarDto> AutoOpId(@PathVariable Long id){
         return ResponseEntity.ok(autoService.autoOpId(id));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuweAuto(@RequestBody Car car){
-        AutoDto autoDto = autoService.nieuweAuto(car);
+        CarDto autoDto = autoService.nieuweAuto(car);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(autoDto.getId()).toUri();
         return ResponseEntity.created(location).build();

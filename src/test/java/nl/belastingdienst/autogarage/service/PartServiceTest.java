@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.OnderdeelDto;
+import nl.belastingdienst.autogarage.dto.PartDto;
 import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,11 +47,11 @@ class PartServiceTest {
         partList.add(part1);
         partList.add(part2);
 
-        OnderdeelDto onderdeelDto1 = new OnderdeelDto("Band", "Michelin");
+        PartDto onderdeelDto1 = new PartDto("Band", "Michelin");
         onderdeelDto1.setId(1L);
-        OnderdeelDto onderdeelDto2 = new OnderdeelDto("Ruit", "Noordglas");
+        PartDto onderdeelDto2 = new PartDto("Ruit", "Noordglas");
         onderdeelDto2.setId(2L);
-        List<OnderdeelDto> verwacht = new ArrayList<>();
+        List<PartDto> verwacht = new ArrayList<>();
         verwacht.add(onderdeelDto1);
         verwacht.add(onderdeelDto2);
 
@@ -59,47 +59,47 @@ class PartServiceTest {
                 .when(onderdeelRepository.findAll())
                 .thenReturn(partList);
 
-        List<OnderdeelDto> uitkomst = onderdeelService.alleOnderdelen();
+        List<PartDto> uitkomst = onderdeelService.alleOnderdelen();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getNaam(), uitkomst.get(0).getNaam());
-        assertEquals(verwacht.get(0).getMerk(), uitkomst.get(0).getMerk());
+        assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
+        assertEquals(verwacht.get(0).getBrand(), uitkomst.get(0).getBrand());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getNaam(), uitkomst.get(1).getNaam());
-        assertEquals(verwacht.get(1).getMerk(), uitkomst.get(1).getMerk());
+        assertEquals(verwacht.get(1).getName(), uitkomst.get(1).getName());
+        assertEquals(verwacht.get(1).getBrand(), uitkomst.get(1).getBrand());
     }
 
     @Test
     void onderdeelOpId(){
-        OnderdeelDto verwacht = new OnderdeelDto("Band", "Michelin");
+        PartDto verwacht = new PartDto("Band", "Michelin");
         verwacht.setId(1L);
 
         Mockito
                 .when(onderdeelRepository.findById(part1.getId()))
                 .thenReturn(Optional.of(part1));
 
-        OnderdeelDto uitkomst = onderdeelService.onderdeelOpId(part1.getId());
+        PartDto uitkomst = onderdeelService.onderdeelOpId(part1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getNaam(), uitkomst.getNaam());
-        assertEquals(verwacht.getMerk(), uitkomst.getMerk());
+        assertEquals(verwacht.getName(), uitkomst.getName());
+        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
     }
 
     @Test
     void nieuwOnderdeel(){
-        OnderdeelDto verwacht = new OnderdeelDto("Band", "Michelin");
+        PartDto verwacht = new PartDto("Band", "Michelin");
         verwacht.setId(1L);
 
         Mockito
                 .when(onderdeelRepository.save(part1))
                 .thenReturn(part1);
 
-        OnderdeelDto uitkomst = onderdeelService.nieuwOnderdeel(part1);
+        PartDto uitkomst = onderdeelService.nieuwOnderdeel(part1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getNaam(), uitkomst.getNaam());
-        assertEquals(verwacht.getMerk(), uitkomst.getMerk());
+        assertEquals(verwacht.getName(), uitkomst.getName());
+        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
     }
 
     @Test

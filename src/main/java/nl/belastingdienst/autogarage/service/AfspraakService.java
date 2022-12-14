@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.AfspraakDto;
+import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.exception.AfspraakNotFoundException;
 import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.repository.AfspraakRepository;
@@ -16,20 +16,20 @@ public class AfspraakService {
     @Autowired
     private AfspraakRepository afspraakRepository;
 
-    public List<AfspraakDto> alleAfspraken(){
+    public List<AppointmentDto> alleAfspraken(){
         List<Appointment> appointmentList = afspraakRepository.findAll();
-        List<AfspraakDto> afspraakDtoList = new ArrayList<>();
+        List<AppointmentDto> afspraakDtoList = new ArrayList<>();
         for(Appointment appointment : appointmentList){
             afspraakDtoList.add(vanAfspraakNaarAfspraakDto(appointment));
         }
         return afspraakDtoList;
     }
 
-    public AfspraakDto afspraakOpId(Long id){
+    public AppointmentDto afspraakOpId(Long id){
         return vanAfspraakNaarAfspraakDto(afspraakRepository.findById(id).orElseThrow(() -> new AfspraakNotFoundException(id)));
     }
 
-    public AfspraakDto nieuweAfspraak(Appointment appointment){
+    public AppointmentDto nieuweAfspraak(Appointment appointment){
         afspraakRepository.save(appointment);
         return vanAfspraakNaarAfspraakDto(appointment);
     }
@@ -44,8 +44,8 @@ public class AfspraakService {
         afspraakRepository.deleteById(id);
     }
 
-    private AfspraakDto vanAfspraakNaarAfspraakDto(Appointment appointment){
-        AfspraakDto afspraakDto = new AfspraakDto(appointment.getStartAppointment(), appointment.getEndAppointment());
+    private AppointmentDto vanAfspraakNaarAfspraakDto(Appointment appointment){
+        AppointmentDto afspraakDto = new AppointmentDto(appointment.getStartAppointment(), appointment.getEndAppointment());
         afspraakDto.setId(appointment.getId());
         return afspraakDto;
     }

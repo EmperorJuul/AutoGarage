@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.OnderdeelDto;
+import nl.belastingdienst.autogarage.dto.PartDto;
 import nl.belastingdienst.autogarage.exception.OnderdeelNotFoundException;
 import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
@@ -16,20 +16,20 @@ public class OnderdeelService {
     @Autowired
     private OnderdeelRepository onderdeelRepository;
 
-    public List<OnderdeelDto> alleOnderdelen(){
+    public List<PartDto> alleOnderdelen(){
         List<Part> partList = onderdeelRepository.findAll();
-        List<OnderdeelDto> onderdeelDtoList = new ArrayList<>();
+        List<PartDto> onderdeelDtoList = new ArrayList<>();
         for(Part part : partList){
             onderdeelDtoList.add(vanOnderdeelNaarOnderdeelDto(part));
         }
         return onderdeelDtoList;
     }
 
-    public OnderdeelDto onderdeelOpId(Long id){
+    public PartDto onderdeelOpId(Long id){
         return vanOnderdeelNaarOnderdeelDto(onderdeelRepository.findById(id).orElseThrow(() -> new OnderdeelNotFoundException(id)));
     }
 
-    public OnderdeelDto nieuwOnderdeel(Part part){
+    public PartDto nieuwOnderdeel(Part part){
         onderdeelRepository.save(part);
         return vanOnderdeelNaarOnderdeelDto(part);
     }
@@ -44,8 +44,8 @@ public class OnderdeelService {
         onderdeelRepository.deleteById(id);
     }
 
-    private OnderdeelDto vanOnderdeelNaarOnderdeelDto(Part part){
-        OnderdeelDto onderdeelDto = new OnderdeelDto(part.getName(), part.getBrand());
+    private PartDto vanOnderdeelNaarOnderdeelDto(Part part){
+        PartDto onderdeelDto = new PartDto(part.getName(), part.getBrand());
         onderdeelDto.setId(part.getId());
         return onderdeelDto;
     }

@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.ReparatieDto;
+import nl.belastingdienst.autogarage.dto.RepairDto;
 import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.repository.ReparatieRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,11 +47,11 @@ class ReparatieServiceTest {
         reparatieList.add(reparatie1);
         reparatieList.add(reparatie2);
 
-        ReparatieDto reparatieDto1 = new ReparatieDto("Banden vervangen", 104);
+        RepairDto reparatieDto1 = new RepairDto("Banden vervangen", 104);
         reparatieDto1.setId(1L);
-        ReparatieDto reparatieDto2 = new ReparatieDto("Olie vervangen", 90);
+        RepairDto reparatieDto2 = new RepairDto("Olie vervangen", 90);
         reparatieDto2.setId(2L);
-        List<ReparatieDto> verwacht = new ArrayList<>();
+        List<RepairDto> verwacht = new ArrayList<>();
         verwacht.add(reparatieDto1);
         verwacht.add(reparatieDto2);
 
@@ -59,47 +59,47 @@ class ReparatieServiceTest {
                 .when(reparatieRepository.findAll())
                 .thenReturn(reparatieList);
 
-        List<ReparatieDto> uitkomst = reparatieService.alleReparaties();
+        List<RepairDto> uitkomst = reparatieService.alleReparaties();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getNaam(), uitkomst.get(0).getNaam());
-        assertEquals(verwacht.get(0).getPrijs(), uitkomst.get(0).getPrijs());
+        assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
+        assertEquals(verwacht.get(0).getPrice(), uitkomst.get(0).getPrice());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getNaam(), uitkomst.get(1).getNaam());
-        assertEquals(verwacht.get(1).getPrijs(), uitkomst.get(1).getPrijs());
+        assertEquals(verwacht.get(1).getName(), uitkomst.get(1).getName());
+        assertEquals(verwacht.get(1).getPrice(), uitkomst.get(1).getPrice());
     }
 
     @Test
     void reparatieOpId(){
-        ReparatieDto verwacht = new ReparatieDto("Banden vervangen", 104);
+        RepairDto verwacht = new RepairDto("Banden vervangen", 104);
         verwacht.setId(1L);
 
         Mockito
                 .when(reparatieRepository.findById(reparatie1.getId()))
                 .thenReturn(Optional.of(reparatie1));
 
-        ReparatieDto uitkomst = reparatieService.reparatieOpId(reparatie1.getId());
+        RepairDto uitkomst = reparatieService.reparatieOpId(reparatie1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getNaam(), uitkomst.getNaam());
-        assertEquals(verwacht.getPrijs(), uitkomst.getPrijs());
+        assertEquals(verwacht.getName(), uitkomst.getName());
+        assertEquals(verwacht.getPrice(), uitkomst.getPrice());
     }
 
     @Test
     void nieuweReparatie(){
-        ReparatieDto verwacht = new ReparatieDto("Banden vervangen", 104);
+        RepairDto verwacht = new RepairDto("Banden vervangen", 104);
         verwacht.setId(1L);
 
         Mockito
                 .when(reparatieRepository.save(reparatie1))
                 .thenReturn(reparatie1);
 
-        ReparatieDto uitkomst = reparatieService.nieuweReparatie(reparatie1);
+        RepairDto uitkomst = reparatieService.nieuweReparatie(reparatie1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getNaam(), uitkomst.getNaam());
-        assertEquals(verwacht.getPrijs(), uitkomst.getPrijs());
+        assertEquals(verwacht.getName(), uitkomst.getName());
+        assertEquals(verwacht.getPrice(), uitkomst.getPrice());
     }
 
     @Test

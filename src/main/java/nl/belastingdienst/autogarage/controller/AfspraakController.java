@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.dto.AfspraakDto;
+import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.service.AfspraakService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,18 @@ public class AfspraakController {
     private AfspraakService afspraakService;
 
     @GetMapping
-    public ResponseEntity<List<AfspraakDto>> alleAfspraken(){
+    public ResponseEntity<List<AppointmentDto>> alleAfspraken(){
         return ResponseEntity.ok(afspraakService.alleAfspraken());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AfspraakDto> afspraakOpId(@PathVariable Long id){
+    public ResponseEntity<AppointmentDto> afspraakOpId(@PathVariable Long id){
         return ResponseEntity.ok(afspraakService.afspraakOpId(id));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuweAfspraak(@RequestBody Appointment appointment){
-        AfspraakDto afspraakDto =  afspraakService.nieuweAfspraak(appointment);
+        AppointmentDto afspraakDto =  afspraakService.nieuweAfspraak(appointment);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(afspraakDto.getId()).toUri();
         return ResponseEntity.created(location).build();

@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.KlantDto;
+import nl.belastingdienst.autogarage.dto.CustomerDto;
 import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,11 +48,11 @@ class CustomerServiceTest {
         customerList.add(customer1);
         customerList.add(customer2);
 
-        KlantDto klantDto1 = new KlantDto("Juul", "Konings", "0612345678", "jk@outlook.com");
+        CustomerDto klantDto1 = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
         klantDto1.setId(1L);
-        KlantDto klantDto2 = new KlantDto("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        CustomerDto klantDto2 = new CustomerDto("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
         klantDto2.setId(2L);
-        List<KlantDto> verwacht = new ArrayList<>();
+        List<CustomerDto> verwacht = new ArrayList<>();
         verwacht.add(klantDto1);
         verwacht.add(klantDto2);
 
@@ -60,55 +60,55 @@ class CustomerServiceTest {
                 .when(klantRepository.findAll())
                 .thenReturn(customerList);
 
-        List<KlantDto> uitkomst = klantService.alleKlanten();
+        List<CustomerDto> uitkomst = klantService.alleKlanten();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getVoornaam(), uitkomst.get(0).getVoornaam());
-        assertEquals(verwacht.get(0).getAchternaam(), uitkomst.get(0).getAchternaam());
-        assertEquals(verwacht.get(0).getTelefoonnummer(), uitkomst.get(0).getTelefoonnummer());
-        assertEquals(verwacht.get(0).getEmailAdres(), uitkomst.get(0).getEmailAdres());
+        assertEquals(verwacht.get(0).getFirstname(), uitkomst.get(0).getFirstname());
+        assertEquals(verwacht.get(0).getSurname(), uitkomst.get(0).getSurname());
+        assertEquals(verwacht.get(0).getPhoneNumber(), uitkomst.get(0).getPhoneNumber());
+        assertEquals(verwacht.get(0).getEmailAdress(), uitkomst.get(0).getEmailAdress());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getVoornaam(), uitkomst.get(1).getVoornaam());
-        assertEquals(verwacht.get(1).getAchternaam(), uitkomst.get(1).getAchternaam());
-        assertEquals(verwacht.get(1).getTelefoonnummer(), uitkomst.get(1).getTelefoonnummer());
-        assertEquals(verwacht.get(1).getEmailAdres(), uitkomst.get(1).getEmailAdres());
+        assertEquals(verwacht.get(1).getFirstname(), uitkomst.get(1).getFirstname());
+        assertEquals(verwacht.get(1).getSurname(), uitkomst.get(1).getSurname());
+        assertEquals(verwacht.get(1).getPhoneNumber(), uitkomst.get(1).getPhoneNumber());
+        assertEquals(verwacht.get(1).getEmailAdress(), uitkomst.get(1).getEmailAdress());
     }
 
     @Test
     void KlantOpId(){
-        KlantDto verwacht = new KlantDto("Juul", "Konings", "0612345678", "jk@outlook.com");
+        CustomerDto verwacht = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
         verwacht.setId(1L);
 
         Mockito
                 .when(klantRepository.findById(customer1.getId()))
                 .thenReturn(Optional.of(customer1));
 
-        KlantDto uitkomst = klantService.klantOpId(customer1.getId());
+        CustomerDto uitkomst = klantService.klantOpId(customer1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getVoornaam(), uitkomst.getVoornaam());
-        assertEquals(verwacht.getAchternaam(), uitkomst.getAchternaam());
-        assertEquals(verwacht.getEmailAdres(), uitkomst.getEmailAdres());
-        assertEquals(verwacht.getTelefoonnummer(), uitkomst.getTelefoonnummer());
+        assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
+        assertEquals(verwacht.getSurname(), uitkomst.getSurname());
+        assertEquals(verwacht.getEmailAdress(), uitkomst.getEmailAdress());
+        assertEquals(verwacht.getPhoneNumber(), uitkomst.getPhoneNumber());
     }
 
     @Test
     void nieuweKlant(){
-        KlantDto verwacht = new KlantDto("Juul", "Konings", "0612345678", "jk@outlook.com");
+        CustomerDto verwacht = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
         verwacht.setId(1L);
 
         Mockito
                 .when(klantRepository.save(customer1))
                 .thenReturn(customer1);
 
-        KlantDto uitkomst = klantService.nieuweKlant(customer1);
+        CustomerDto uitkomst = klantService.nieuweKlant(customer1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getVoornaam(), uitkomst.getVoornaam());
-        assertEquals(verwacht.getAchternaam(), uitkomst.getAchternaam());
-        assertEquals(verwacht.getEmailAdres(), uitkomst.getEmailAdres());
-        assertEquals(verwacht.getTelefoonnummer(), uitkomst.getTelefoonnummer());
+        assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
+        assertEquals(verwacht.getSurname(), uitkomst.getSurname());
+        assertEquals(verwacht.getEmailAdress(), uitkomst.getEmailAdress());
+        assertEquals(verwacht.getPhoneNumber(), uitkomst.getPhoneNumber());
     }
 
     @Test

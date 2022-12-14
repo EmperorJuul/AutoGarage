@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.GebruikerDto;
+import nl.belastingdienst.autogarage.dto.UserDto;
 import nl.belastingdienst.autogarage.exception.GebruikerNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
@@ -18,20 +18,20 @@ public class GebruikerService {
     @Autowired
     private GebruikerRepository gebruikerRepository;
 
-    public List<GebruikerDto> alleGebruikers(){
+    public List<UserDto> alleGebruikers(){
         List<User> userList = gebruikerRepository.findAll();
-        List<GebruikerDto> gebruikerDtoList = new ArrayList<>();
+        List<UserDto> gebruikerDtoList = new ArrayList<>();
         for(User user : userList){
             gebruikerDtoList.add(vanGebruikerNaarGebruikerDto(user));
         }
         return gebruikerDtoList;
     }
 
-    public GebruikerDto gebruikerOpGebruikersnaam(String gebruikersnaam){
+    public UserDto gebruikerOpGebruikersnaam(String gebruikersnaam){
         return vanGebruikerNaarGebruikerDto(gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam)));
     }
 
-    public GebruikerDto nieuweGebruiker(User user){
+    public UserDto nieuweGebruiker(User user){
         gebruikerRepository.save(user);
         return vanGebruikerNaarGebruikerDto(user);
     }
@@ -48,7 +48,7 @@ public class GebruikerService {
 
     public Set<Authority> getAuthorities(String gebruikersnaam){
         User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
-        GebruikerDto gebruikerDto = vanGebruikerNaarGebruikerDto(user);
+        UserDto gebruikerDto = vanGebruikerNaarGebruikerDto(user);
         return gebruikerDto.getAuthorities();
     }
 
@@ -64,8 +64,8 @@ public class GebruikerService {
         user.removeAuthority(authorityToRemove);
     }
 
-    private GebruikerDto vanGebruikerNaarGebruikerDto(User user){
-        GebruikerDto gebruikerDto = new GebruikerDto(user.getUsername(), user.getAuthorities());
+    private UserDto vanGebruikerNaarGebruikerDto(User user){
+        UserDto gebruikerDto = new UserDto(user.getUsername(), user.getAuthorities());
         return gebruikerDto;
     }
 

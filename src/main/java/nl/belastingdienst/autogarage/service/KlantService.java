@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.KlantDto;
+import nl.belastingdienst.autogarage.dto.CustomerDto;
 import nl.belastingdienst.autogarage.exception.KlantNotFoundException;
 import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
@@ -16,20 +16,20 @@ public class KlantService {
     @Autowired
     private KlantRepository klantRepository;
 
-    public List<KlantDto> alleKlanten(){
+    public List<CustomerDto> alleKlanten(){
         List<Customer> customerList = klantRepository.findAll();
-        List<KlantDto> klantDtoList = new ArrayList<>();
+        List<CustomerDto> klantDtoList = new ArrayList<>();
         for(Customer customer : customerList){
             klantDtoList.add(vanKlantNaarKlantDto(customer));
         }
         return klantDtoList;
     }
 
-    public KlantDto klantOpId(Long id){
+    public CustomerDto klantOpId(Long id){
         return vanKlantNaarKlantDto(klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id)));
     }
 
-    public KlantDto nieuweKlant(Customer customer){
+    public CustomerDto nieuweKlant(Customer customer){
         klantRepository.save(customer);
         return vanKlantNaarKlantDto(customer);
     }
@@ -44,8 +44,8 @@ public class KlantService {
         klantRepository.deleteById(id);
     }
 
-    private KlantDto vanKlantNaarKlantDto(Customer customer){
-        KlantDto klantDto = new KlantDto(customer.getFirstname(), customer.getSurname(), customer.getPhoneNumber(), customer.getEmailAdress());
+    private CustomerDto vanKlantNaarKlantDto(Customer customer){
+        CustomerDto klantDto = new CustomerDto(customer.getFirstname(), customer.getSurname(), customer.getPhoneNumber(), customer.getEmailAdress());
         klantDto.setId(customer.getId());
         return klantDto;
     }

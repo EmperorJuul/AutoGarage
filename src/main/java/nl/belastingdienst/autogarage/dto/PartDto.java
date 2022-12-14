@@ -7,15 +7,15 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class OnderdeelDto {
+public class PartDto {
 
     @NotNull
     private Long id;
-    private String naam;
-    private String merk;
+    private String name;
+    private String brand;
 
-    public OnderdeelDto(String naam, String merk) {
-        this.naam = naam;
-        this.merk = merk;
+    public PartDto(String name, String brand) {
+        this.name = name;
+        this.brand = brand;
     }
 }

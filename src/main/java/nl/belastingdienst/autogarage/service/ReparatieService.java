@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.ReparatieDto;
+import nl.belastingdienst.autogarage.dto.RepairDto;
 import nl.belastingdienst.autogarage.exception.ReparatieNotFoundException;
 import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.repository.ReparatieRepository;
@@ -16,20 +16,20 @@ public class ReparatieService {
     @Autowired
     private ReparatieRepository reparatieRepository;
 
-    public List<ReparatieDto> alleReparaties(){
+    public List<RepairDto> alleReparaties(){
         List<Repair> reparatieList = reparatieRepository.findAll();
-        List<ReparatieDto> reparatieDtoList = new ArrayList<>();
+        List<RepairDto> reparatieDtoList = new ArrayList<>();
         for(Repair reparatie : reparatieList){
             reparatieDtoList.add(vanReparatieNaarReparatieDto(reparatie));
         }
         return reparatieDtoList;
     }
 
-    public ReparatieDto reparatieOpId(Long id){
+    public RepairDto reparatieOpId(Long id){
         return vanReparatieNaarReparatieDto(reparatieRepository.findById(id).orElseThrow(() -> new ReparatieNotFoundException(id)));
     }
 
-    public ReparatieDto nieuweReparatie(Repair reparatie){
+    public RepairDto nieuweReparatie(Repair reparatie){
         reparatieRepository.save(reparatie);
         return vanReparatieNaarReparatieDto(reparatie);
     }
@@ -44,8 +44,8 @@ public class ReparatieService {
         reparatieRepository.deleteById(id);
     }
 
-    private ReparatieDto vanReparatieNaarReparatieDto(Repair reparatie){
-        ReparatieDto reparatieDto = new ReparatieDto(reparatie.getName(), reparatie.getPrice());
+    private RepairDto vanReparatieNaarReparatieDto(Repair reparatie){
+        RepairDto reparatieDto = new RepairDto(reparatie.getName(), reparatie.getPrice());
         reparatieDto.setId(reparatie.getId());
         return reparatieDto;
     }

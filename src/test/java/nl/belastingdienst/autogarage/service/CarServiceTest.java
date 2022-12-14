@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.AutoDto;
+import nl.belastingdienst.autogarage.dto.CarDto;
 import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.repository.AutoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,11 +47,11 @@ class CarServiceTest {
         carList.add(car1);
         carList.add(car2);
 
-        AutoDto autoDto1 = new AutoDto("Opel", "Corsa", 2006, "DF-45-A4");
+        CarDto autoDto1 = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
         autoDto1.setId(1L);
-        AutoDto autoDto2 = new AutoDto("Volkswagen", "ID4", 2021, "23-HC-6G");
+        CarDto autoDto2 = new CarDto("Volkswagen", "ID4", 2021, "23-HC-6G");
         autoDto2.setId(2L);
-        List<AutoDto> verwacht = new ArrayList<>();
+        List<CarDto> verwacht = new ArrayList<>();
         verwacht.add(autoDto1);
         verwacht.add(autoDto2);
 
@@ -59,55 +59,55 @@ class CarServiceTest {
                 .when(autoRepository.findAll())
                 .thenReturn(carList);
 
-        List<AutoDto> uitkomst = autoService.alleAutos();
+        List<CarDto> uitkomst = autoService.alleAutos();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getBouwjaar(), uitkomst.get(0).getBouwjaar());
+        assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
         assertEquals(verwacht.get(0).getModel(), uitkomst.get(0).getModel());
-        assertEquals(verwacht.get(0).getMerk(), uitkomst.get(0).getMerk());
-        assertEquals(verwacht.get(0).getKenteken(), uitkomst.get(0).getKenteken());
+        assertEquals(verwacht.get(0).getBrand(), uitkomst.get(0).getBrand());
+        assertEquals(verwacht.get(0).getLicensePlate(), uitkomst.get(0).getLicensePlate());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getBouwjaar(), uitkomst.get(1).getBouwjaar());
+        assertEquals(verwacht.get(1).getYear(), uitkomst.get(1).getYear());
         assertEquals(verwacht.get(1).getModel(), uitkomst.get(1).getModel());
-        assertEquals(verwacht.get(1).getMerk(), uitkomst.get(1).getMerk());
-        assertEquals(verwacht.get(1).getKenteken(), uitkomst.get(1).getKenteken());
+        assertEquals(verwacht.get(1).getBrand(), uitkomst.get(1).getBrand());
+        assertEquals(verwacht.get(1).getLicensePlate(), uitkomst.get(1).getLicensePlate());
     }
 
     @Test
     void AutoOpId(){
-        AutoDto verwacht = new AutoDto("Opel", "Corsa", 2006, "DF-45-A4");
+        CarDto verwacht = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
         verwacht.setId(1L);
 
         Mockito
                 .when(autoRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
-        AutoDto uitkomst = autoService.autoOpId(car1.getId());
+        CarDto uitkomst = autoService.autoOpId(car1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getMerk(), uitkomst.getMerk());
+        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
         assertEquals(verwacht.getModel(), uitkomst.getModel());
-        assertEquals(verwacht.getBouwjaar(), uitkomst.getBouwjaar());
-        assertEquals(verwacht.getKenteken(), uitkomst.getKenteken());
+        assertEquals(verwacht.getYear(), uitkomst.getYear());
+        assertEquals(verwacht.getLicensePlate(), uitkomst.getLicensePlate());
     }
 
     @Test
     void nieuweAuto(){
-        AutoDto verwacht = new AutoDto("Opel", "Corsa", 2006, "DF-45-A4");
+        CarDto verwacht = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
         verwacht.setId(1L);
 
         Mockito
                 .when(autoRepository.save(car1))
                 .thenReturn(car1);
 
-        AutoDto uitkomst = autoService.nieuweAuto(car1);
+        CarDto uitkomst = autoService.nieuweAuto(car1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getMerk(), uitkomst.getMerk());
+        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
         assertEquals(verwacht.getModel(), uitkomst.getModel());
-        assertEquals(verwacht.getBouwjaar(), uitkomst.getBouwjaar());
-        assertEquals(verwacht.getKenteken(), uitkomst.getKenteken());
+        assertEquals(verwacht.getYear(), uitkomst.getYear());
+        assertEquals(verwacht.getLicensePlate(), uitkomst.getLicensePlate());
 
     }
 

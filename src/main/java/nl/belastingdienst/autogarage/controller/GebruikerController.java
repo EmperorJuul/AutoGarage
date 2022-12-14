@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.dto.GebruikerDto;
+import nl.belastingdienst.autogarage.dto.UserDto;
 import nl.belastingdienst.autogarage.model.User;
 import nl.belastingdienst.autogarage.service.GebruikerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ public class GebruikerController {
     private GebruikerService gebruikerService;
 
     @GetMapping
-    public ResponseEntity<List<GebruikerDto>> alleGebruikers(){
+    public ResponseEntity<List<UserDto>> alleGebruikers(){
         return ResponseEntity.ok(gebruikerService.alleGebruikers());
     }
 
     @GetMapping("/{gebruikersnaam}")
-    public ResponseEntity<GebruikerDto> gebruikerOpGebruikersnaam(@PathVariable String gebruikersnaam){
+    public ResponseEntity<UserDto> gebruikerOpGebruikersnaam(@PathVariable String gebruikersnaam){
         return ResponseEntity.ok(gebruikerService.gebruikerOpGebruikersnaam(gebruikersnaam));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuweGebruiker(@RequestBody User user){
-        GebruikerDto gebruikerDto = gebruikerService.nieuweGebruiker(user);
+        UserDto gebruikerDto = gebruikerService.nieuweGebruiker(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{gebruikersnaam}")
-                .buildAndExpand(gebruikerDto.getGebruikersnaam()).toUri();
+                .buildAndExpand(gebruikerDto.getUsername()).toUri();
         return ResponseEntity.created(location).build();
     }
 

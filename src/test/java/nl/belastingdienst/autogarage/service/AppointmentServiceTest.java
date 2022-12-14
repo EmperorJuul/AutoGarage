@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.AfspraakDto;
+import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.repository.AfspraakRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,11 +49,11 @@ class AppointmentServiceTest {
         appointmentList.add(appointment1);
         appointmentList.add(appointment2);
 
-        AfspraakDto afspraakDto1 = new AfspraakDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        AppointmentDto afspraakDto1 = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
         afspraakDto1.setId(1L);
-        AfspraakDto afspraakDto2 = new AfspraakDto(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
+        AppointmentDto afspraakDto2 = new AppointmentDto(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
         afspraakDto2.setId(2L);
-        List<AfspraakDto> verwacht = new ArrayList<>();
+        List<AppointmentDto> verwacht = new ArrayList<>();
         verwacht.add(afspraakDto1);
         verwacht.add(afspraakDto2);
 
@@ -61,49 +61,49 @@ class AppointmentServiceTest {
                 .when(afspraakRepository.findAll())
                 .thenReturn(appointmentList);
 
-        List<AfspraakDto> uitkomst =  afspraakService.alleAfspraken();
+        List<AppointmentDto> uitkomst =  afspraakService.alleAfspraken();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getBeginAfsrpaak(), uitkomst.get(0).getBeginAfsrpaak());
-        assertEquals(verwacht.get(0).getEindeAfspraak(), uitkomst.get(0).getEindeAfspraak());
+        assertEquals(verwacht.get(0).getStartAppointment(), uitkomst.get(0).getStartAppointment());
+        assertEquals(verwacht.get(0).getEndAppointment(), uitkomst.get(0).getEndAppointment());
 
         assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getBeginAfsrpaak(), uitkomst.get(1).getBeginAfsrpaak());
-        assertEquals(verwacht.get(1).getEindeAfspraak(), uitkomst.get(1).getEindeAfspraak());
+        assertEquals(verwacht.get(1).getStartAppointment(), uitkomst.get(1).getStartAppointment());
+        assertEquals(verwacht.get(1).getEndAppointment(), uitkomst.get(1).getEndAppointment());
     }
 
     @Test
     void afspraakOpId(){
-        AfspraakDto verwacht = new AfspraakDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        AppointmentDto verwacht = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
         verwacht.setId(1L);
 
         Mockito
                 .when(afspraakRepository.findById(appointment1.getId()))
                 .thenReturn(Optional.of(appointment1));
 
-        AfspraakDto uitkomst = afspraakService.afspraakOpId(appointment1.getId());
+        AppointmentDto uitkomst = afspraakService.afspraakOpId(appointment1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getBeginAfsrpaak(), uitkomst.getBeginAfsrpaak());
-        assertEquals(verwacht.getEindeAfspraak(), uitkomst.getEindeAfspraak());
+        assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
+        assertEquals(verwacht.getEndAppointment(), uitkomst.getEndAppointment());
 
     }
 
 
     @Test
     void nieuweAfspraak(){
-        AfspraakDto verwacht = new AfspraakDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        AppointmentDto verwacht = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
         verwacht.setId(1L);
 
         Mockito
                 .when(afspraakRepository.save(appointment1))
                 .thenReturn(appointment1);
 
-        AfspraakDto uitkomst = afspraakService.nieuweAfspraak(appointment1);
+        AppointmentDto uitkomst = afspraakService.nieuweAfspraak(appointment1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getBeginAfsrpaak(), uitkomst.getBeginAfsrpaak());
-        assertEquals(verwacht.getEindeAfspraak(), uitkomst.getEindeAfspraak());
+        assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
+        assertEquals(verwacht.getEndAppointment(), uitkomst.getEndAppointment());
     }
 
 

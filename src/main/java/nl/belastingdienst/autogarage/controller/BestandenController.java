@@ -1,6 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.dto.UploadAntwoord;
+import nl.belastingdienst.autogarage.dto.UploadResponse;
 import nl.belastingdienst.autogarage.service.BestandenService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +47,7 @@ public class BestandenController {
     }
 
     @PostMapping
-    public UploadAntwoord uploadBestand(@RequestParam("bestand") MultipartFile bestand){
+    public UploadResponse uploadBestand(@RequestParam("bestand") MultipartFile bestand){
 
         String bestandsnaam = bestandenService.uploadBestand(bestand);
 
@@ -55,7 +55,7 @@ public class BestandenController {
 
         String bestandsType =  bestand.getContentType();
 
-        return new UploadAntwoord(bestandsnaam, bestandsType, url);
+        return new UploadResponse(bestandsnaam, bestandsType, url);
 
 
     }
