@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @Component
 public class DataLoader {
 
-    private AppointmentRepository afspraakRepository;
-    private CarRepository autoRepository;
-    private CustomerRepository klantRepository;
-    private PartRepository onderdeelRepository;
-    private RepairRepository reparatieRepository;
+    private AppointmentRepository appointmentRepository;
+    private CarRepository carRepository;
+    private CustomerRepository customerRepository;
+    private PartRepository partRepository;
+    private RepairRepository repairRepository;
 
-    private UserRepository gebruikerRepository;
+    private UserRepository userRepository;
 
     private AuthorityRepository authorityRepository;
 
@@ -26,19 +26,19 @@ public class DataLoader {
     }
 
 
-    public DataLoader(AppointmentRepository afspraakRepository,
-                      CarRepository autoRepository,
-                      CustomerRepository klantRepository,
-                      PartRepository onderdeelRepository,
-                      RepairRepository reparatieRepository,
-                      UserRepository gebruikerRepository,
+    public DataLoader(AppointmentRepository appointmentRepository,
+                      CarRepository carRepository,
+                      CustomerRepository customerRepository,
+                      PartRepository partRepository,
+                      RepairRepository repairRepository,
+                      UserRepository userRepository,
                       AuthorityRepository authorityRepository){
-        this.afspraakRepository = afspraakRepository;
-        this.autoRepository = autoRepository;
-        this.klantRepository = klantRepository;
-        this.onderdeelRepository = onderdeelRepository;
-        this.reparatieRepository = reparatieRepository;
-        this.gebruikerRepository = gebruikerRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.carRepository = carRepository;
+        this.customerRepository = customerRepository;
+        this.partRepository = partRepository;
+        this.repairRepository = repairRepository;
+        this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         load();
     }
@@ -46,21 +46,21 @@ public class DataLoader {
     public void load(){
         Appointment appointment1 = new Appointment(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
         Appointment appointment2 = new Appointment(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
-        afspraakRepository.save(appointment1);
-        afspraakRepository.save(appointment2);
+        appointmentRepository.save(appointment1);
+        appointmentRepository.save(appointment2);
 
         Car car1 = new Car("Opel", "Corsa", 2006, "DF-45-A4");
         Car car2 = new Car("Volkswagen", "ID4", 2021, "23-HC-6G");
-        autoRepository.save(car1);
-        autoRepository.save(car2);
+        carRepository.save(car1);
+        carRepository.save(car2);
 
-        User user1 = new User("Monteur", passwordEncoder().encode("Monteur"));
+        User user1 = new User("Mechanic", passwordEncoder().encode("Mechanic"));
         User user2 = new User("Backoffice", passwordEncoder().encode("Backoffice"));
         User user3 = new User("Admin", passwordEncoder().encode("Admin"));
-        gebruikerRepository.save(user1);
-        gebruikerRepository.save(user2);
-        gebruikerRepository.save(user3);
-        Authority authority1 = new Authority("Monteur", "ROLE_MONTEUR");
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        Authority authority1 = new Authority("Mechanic", "ROLE_MECHANIC");
         Authority authority2 = new Authority("Backoffice", "ROLE_BACKOFFICE");
         Authority authority3 = new Authority("Admin", "ROLE_ADMIN");
         authorityRepository.save(authority1);
@@ -69,18 +69,18 @@ public class DataLoader {
 
         Customer customer1 = new Customer("Juul", "Konings", "0612345678", "jk@outlook.com");
         Customer customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        klantRepository.save(customer1);
-        klantRepository.save(customer2);
+        customerRepository.save(customer1);
+        customerRepository.save(customer2);
 
-        Part part1 = new Part("Band", "Michelin");
-        Part part2 = new Part("Ruit", "Noordglas");
-        onderdeelRepository.save(part1);
-        onderdeelRepository.save(part2);
+        Part part1 = new Part("Tire", "Michelin");
+        Part part2 = new Part("Window", "Noordglas");
+        partRepository.save(part1);
+        partRepository.save(part2);
 
-        Repair reparatie1 = new Repair("Banden vervangen", 104);
-        Repair reparatie2 = new Repair("Olie vervangen", 90);
-        reparatieRepository.save(reparatie1);
-        reparatieRepository.save(reparatie2);
+        Repair repair1 = new Repair("Change tires", 104);
+        Repair repair2 = new Repair("Change oil", 90);
+        repairRepository.save(repair1);
+        repairRepository.save(repair2);
 
     }
 }
