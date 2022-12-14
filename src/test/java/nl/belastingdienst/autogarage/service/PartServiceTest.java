@@ -24,7 +24,7 @@ class PartServiceTest {
     PartRepository onderdeelRepository;
 
     @InjectMocks
-    OnderdeelService onderdeelService;
+    PartService onderdeelService;
 
     @Mock
     Part part1;
@@ -59,7 +59,7 @@ class PartServiceTest {
                 .when(onderdeelRepository.findAll())
                 .thenReturn(partList);
 
-        List<PartDto> uitkomst = onderdeelService.alleOnderdelen();
+        List<PartDto> uitkomst = onderdeelService.allParts();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
@@ -79,7 +79,7 @@ class PartServiceTest {
                 .when(onderdeelRepository.findById(part1.getId()))
                 .thenReturn(Optional.of(part1));
 
-        PartDto uitkomst = onderdeelService.onderdeelOpId(part1.getId());
+        PartDto uitkomst = onderdeelService.partById(part1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -95,7 +95,7 @@ class PartServiceTest {
                 .when(onderdeelRepository.save(part1))
                 .thenReturn(part1);
 
-        PartDto uitkomst = onderdeelService.nieuwOnderdeel(part1);
+        PartDto uitkomst = onderdeelService.newPart(part1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -115,7 +115,7 @@ class PartServiceTest {
                 .when(onderdeelRepository.save(nieuwPart))
                 .thenReturn(nieuwPart);
 
-        onderdeelService.updateOnderdeel(nieuwPart.getId(), nieuwPart);
+        onderdeelService.updatePart(nieuwPart.getId(), nieuwPart);
 
         Mockito.verify(onderdeelRepository, Mockito.times(1)).findById(part1.getId());
         Mockito.verify(onderdeelRepository, Mockito.times(1)).save(nieuwPart);
@@ -123,7 +123,7 @@ class PartServiceTest {
 
     @Test
     void verwijderOnderdeel(){
-        onderdeelService.verwijderOnderdeel(part1.getId());
+        onderdeelService.deletePart(part1.getId());
 
         Mockito.verify(onderdeelRepository, Mockito.times(1)).deleteById(part1.getId());
     }

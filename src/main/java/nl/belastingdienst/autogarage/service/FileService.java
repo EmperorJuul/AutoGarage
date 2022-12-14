@@ -19,62 +19,62 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class BestandenService {
+public class FileService {
 
-    @Value("bestanden")
-    private Path mapPad;
+    @Value("files")
+    private Path folderPath;
 
-    private final String lokaalPad;
+    private final String localPath;
 
-    public BestandenService(@Value("bestanden") String lokaalPad){
-        mapPad = Paths.get(lokaalPad).toAbsolutePath().normalize();
+    public FileService(@Value("files") String localPath){
+        folderPath = Paths.get(localPath).toAbsolutePath().normalize();
 
-        this.lokaalPad = lokaalPad;
+        this.localPath = localPath;
 
         try {
-            Files.createDirectories(mapPad);
+            Files.createDirectories(folderPath);
         } catch (IOException e){
-            throw new RuntimeException("Probleem met aanmaken map", e);
+            throw new RuntimeException("Problem creating folder ", e);
         }
     }
 
-    public String uploadBestand(MultipartFile bestand){
+    public String uploadFile(MultipartFile file){
 
-        String bestandsnaam = StringUtils.cleanPath(Objects.requireNonNull(bestand.getOriginalFilename()));
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
-        Path volledigPad = Paths.get(mapPad + File.separator + bestandsnaam);
+        Path fullPath = Paths.get(folderPath + File.separator + filename);
 
         try {
-            Files.copy(bestand.getInputStream(), volledigPad, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), fullPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e){
-            throw new RuntimeException("Probleem bij het opslaan van het bestand", e);
+            throw new RuntimeException("Error saving file ", e);
         }
-        return bestandsnaam;
+        return filename;
     }
 
-    public Resource downloadBestand(String bestandsnaam){
+    public Resource downloadFile(String filename){
 
-        Path pad = Paths.get(lokaalPad).toAbsolutePath().resolve(bestandsnaam);
+        Path pad = Paths.get(localPath).toAbsolutePath().resolve(filename);
 
         Resource resource;
 
         try {
             resource = new UrlResource(pad.toUri());
         } catch (MalformedURLException e){
-            throw new RuntimeException("Probleem bij het lezen van het bestand", e);
+            throw new RuntimeException("Error trying to read file ", e);
         }
 
         if(resource.exists()&& resource.isReadable()) {
             return resource;
         } else {
-            throw new RuntimeException("Bestand bestaat niet of is niet leesbaar");
+            throw new RuntimeException("File does not exist or is corrupted");
         }
     }
 
     public List<String> downLoad() {
         // Directory path here
         var list = new ArrayList<String>();
-        File folder = new File(lokaalPad);
+        File folder = new File(localPath);
         File[] listOfFiles = folder.listFiles();
 
         for(int i = 0; i < Objects.requireNonNull(listOfFiles).length; i++){

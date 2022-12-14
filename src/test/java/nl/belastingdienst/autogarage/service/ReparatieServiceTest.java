@@ -24,7 +24,7 @@ class ReparatieServiceTest {
     RepairRepository reparatieRepository;
 
     @InjectMocks
-    ReparatieService reparatieService;
+    RepairService reparatieService;
 
     @Mock
     Repair reparatie1;
@@ -59,7 +59,7 @@ class ReparatieServiceTest {
                 .when(reparatieRepository.findAll())
                 .thenReturn(reparatieList);
 
-        List<RepairDto> uitkomst = reparatieService.alleReparaties();
+        List<RepairDto> uitkomst = reparatieService.allRepairs();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
@@ -79,7 +79,7 @@ class ReparatieServiceTest {
                 .when(reparatieRepository.findById(reparatie1.getId()))
                 .thenReturn(Optional.of(reparatie1));
 
-        RepairDto uitkomst = reparatieService.reparatieOpId(reparatie1.getId());
+        RepairDto uitkomst = reparatieService.repairById(reparatie1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -95,7 +95,7 @@ class ReparatieServiceTest {
                 .when(reparatieRepository.save(reparatie1))
                 .thenReturn(reparatie1);
 
-        RepairDto uitkomst = reparatieService.nieuweReparatie(reparatie1);
+        RepairDto uitkomst = reparatieService.newRepair(reparatie1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -115,7 +115,7 @@ class ReparatieServiceTest {
                 .when(reparatieRepository.save(nieuweReparatie))
                 .thenReturn(nieuweReparatie);
 
-        reparatieService.updateReparatie(nieuweReparatie.getId(), nieuweReparatie);
+        reparatieService.updateRepair(nieuweReparatie.getId(), nieuweReparatie);
 
         Mockito.verify(reparatieRepository, Mockito.times(1)).findById(reparatie1.getId());
         Mockito.verify(reparatieRepository, Mockito.times(1)).save(nieuweReparatie);
@@ -123,7 +123,7 @@ class ReparatieServiceTest {
 
     @Test
     void verwijderReparatie(){
-        reparatieService.verwijderReparatie(reparatie1.getId());
+        reparatieService.deleteRepair(reparatie1.getId());
 
         Mockito.verify(reparatieRepository, Mockito.times(1)).deleteById(reparatie1.getId());
     }

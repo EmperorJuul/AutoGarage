@@ -24,7 +24,7 @@ class CarServiceTest {
     CarRepository autoRepository;
 
     @InjectMocks
-    AutoService autoService;
+    CarService autoService;
 
     @Mock
     Car car1;
@@ -59,7 +59,7 @@ class CarServiceTest {
                 .when(autoRepository.findAll())
                 .thenReturn(carList);
 
-        List<CarDto> uitkomst = autoService.alleAutos();
+        List<CarDto> uitkomst = autoService.allCars();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
@@ -83,7 +83,7 @@ class CarServiceTest {
                 .when(autoRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
-        CarDto uitkomst = autoService.autoOpId(car1.getId());
+        CarDto uitkomst = autoService.carById(car1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -101,7 +101,7 @@ class CarServiceTest {
                 .when(autoRepository.save(car1))
                 .thenReturn(car1);
 
-        CarDto uitkomst = autoService.nieuweAuto(car1);
+        CarDto uitkomst = autoService.newCar(car1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -124,7 +124,7 @@ class CarServiceTest {
                 .when(autoRepository.save(nieuweCar))
                 .thenReturn(nieuweCar);
 
-        autoService.updateAuto(nieuweCar.getId(), nieuweCar);
+        autoService.updateCar(nieuweCar.getId(), nieuweCar);
 
         Mockito.verify(autoRepository, Mockito.times(1)).findById(car1.getId());
         Mockito.verify(autoRepository, Mockito.times(1)).save(nieuweCar);
@@ -132,7 +132,7 @@ class CarServiceTest {
 
     @Test
     void verwijderAuto(){
-        autoService.verwijderAuto(car1.getId());
+        autoService.deleteCar(car1.getId());
 
         Mockito.verify(autoRepository, Mockito.times(1)).deleteById(car1.getId());
     }

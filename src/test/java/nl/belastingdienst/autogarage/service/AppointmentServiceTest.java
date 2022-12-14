@@ -25,7 +25,7 @@ class AppointmentServiceTest {
     AppointmentRepository afspraakRepository;
 
     @InjectMocks
-    AfspraakService afspraakService;
+    AppointmentService afspraakService;
 
     @Mock
     Appointment appointment1;
@@ -61,7 +61,7 @@ class AppointmentServiceTest {
                 .when(afspraakRepository.findAll())
                 .thenReturn(appointmentList);
 
-        List<AppointmentDto> uitkomst =  afspraakService.alleAfspraken();
+        List<AppointmentDto> uitkomst =  afspraakService.allAppointments();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getStartAppointment(), uitkomst.get(0).getStartAppointment());
@@ -81,7 +81,7 @@ class AppointmentServiceTest {
                 .when(afspraakRepository.findById(appointment1.getId()))
                 .thenReturn(Optional.of(appointment1));
 
-        AppointmentDto uitkomst = afspraakService.afspraakOpId(appointment1.getId());
+        AppointmentDto uitkomst = afspraakService.appointmentById(appointment1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
@@ -99,7 +99,7 @@ class AppointmentServiceTest {
                 .when(afspraakRepository.save(appointment1))
                 .thenReturn(appointment1);
 
-        AppointmentDto uitkomst = afspraakService.nieuweAfspraak(appointment1);
+        AppointmentDto uitkomst = afspraakService.newAppointment(appointment1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
@@ -120,7 +120,7 @@ class AppointmentServiceTest {
                 .when(afspraakRepository.save(nieuweAppointment))
                 .thenReturn(nieuweAppointment);
 
-        afspraakService.updateAfspraak(nieuweAppointment.getId(), nieuweAppointment);
+        afspraakService.updateAppointment(nieuweAppointment.getId(), nieuweAppointment);
 
         Mockito.verify(afspraakRepository, Mockito.times(1)).findById(appointment1.getId());
         Mockito.verify(afspraakRepository, Mockito.times(1)).save(nieuweAppointment);
@@ -129,7 +129,7 @@ class AppointmentServiceTest {
 
     @Test
     void verwijderAfspraak(){
-        afspraakService.verwijderAfspraak(appointment1.getId());
+        afspraakService.deleteAppointment(appointment1.getId());
 
         Mockito.verify(afspraakRepository, Mockito.times(1)).deleteById(appointment1.getId());
     }

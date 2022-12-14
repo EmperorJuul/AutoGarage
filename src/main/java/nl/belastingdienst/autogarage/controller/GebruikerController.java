@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.UserDto;
 import nl.belastingdienst.autogarage.model.User;
-import nl.belastingdienst.autogarage.service.GebruikerService;
+import nl.belastingdienst.autogarage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +16,21 @@ import java.util.List;
 public class GebruikerController {
 
     @Autowired
-    private GebruikerService gebruikerService;
+    private UserService gebruikerService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> alleGebruikers(){
-        return ResponseEntity.ok(gebruikerService.alleGebruikers());
+        return ResponseEntity.ok(gebruikerService.allUsers());
     }
 
     @GetMapping("/{gebruikersnaam}")
     public ResponseEntity<UserDto> gebruikerOpGebruikersnaam(@PathVariable String gebruikersnaam){
-        return ResponseEntity.ok(gebruikerService.gebruikerOpGebruikersnaam(gebruikersnaam));
+        return ResponseEntity.ok(gebruikerService.userByUsername(gebruikersnaam));
     }
 
     @PostMapping
     public ResponseEntity<Object> nieuweGebruiker(@RequestBody User user){
-        UserDto gebruikerDto = gebruikerService.nieuweGebruiker(user);
+        UserDto gebruikerDto = gebruikerService.newUser(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{gebruikersnaam}")
                 .buildAndExpand(gebruikerDto.getUsername()).toUri();
         return ResponseEntity.created(location).build();
@@ -38,13 +38,13 @@ public class GebruikerController {
 
     @PutMapping("/{gebruikersnaam}")
     public ResponseEntity<Object> updateGebruiker(@PathVariable String gebruikersnaam, @RequestBody User nieuweUser){
-        gebruikerService.updateGebruiker(gebruikersnaam, nieuweUser);
+        gebruikerService.updateUser(gebruikersnaam, nieuweUser);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{gebruikersnaam}")
     public ResponseEntity<Object> verwijderGebruiker(@PathVariable String gebruikersnaam){
-        gebruikerService.verwijderGebruiker(gebruikersnaam);
+        gebruikerService.deleteUsername(gebruikersnaam);
         return ResponseEntity.noContent().build();
     }
 

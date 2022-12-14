@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.UploadResponse;
-import nl.belastingdienst.autogarage.service.BestandenService;
+import nl.belastingdienst.autogarage.service.FileService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,9 +19,9 @@ import java.util.List;
 @RequestMapping("/bestand")
 public class BestandenController {
 
-    private final BestandenService bestandenService;
+    private final FileService bestandenService;
 
-    public BestandenController(BestandenService bestandenService){
+    public BestandenController(FileService bestandenService){
         this.bestandenService = bestandenService;
     }
 
@@ -33,7 +33,7 @@ public class BestandenController {
     @GetMapping("/{bestandsnaam}")
     public ResponseEntity<Resource> downloadBestand(@PathVariable String bestandsnaam, HttpServletRequest verzoek){
 
-        Resource resource = bestandenService.downloadBestand(bestandsnaam);
+        Resource resource = bestandenService.downloadFile(bestandsnaam);
 
         String mimeType;
 
@@ -49,7 +49,7 @@ public class BestandenController {
     @PostMapping
     public UploadResponse uploadBestand(@RequestParam("bestand") MultipartFile bestand){
 
-        String bestandsnaam = bestandenService.uploadBestand(bestand);
+        String bestandsnaam = bestandenService.uploadFile(bestand);
 
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/bestand/").path(bestandsnaam).toUriString();
 

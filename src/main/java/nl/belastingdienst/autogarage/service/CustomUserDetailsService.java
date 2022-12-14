@@ -20,13 +20,13 @@ import java.util.Set;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository gebruikerRepository;
+    private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String gebruikersnaam) throws UsernameNotFoundException {
-        User user = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new UserNotFoundException(gebruikersnaam));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
 
-        String wachtwoord = user.getPassword();
+        String password = user.getPassword();
 
         Set<Authority> authorities = user.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -34,6 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
 
-        return new org.springframework.security.core.userdetails.User(gebruikersnaam, wachtwoord, grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(username, password, grantedAuthorities);
     }
 }

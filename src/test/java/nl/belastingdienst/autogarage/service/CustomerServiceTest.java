@@ -25,7 +25,7 @@ class CustomerServiceTest {
     CustomerRepository klantRepository;
 
     @InjectMocks
-    KlantService klantService;
+    CustomerService klantService;
 
     @Mock
     Customer customer1;
@@ -60,7 +60,7 @@ class CustomerServiceTest {
                 .when(klantRepository.findAll())
                 .thenReturn(customerList);
 
-        List<CustomerDto> uitkomst = klantService.alleKlanten();
+        List<CustomerDto> uitkomst = klantService.allCustomers();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getFirstname(), uitkomst.get(0).getFirstname());
@@ -84,7 +84,7 @@ class CustomerServiceTest {
                 .when(klantRepository.findById(customer1.getId()))
                 .thenReturn(Optional.of(customer1));
 
-        CustomerDto uitkomst = klantService.klantOpId(customer1.getId());
+        CustomerDto uitkomst = klantService.customerById(customer1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
@@ -102,7 +102,7 @@ class CustomerServiceTest {
                 .when(klantRepository.save(customer1))
                 .thenReturn(customer1);
 
-        CustomerDto uitkomst = klantService.nieuweKlant(customer1);
+        CustomerDto uitkomst = klantService.newCustomer(customer1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
@@ -124,7 +124,7 @@ class CustomerServiceTest {
                 .when(klantRepository.save(nieuweCustomer))
                 .thenReturn(nieuweCustomer);
 
-        klantService.updateKlant(nieuweCustomer.getId(), nieuweCustomer);
+        klantService.updateCustomer(nieuweCustomer.getId(), nieuweCustomer);
 
         Mockito.verify(klantRepository, Mockito.times(1)).findById(customer1.getId());
         Mockito.verify(klantRepository, Mockito.times(1)).save(nieuweCustomer);
@@ -132,7 +132,7 @@ class CustomerServiceTest {
 
     @Test
     void verwijderAfsrpaak(){
-        klantService.verwijderKlant(customer1.getId());
+        klantService.deleteCustomer(customer1.getId());
 
         Mockito.verify(klantRepository, Mockito.times(1)).deleteById(customer1.getId());
     }
