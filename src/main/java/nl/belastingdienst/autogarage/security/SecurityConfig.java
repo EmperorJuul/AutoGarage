@@ -30,11 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**").hasRole("ADMIN")
-                .antMatchers("/afspraak").hasRole("MONTEUR")
-                .antMatchers("/auto").hasRole("MONTEUR")
-                .antMatchers("/klant").hasRole("MONTEUR")
-                .antMatchers("/onderdeel").hasAnyRole("BACKOFFICE", "MONTEUR")
-                .antMatchers("/reparatie").hasAnyRole("BACKOFFICE", "MONTEUR")
+                .antMatchers("/appointment").hasRole("MECHANIC")
+                .antMatchers("/car").hasRole("MECHANIC")
+                .antMatchers("/customer").hasRole("MECHANIC")
+                .antMatchers("/part").hasAnyRole("BACKOFFICE", "MECHANIC")
+                .antMatchers("/repair").hasAnyRole("BACKOFFICE", "MECHANIC")
                 .and().httpBasic();
 
     }
