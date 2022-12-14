@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.KlantDto;
-import nl.belastingdienst.autogarage.model.Klant;
+import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.service.KlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +29,16 @@ public class KlantController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweKlant(@RequestBody Klant klant){
-        KlantDto klantDto = klantService.nieuweKlant(klant);
+    public ResponseEntity<Object> nieuweKlant(@RequestBody Customer customer){
+        KlantDto klantDto = klantService.nieuweKlant(customer);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(klantDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateKlant(@PathVariable Long id, @RequestBody Klant nieuweKlant){
-        klantService.updateKlant(id, nieuweKlant);
+    public ResponseEntity<Object> updateKlant(@PathVariable Long id, @RequestBody Customer nieuweCustomer){
+        klantService.updateKlant(id, nieuweCustomer);
         return ResponseEntity.noContent().build();
     }
 

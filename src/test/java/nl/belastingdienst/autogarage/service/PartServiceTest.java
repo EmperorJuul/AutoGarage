@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.OnderdeelDto;
-import nl.belastingdienst.autogarage.model.Onderdeel;
+import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.repository.OnderdeelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class OnderdeelServiceTest {
+class PartServiceTest {
 
     @Mock
     OnderdeelRepository onderdeelRepository;
@@ -27,25 +27,25 @@ class OnderdeelServiceTest {
     OnderdeelService onderdeelService;
 
     @Mock
-    Onderdeel onderdeel1;
+    Part part1;
     @Mock
-    Onderdeel onderdeel2;
+    Part part2;
 
     @BeforeEach
     public void setup(){
-        onderdeel1 = new Onderdeel("Band", "Michelin");
-        onderdeel1.setId(1L);
-        onderdeel2 = new Onderdeel("Ruit", "Noordglas");
-        onderdeel2.setId(2L);
+        part1 = new Part("Band", "Michelin");
+        part1.setId(1L);
+        part2 = new Part("Ruit", "Noordglas");
+        part2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
     @Test
     void alleOnderdelen(){
-        List<Onderdeel> onderdeelList = new ArrayList<>();
-        onderdeelList.add(onderdeel1);
-        onderdeelList.add(onderdeel2);
+        List<Part> partList = new ArrayList<>();
+        partList.add(part1);
+        partList.add(part2);
 
         OnderdeelDto onderdeelDto1 = new OnderdeelDto("Band", "Michelin");
         onderdeelDto1.setId(1L);
@@ -57,7 +57,7 @@ class OnderdeelServiceTest {
 
         Mockito
                 .when(onderdeelRepository.findAll())
-                .thenReturn(onderdeelList);
+                .thenReturn(partList);
 
         List<OnderdeelDto> uitkomst = onderdeelService.alleOnderdelen();
 
@@ -76,10 +76,10 @@ class OnderdeelServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(onderdeelRepository.findById(onderdeel1.getId()))
-                .thenReturn(Optional.of(onderdeel1));
+                .when(onderdeelRepository.findById(part1.getId()))
+                .thenReturn(Optional.of(part1));
 
-        OnderdeelDto uitkomst = onderdeelService.onderdeelOpId(onderdeel1.getId());
+        OnderdeelDto uitkomst = onderdeelService.onderdeelOpId(part1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getNaam(), uitkomst.getNaam());
@@ -92,10 +92,10 @@ class OnderdeelServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(onderdeelRepository.save(onderdeel1))
-                .thenReturn(onderdeel1);
+                .when(onderdeelRepository.save(part1))
+                .thenReturn(part1);
 
-        OnderdeelDto uitkomst = onderdeelService.nieuwOnderdeel(onderdeel1);
+        OnderdeelDto uitkomst = onderdeelService.nieuwOnderdeel(part1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getNaam(), uitkomst.getNaam());
@@ -104,28 +104,28 @@ class OnderdeelServiceTest {
 
     @Test
     void updateOnderdeel(){
-        Onderdeel nieuwOnderdeel = new Onderdeel("Ruit", "Noordglas");
-        nieuwOnderdeel.setId(1L);
+        Part nieuwPart = new Part("Ruit", "Noordglas");
+        nieuwPart.setId(1L);
 
         Mockito
-                .when(onderdeelRepository.findById(onderdeel1.getId()))
-                .thenReturn(Optional.of(onderdeel1));
+                .when(onderdeelRepository.findById(part1.getId()))
+                .thenReturn(Optional.of(part1));
 
         Mockito
-                .when(onderdeelRepository.save(nieuwOnderdeel))
-                .thenReturn(nieuwOnderdeel);
+                .when(onderdeelRepository.save(nieuwPart))
+                .thenReturn(nieuwPart);
 
-        onderdeelService.updateOnderdeel(nieuwOnderdeel.getId(), nieuwOnderdeel);
+        onderdeelService.updateOnderdeel(nieuwPart.getId(), nieuwPart);
 
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).findById(onderdeel1.getId());
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).save(nieuwOnderdeel);
+        Mockito.verify(onderdeelRepository, Mockito.times(1)).findById(part1.getId());
+        Mockito.verify(onderdeelRepository, Mockito.times(1)).save(nieuwPart);
     }
 
     @Test
     void verwijderOnderdeel(){
-        onderdeelService.verwijderOnderdeel(onderdeel1.getId());
+        onderdeelService.verwijderOnderdeel(part1.getId());
 
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).deleteById(onderdeel1.getId());
+        Mockito.verify(onderdeelRepository, Mockito.times(1)).deleteById(part1.getId());
     }
 
 }

@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.AutoDto;
 import nl.belastingdienst.autogarage.exception.AutoNotFoundException;
-import nl.belastingdienst.autogarage.model.Auto;
+import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ public class AutoService {
     private AutoRepository autoRepository;
 
     public List<AutoDto> alleAutos(){
-        List<Auto> autoList = autoRepository.findAll();
+        List<Car> carList = autoRepository.findAll();
         List<AutoDto> autoDtoList = new ArrayList<>();
-        for(Auto auto : autoList){
-            autoDtoList.add(vanAutoNaarAutoDto(auto));
+        for(Car car : carList){
+            autoDtoList.add(vanAutoNaarAutoDto(car));
         }
         return autoDtoList;
     }
@@ -29,24 +29,24 @@ public class AutoService {
         return vanAutoNaarAutoDto(autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id)));
     }
 
-    public AutoDto nieuweAuto(Auto auto){
-        autoRepository.save(auto);
-        return vanAutoNaarAutoDto(auto);
+    public AutoDto nieuweAuto(Car car){
+        autoRepository.save(car);
+        return vanAutoNaarAutoDto(car);
     }
 
-    public void updateAuto(Long id, Auto nieuweAuto){
-        Auto auto = autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id));
-        nieuweAuto.setId(auto.getId());
-        autoRepository.save(nieuweAuto);
+    public void updateAuto(Long id, Car nieuweCar){
+        Car car = autoRepository.findById(id).orElseThrow(() -> new AutoNotFoundException(id));
+        nieuweCar.setId(car.getId());
+        autoRepository.save(nieuweCar);
     }
 
     public void verwijderAuto(Long id){
         autoRepository.deleteById(id);
     }
 
-    private AutoDto vanAutoNaarAutoDto(Auto auto){
-        AutoDto autoDto = new AutoDto(auto.getMerk(), auto.getModel(), auto.getBouwjaar(), auto.getKenteken());
-        autoDto.setId(auto.getId());
+    private AutoDto vanAutoNaarAutoDto(Car car){
+        AutoDto autoDto = new AutoDto(car.getBrand(), car.getModel(), car.getYear(), car.getLicenseplate());
+        autoDto.setId(car.getId());
         return autoDto;
     }
 }

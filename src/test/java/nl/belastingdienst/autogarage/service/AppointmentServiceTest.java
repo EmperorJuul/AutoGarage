@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.AfspraakDto;
-import nl.belastingdienst.autogarage.model.Afspraak;
+import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.repository.AfspraakRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class AfspraakServiceTest {
+class AppointmentServiceTest {
 
     @Mock
     AfspraakRepository afspraakRepository;
@@ -28,16 +28,16 @@ class AfspraakServiceTest {
     AfspraakService afspraakService;
 
     @Mock
-    Afspraak afspraak1;
+    Appointment appointment1;
     @Mock
-    Afspraak afspraak2;
+    Appointment appointment2;
 
     @BeforeEach
     public void setup(){
-        afspraak1 = new Afspraak(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        afspraak1.setId(1L);
-        afspraak2 = new Afspraak(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
-        afspraak2.setId(2L);
+        appointment1 = new Appointment(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        appointment1.setId(1L);
+        appointment2 = new Appointment(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
+        appointment2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -45,9 +45,9 @@ class AfspraakServiceTest {
 
     @Test
     void alleAfspraken(){
-        List<Afspraak> afspraakList = new ArrayList<>();
-        afspraakList.add(afspraak1);
-        afspraakList.add(afspraak2);
+        List<Appointment> appointmentList = new ArrayList<>();
+        appointmentList.add(appointment1);
+        appointmentList.add(appointment2);
 
         AfspraakDto afspraakDto1 = new AfspraakDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
         afspraakDto1.setId(1L);
@@ -59,7 +59,7 @@ class AfspraakServiceTest {
 
         Mockito
                 .when(afspraakRepository.findAll())
-                .thenReturn(afspraakList);
+                .thenReturn(appointmentList);
 
         List<AfspraakDto> uitkomst =  afspraakService.alleAfspraken();
 
@@ -78,10 +78,10 @@ class AfspraakServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(afspraakRepository.findById(afspraak1.getId()))
-                .thenReturn(Optional.of(afspraak1));
+                .when(afspraakRepository.findById(appointment1.getId()))
+                .thenReturn(Optional.of(appointment1));
 
-        AfspraakDto uitkomst = afspraakService.afspraakOpId(afspraak1.getId());
+        AfspraakDto uitkomst = afspraakService.afspraakOpId(appointment1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBeginAfsrpaak(), uitkomst.getBeginAfsrpaak());
@@ -96,10 +96,10 @@ class AfspraakServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(afspraakRepository.save(afspraak1))
-                .thenReturn(afspraak1);
+                .when(afspraakRepository.save(appointment1))
+                .thenReturn(appointment1);
 
-        AfspraakDto uitkomst = afspraakService.nieuweAfspraak(afspraak1);
+        AfspraakDto uitkomst = afspraakService.nieuweAfspraak(appointment1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBeginAfsrpaak(), uitkomst.getBeginAfsrpaak());
@@ -109,29 +109,29 @@ class AfspraakServiceTest {
 
     @Test
     void updateAfspraak(){
-        Afspraak nieuweAfspraak = new Afspraak(LocalDateTime.of(2020,10,6,12,30), LocalDateTime.of(2020,10,6,13,30));
-        nieuweAfspraak.setId(1L);
+        Appointment nieuweAppointment = new Appointment(LocalDateTime.of(2020,10,6,12,30), LocalDateTime.of(2020,10,6,13,30));
+        nieuweAppointment.setId(1L);
 
         Mockito
-                .when(afspraakRepository.findById(afspraak1.getId()))
-                .thenReturn(Optional.of(afspraak1));
+                .when(afspraakRepository.findById(appointment1.getId()))
+                .thenReturn(Optional.of(appointment1));
 
         Mockito
-                .when(afspraakRepository.save(nieuweAfspraak))
-                .thenReturn(nieuweAfspraak);
+                .when(afspraakRepository.save(nieuweAppointment))
+                .thenReturn(nieuweAppointment);
 
-        afspraakService.updateAfspraak(nieuweAfspraak.getId(), nieuweAfspraak);
+        afspraakService.updateAfspraak(nieuweAppointment.getId(), nieuweAppointment);
 
-        Mockito.verify(afspraakRepository, Mockito.times(1)).findById(afspraak1.getId());
-        Mockito.verify(afspraakRepository, Mockito.times(1)).save(nieuweAfspraak);
+        Mockito.verify(afspraakRepository, Mockito.times(1)).findById(appointment1.getId());
+        Mockito.verify(afspraakRepository, Mockito.times(1)).save(nieuweAppointment);
     }
 
 
     @Test
     void verwijderAfspraak(){
-        afspraakService.verwijderAfspraak(afspraak1.getId());
+        afspraakService.verwijderAfspraak(appointment1.getId());
 
-        Mockito.verify(afspraakRepository, Mockito.times(1)).deleteById(afspraak1.getId());
+        Mockito.verify(afspraakRepository, Mockito.times(1)).deleteById(appointment1.getId());
     }
 
 

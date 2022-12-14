@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.AfspraakDto;
-import nl.belastingdienst.autogarage.model.Afspraak;
+import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.service.AfspraakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +29,16 @@ public class AfspraakController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweAfspraak(@RequestBody Afspraak afspraak){
-        AfspraakDto afspraakDto =  afspraakService.nieuweAfspraak(afspraak);
+    public ResponseEntity<Object> nieuweAfspraak(@RequestBody Appointment appointment){
+        AfspraakDto afspraakDto =  afspraakService.nieuweAfspraak(appointment);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(afspraakDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAfspraak(@PathVariable Long id, @RequestBody Afspraak nieuweAfspraak){
-        afspraakService.updateAfspraak(id, nieuweAfspraak);
+    public ResponseEntity<Object> updateAfspraak(@PathVariable Long id, @RequestBody Appointment nieuweAppointment){
+        afspraakService.updateAfspraak(id, nieuweAppointment);
         return ResponseEntity.noContent().build();
     }
 

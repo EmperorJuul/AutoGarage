@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.ReparatieDto;
-import nl.belastingdienst.autogarage.model.Reparatie;
+import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.service.ReparatieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class ReparatieController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuweReparatie(@RequestBody Reparatie reparatie){
+    public ResponseEntity<Object> nieuweReparatie(@RequestBody Repair reparatie){
         ReparatieDto reparatieDto = reparatieService.nieuweReparatie(reparatie);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(reparatieDto.getId()).toUri();
@@ -37,7 +37,7 @@ public class ReparatieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateReparatie(@PathVariable Long id, @RequestBody Reparatie nieuweReparatie){
+    public ResponseEntity<Object> updateReparatie(@PathVariable Long id, @RequestBody Repair nieuweReparatie){
         reparatieService.updateReparatie(id, nieuweReparatie);
         return ResponseEntity.noContent().build();
     }

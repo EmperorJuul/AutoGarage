@@ -9,23 +9,23 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "onderdelen")
-public class Onderdeel {
+@Table(name = "parts")
+public class Part {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String naam;
-    private String merk;
+    private String name;
+    private String brand;
 
     @OneToMany
-    private List<Reparatie> reparatieList;
+    private List<Repair> reparatieList;
 
-    public Onderdeel() {
+    public Part() {
     }
 
-    public Onderdeel(String naam, String merk) {
-        this.naam = naam;
-        this.merk = merk;
+    public Part(String naam, String merk) {
+        this.name = naam;
+        this.brand = merk;
     }
 }

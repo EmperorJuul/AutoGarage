@@ -44,22 +44,22 @@ public class DataLoader {
     }
 
     public void load(){
-        Afspraak afspraak1 = new Afspraak(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        Afspraak afspraak2 = new Afspraak(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
-        afspraakRepository.save(afspraak1);
-        afspraakRepository.save(afspraak2);
+        Appointment appointment1 = new Appointment(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        Appointment appointment2 = new Appointment(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
+        afspraakRepository.save(appointment1);
+        afspraakRepository.save(appointment2);
 
-        Auto auto1 = new Auto("Opel", "Corsa", 2006, "DF-45-A4");
-        Auto auto2 = new Auto("Volkswagen", "ID4", 2021, "23-HC-6G");
-        autoRepository.save(auto1);
-        autoRepository.save(auto2);
+        Car car1 = new Car("Opel", "Corsa", 2006, "DF-45-A4");
+        Car car2 = new Car("Volkswagen", "ID4", 2021, "23-HC-6G");
+        autoRepository.save(car1);
+        autoRepository.save(car2);
 
-        Gebruiker gebruiker1 = new Gebruiker("Monteur", passwordEncoder().encode("Monteur"));
-        Gebruiker gebruiker2 = new Gebruiker("Backoffice", passwordEncoder().encode("Backoffice"));
-        Gebruiker gebruiker3 = new Gebruiker("Admin", passwordEncoder().encode("Admin"));
-        gebruikerRepository.save(gebruiker1);
-        gebruikerRepository.save(gebruiker2);
-        gebruikerRepository.save(gebruiker3);
+        User user1 = new User("Monteur", passwordEncoder().encode("Monteur"));
+        User user2 = new User("Backoffice", passwordEncoder().encode("Backoffice"));
+        User user3 = new User("Admin", passwordEncoder().encode("Admin"));
+        gebruikerRepository.save(user1);
+        gebruikerRepository.save(user2);
+        gebruikerRepository.save(user3);
         Authority authority1 = new Authority("Monteur", "ROLE_MONTEUR");
         Authority authority2 = new Authority("Backoffice", "ROLE_BACKOFFICE");
         Authority authority3 = new Authority("Admin", "ROLE_ADMIN");
@@ -67,18 +67,18 @@ public class DataLoader {
         authorityRepository.save(authority2);
         authorityRepository.save(authority3);
 
-        Klant klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
-        Klant klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        klantRepository.save(klant1);
-        klantRepository.save(klant2);
+        Customer customer1 = new Customer("Juul", "Konings", "0612345678", "jk@outlook.com");
+        Customer customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        klantRepository.save(customer1);
+        klantRepository.save(customer2);
 
-        Onderdeel onderdeel1 = new Onderdeel("Band", "Michelin");
-        Onderdeel onderdeel2 = new Onderdeel("Ruit", "Noordglas");
-        onderdeelRepository.save(onderdeel1);
-        onderdeelRepository.save(onderdeel2);
+        Part part1 = new Part("Band", "Michelin");
+        Part part2 = new Part("Ruit", "Noordglas");
+        onderdeelRepository.save(part1);
+        onderdeelRepository.save(part2);
 
-        Reparatie reparatie1 = new Reparatie("Banden vervangen", 104);
-        Reparatie reparatie2 = new Reparatie("Olie vervangen", 90);
+        Repair reparatie1 = new Repair("Banden vervangen", 104);
+        Repair reparatie2 = new Repair("Olie vervangen", 90);
         reparatieRepository.save(reparatie1);
         reparatieRepository.save(reparatie2);
 

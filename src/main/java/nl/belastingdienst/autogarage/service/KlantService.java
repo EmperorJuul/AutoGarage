@@ -2,7 +2,7 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.KlantDto;
 import nl.belastingdienst.autogarage.exception.KlantNotFoundException;
-import nl.belastingdienst.autogarage.model.Klant;
+import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ public class KlantService {
     private KlantRepository klantRepository;
 
     public List<KlantDto> alleKlanten(){
-        List<Klant> klantList = klantRepository.findAll();
+        List<Customer> customerList = klantRepository.findAll();
         List<KlantDto> klantDtoList = new ArrayList<>();
-        for(Klant klant : klantList){
-            klantDtoList.add(vanKlantNaarKlantDto(klant));
+        for(Customer customer : customerList){
+            klantDtoList.add(vanKlantNaarKlantDto(customer));
         }
         return klantDtoList;
     }
@@ -29,24 +29,24 @@ public class KlantService {
         return vanKlantNaarKlantDto(klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id)));
     }
 
-    public KlantDto nieuweKlant(Klant klant){
-        klantRepository.save(klant);
-        return vanKlantNaarKlantDto(klant);
+    public KlantDto nieuweKlant(Customer customer){
+        klantRepository.save(customer);
+        return vanKlantNaarKlantDto(customer);
     }
 
-    public void updateKlant(Long id, Klant nieuweKlant){
-        Klant klant = klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id));
-        nieuweKlant.setId(klant.getId());
-        klantRepository.save(nieuweKlant);
+    public void updateKlant(Long id, Customer nieuweCustomer){
+        Customer customer = klantRepository.findById(id).orElseThrow(() -> new KlantNotFoundException(id));
+        nieuweCustomer.setId(customer.getId());
+        klantRepository.save(nieuweCustomer);
     }
 
     public void verwijderKlant(Long id){
         klantRepository.deleteById(id);
     }
 
-    private KlantDto vanKlantNaarKlantDto(Klant klant){
-        KlantDto klantDto = new KlantDto(klant.getVoornaam(), klant.getAchternaam(), klant.getTelefoonnummer(), klant.getEmailAdres());
-        klantDto.setId(klant.getId());
+    private KlantDto vanKlantNaarKlantDto(Customer customer){
+        KlantDto klantDto = new KlantDto(customer.getFirstname(), customer.getSurname(), customer.getPhoneNumber(), customer.getEmailAdress());
+        klantDto.setId(customer.getId());
         return klantDto;
     }
 }

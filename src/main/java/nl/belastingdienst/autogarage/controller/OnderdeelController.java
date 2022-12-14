@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.OnderdeelDto;
-import nl.belastingdienst.autogarage.model.Onderdeel;
+import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.service.OnderdeelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +29,16 @@ public class OnderdeelController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> nieuwOnderdeel(@RequestBody Onderdeel onderdeel){
-        OnderdeelDto onderdeelDto = onderdeelService.nieuwOnderdeel(onderdeel);
+    public ResponseEntity<Object> nieuwOnderdeel(@RequestBody Part part){
+        OnderdeelDto onderdeelDto = onderdeelService.nieuwOnderdeel(part);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(onderdeelDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOnderdeel(@PathVariable Long id, @RequestBody Onderdeel nieuwOnderdeel){
-        onderdeelService.updateOnderdeel(id, nieuwOnderdeel);
+    public ResponseEntity<Object> updateOnderdeel(@PathVariable Long id, @RequestBody Part nieuwPart){
+        onderdeelService.updateOnderdeel(id, nieuwPart);
         return ResponseEntity.noContent().build();
     }
 

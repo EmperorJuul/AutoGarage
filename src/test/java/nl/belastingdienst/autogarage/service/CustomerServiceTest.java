@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.KlantDto;
-import nl.belastingdienst.autogarage.model.Klant;
+import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.repository.KlantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(MockitoExtension.class)
-class KlantServiceTest {
+class CustomerServiceTest {
 
     @Mock
     KlantRepository klantRepository;
@@ -28,25 +28,25 @@ class KlantServiceTest {
     KlantService klantService;
 
     @Mock
-    Klant klant1;
+    Customer customer1;
     @Mock
-    Klant klant2;
+    Customer customer2;
 
     @BeforeEach
     public void setup(){
-        klant1 = new Klant("Juul", "Konings", "0612345678", "jk@outlook.com");
-        klant1.setId(1L);
-        klant2 = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        klant2.setId(2L);
+        customer1 = new Customer("Juul", "Konings", "0612345678", "jk@outlook.com");
+        customer1.setId(1L);
+        customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        customer2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
     @Test
     void alleKlanten(){
-        List<Klant> klantList = new ArrayList<>();
-        klantList.add(klant1);
-        klantList.add(klant2);
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(customer1);
+        customerList.add(customer2);
 
         KlantDto klantDto1 = new KlantDto("Juul", "Konings", "0612345678", "jk@outlook.com");
         klantDto1.setId(1L);
@@ -58,7 +58,7 @@ class KlantServiceTest {
 
         Mockito
                 .when(klantRepository.findAll())
-                .thenReturn(klantList);
+                .thenReturn(customerList);
 
         List<KlantDto> uitkomst = klantService.alleKlanten();
 
@@ -81,10 +81,10 @@ class KlantServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(klantRepository.findById(klant1.getId()))
-                .thenReturn(Optional.of(klant1));
+                .when(klantRepository.findById(customer1.getId()))
+                .thenReturn(Optional.of(customer1));
 
-        KlantDto uitkomst = klantService.klantOpId(klant1.getId());
+        KlantDto uitkomst = klantService.klantOpId(customer1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getVoornaam(), uitkomst.getVoornaam());
@@ -99,10 +99,10 @@ class KlantServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(klantRepository.save(klant1))
-                .thenReturn(klant1);
+                .when(klantRepository.save(customer1))
+                .thenReturn(customer1);
 
-        KlantDto uitkomst = klantService.nieuweKlant(klant1);
+        KlantDto uitkomst = klantService.nieuweKlant(customer1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getVoornaam(), uitkomst.getVoornaam());
@@ -113,28 +113,28 @@ class KlantServiceTest {
 
     @Test
     void updateKlant(){
-        Klant nieuweKlant = new Klant("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        nieuweKlant.setId(1L);
+        Customer nieuweCustomer = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        nieuweCustomer.setId(1L);
 
         Mockito
-                .when(klantRepository.findById(klant1.getId()))
-                .thenReturn(Optional.of(klant1));
+                .when(klantRepository.findById(customer1.getId()))
+                .thenReturn(Optional.of(customer1));
 
         Mockito
-                .when(klantRepository.save(nieuweKlant))
-                .thenReturn(nieuweKlant);
+                .when(klantRepository.save(nieuweCustomer))
+                .thenReturn(nieuweCustomer);
 
-        klantService.updateKlant(nieuweKlant.getId(), nieuweKlant);
+        klantService.updateKlant(nieuweCustomer.getId(), nieuweCustomer);
 
-        Mockito.verify(klantRepository, Mockito.times(1)).findById(klant1.getId());
-        Mockito.verify(klantRepository, Mockito.times(1)).save(nieuweKlant);
+        Mockito.verify(klantRepository, Mockito.times(1)).findById(customer1.getId());
+        Mockito.verify(klantRepository, Mockito.times(1)).save(nieuweCustomer);
     }
 
     @Test
     void verwijderAfsrpaak(){
-        klantService.verwijderKlant(klant1.getId());
+        klantService.verwijderKlant(customer1.getId());
 
-        Mockito.verify(klantRepository, Mockito.times(1)).deleteById(klant1.getId());
+        Mockito.verify(klantRepository, Mockito.times(1)).deleteById(customer1.getId());
     }
 
 }

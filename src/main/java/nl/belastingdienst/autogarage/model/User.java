@@ -10,30 +10,30 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "gebruikers")
-public class Gebruiker {
+@Table(name = "users")
+public class User {
 
     @Id
     @Column(unique = true, nullable = false)
-    private String gebruikersnaam;
+    private String username;
 
     @Column(nullable = false)
-    private String wachtwoord;
+    private String password;
 
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "gebruikersnaam",
+            mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    public Gebruiker() {
+    public User() {
     }
 
-    public Gebruiker(String gebruikersnaam, String wachtwoord) {
-        this.gebruikersnaam = gebruikersnaam;
-        this.wachtwoord = wachtwoord;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public void addAuthority(Authority authority){

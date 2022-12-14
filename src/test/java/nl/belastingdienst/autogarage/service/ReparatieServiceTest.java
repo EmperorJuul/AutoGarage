@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.ReparatieDto;
-import nl.belastingdienst.autogarage.model.Reparatie;
+import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.repository.ReparatieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,15 +27,15 @@ class ReparatieServiceTest {
     ReparatieService reparatieService;
 
     @Mock
-    Reparatie reparatie1;
+    Repair reparatie1;
     @Mock
-    Reparatie reparatie2;
+    Repair reparatie2;
 
     @BeforeEach
     public void setup(){
-        reparatie1 = new Reparatie("Banden vervangen", 104);
+        reparatie1 = new Repair("Banden vervangen", 104);
         reparatie1.setId(1L);
-        reparatie2 = new Reparatie("Olie vervangen", 90);
+        reparatie2 = new Repair("Olie vervangen", 90);
         reparatie2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
@@ -43,7 +43,7 @@ class ReparatieServiceTest {
 
     @Test
     void alleReparaties(){
-        List<Reparatie> reparatieList = new ArrayList<>();
+        List<Repair> reparatieList = new ArrayList<>();
         reparatieList.add(reparatie1);
         reparatieList.add(reparatie2);
 
@@ -104,7 +104,7 @@ class ReparatieServiceTest {
 
     @Test
     void updateReparatie(){
-        Reparatie nieuweReparatie = new Reparatie("Olie vervangen", 90);
+        Repair nieuweReparatie = new Repair("Olie vervangen", 90);
         nieuweReparatie.setId(1L);
 
         Mockito
