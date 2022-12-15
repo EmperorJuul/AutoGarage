@@ -27,7 +27,7 @@ public class FileController {
 
     @GetMapping
     public List<String> downloadAll(){
-        return fileService.downLoad();
+        return fileService.download();
     }
 
     @GetMapping("/{filename}")

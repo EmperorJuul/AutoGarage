@@ -44,7 +44,7 @@ public class UserController {
 
     @DeleteMapping("/{username}")
     public ResponseEntity<Object> deleteUser(@PathVariable String username){
-        userService.deleteUsername(username);
+        userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 

@@ -42,7 +42,7 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    public void deleteUsername(String username){
+    public void deleteUser(String username){
         userRepository.deleteById(username);
     }
 

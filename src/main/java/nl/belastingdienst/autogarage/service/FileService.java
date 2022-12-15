@@ -71,7 +71,7 @@ public class FileService {
         }
     }
 
-    public List<String> downLoad() {
+    public List<String> download() {
         // Directory path here
         var list = new ArrayList<String>();
         File folder = new File(localPath);
