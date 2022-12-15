@@ -9,33 +9,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(value = AfspraakNotFoundException.class)
-    public ResponseEntity<Object> exception(AfspraakNotFoundException exception){
+    @ExceptionHandler(value = AppointmentNotFoundException.class)
+    public ResponseEntity<Object> exception(AppointmentNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = AutoNotFoundException.class)
-    public ResponseEntity<Object> exception(AutoNotFoundException exception){
+    @ExceptionHandler(value = CarNotFoundException.class)
+    public ResponseEntity<Object> exception(CarNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = GebruikerNotFoundException.class)
-    public ResponseEntity<Object> exception(GebruikerNotFoundException exception){
+    @ExceptionHandler(value = UserNotFoundException.class)
+    public ResponseEntity<Object> exception(UserNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = KlantNotFoundException.class)
-    public ResponseEntity<Object> exception(KlantNotFoundException exception){
+    @ExceptionHandler(value = CustomerNotFoundException.class)
+    public ResponseEntity<Object> exception(CustomerNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = OnderdeelNotFoundException.class)
-    public ResponseEntity<Object> exception(OnderdeelNotFoundException exception){
+    @ExceptionHandler(value = PartNotFoundException.class)
+    public ResponseEntity<Object> exception(PartNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = ReparatieNotFoundException.class)
-    public ResponseEntity<Object> exception(ReparatieNotFoundException exception){
+    @ExceptionHandler(value = RepairNotFoundException.class)
+    public ResponseEntity<Object> exception(RepairNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -1,9 +1,9 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.exception.GebruikerNotFoundException;
+import nl.belastingdienst.autogarage.exception.UserNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
-import nl.belastingdienst.autogarage.model.Gebruiker;
-import nl.belastingdienst.autogarage.repository.GebruikerRepository;
+import nl.belastingdienst.autogarage.model.User;
+import nl.belastingdienst.autogarage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,20 +20,20 @@ import java.util.Set;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private GebruikerRepository gebruikerRepository;
+    private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String gebruikersnaam) throws UsernameNotFoundException {
-        Gebruiker gebruiker = gebruikerRepository.findById(gebruikersnaam).orElseThrow(() -> new GebruikerNotFoundException(gebruikersnaam));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
 
-        String wachtwoord = gebruiker.getWachtwoord();
+        String password = user.getPassword();
 
-        Set<Authority> authorities = gebruiker.getAuthorities();
+        Set<Authority> authorities = user.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for(Authority authority : authorities){
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
 
-        return new org.springframework.security.core.userdetails.User(gebruikersnaam, wachtwoord, grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(username, password, grantedAuthorities);
     }
 }
