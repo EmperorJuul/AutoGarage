@@ -29,14 +29,16 @@ public class AppointmentService {
         return fromAppointmentToDto(appointmentRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(id)));
     }
 
-    public AppointmentDto newAppointment(Appointment appointment){
+    public AppointmentDto newAppointment(AppointmentDto appointmentInputDto){
+        Appointment appointment = fromDtoToAppointment(appointmentInputDto);
         appointmentRepository.save(appointment);
         return fromAppointmentToDto(appointment);
     }
 
-    public void updateAppointment(Long id, Appointment newAppointment){
-        Appointment appointment = appointmentRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(id));
-        newAppointment.setId(appointment.getId());
+    public void updateAppointment(Long id, AppointmentDto appointmentInputDto){
+        Appointment originalAppointment = appointmentRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(id));
+        Appointment newAppointment = fromDtoToAppointment(appointmentInputDto);
+        newAppointment.setId(originalAppointment.getId());
         appointmentRepository.save(newAppointment);
     }
 
@@ -48,5 +50,10 @@ public class AppointmentService {
         AppointmentDto appointmentDto = new AppointmentDto(appointment.getStartAppointment(), appointment.getEndAppointment());
         appointmentDto.setId(appointment.getId());
         return appointmentDto;
+    }
+
+    private Appointment fromDtoToAppointment(AppointmentDto appointmentDto){
+        Appointment appointment = new Appointment(appointmentDto.getStartAppointment(), appointmentDto.getEndAppointment());
+        return appointment;
     }
 }
