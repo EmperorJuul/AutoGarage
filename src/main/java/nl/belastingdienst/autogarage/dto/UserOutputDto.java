@@ -9,14 +9,14 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserOutputDto {
 
     @NotNull
     private String username;
 
     private Set<Authority> authorities;
 
-    public UserDto(String username, Set<Authority> authorities) {
+    public UserOutputDto(String username, Set<Authority> authorities) {
         this.username = username;
         this.authorities = authorities;
     }

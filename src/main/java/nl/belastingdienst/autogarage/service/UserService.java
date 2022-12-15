@@ -1,6 +1,7 @@
 package nl.belastingdienst.autogarage.service;
 
-import nl.belastingdienst.autogarage.dto.UserDto;
+import nl.belastingdienst.autogarage.dto.UserInputDto;
+import nl.belastingdienst.autogarage.dto.UserOutputDto;
 import nl.belastingdienst.autogarage.exception.UserNotFoundException;
 import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
@@ -18,28 +19,30 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserDto> allUsers(){
+    public List<UserOutputDto> allUsers(){
         List<User> userList = userRepository.findAll();
-        List<UserDto> userDtoList = new ArrayList<>();
+        List<UserOutputDto> userDtoList = new ArrayList<>();
         for(User user : userList){
             userDtoList.add(fromUserToDto(user));
         }
         return userDtoList;
     }
 
-    public UserDto userByUsername(String username){
+    public UserOutputDto userByUsername(String username){
         return fromUserToDto(userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username)));
     }
 
-    public UserDto newUser(User user){
+    public UserOutputDto newUser(UserInputDto userInputDto){
+        User user = fromDtoToUser(userInputDto);
         userRepository.save(user);
         return fromUserToDto(user);
     }
 
-    public void updateUser(String username, User newUser){
+    public void updateUser(String username, UserInputDto newUser){
         userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
         userRepository.deleteById(username);
-        userRepository.save(newUser);
+        User user = fromDtoToUser(newUser);
+        userRepository.save(user);
     }
 
     public void deleteUser(String username){
@@ -48,7 +51,7 @@ public class UserService {
 
     public Set<Authority> getAuthorities(String username){
         User user = userRepository.findById(username).orElseThrow(() -> new UserNotFoundException(username));
-        UserDto userDto = fromUserToDto(user);
+        UserOutputDto userDto = fromUserToDto(user);
         return userDto.getAuthorities();
     }
 
@@ -64,9 +67,14 @@ public class UserService {
         user.removeAuthority(authorityToRemove);
     }
 
-    private UserDto fromUserToDto(User user){
-        UserDto userDto = new UserDto(user.getUsername(), user.getAuthorities());
+    private UserOutputDto fromUserToDto(User user){
+        UserOutputDto userDto = new UserOutputDto(user.getUsername(), user.getAuthorities());
         return userDto;
+    }
+
+    private User fromDtoToUser(UserInputDto userDto){
+        User user = new User(userDto.getUsername(), userDto.getPassword());
+        return user;
     }
 
 
