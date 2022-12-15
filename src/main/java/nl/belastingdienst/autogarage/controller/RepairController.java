@@ -1,7 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.RepairDto;
-import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +28,16 @@ public class RepairController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> newRepair(@RequestBody Repair repair){
-        RepairDto repairDto = repairService.newRepair(repair);
+    public ResponseEntity<Object> newRepair(@RequestBody RepairDto repairInputDto){
+        RepairDto repairOutputDto = repairService.newRepair(repairInputDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(repairDto.getId()).toUri();
+                .buildAndExpand(repairOutputDto.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateRepair(@PathVariable Long id, @RequestBody Repair newRepair){
-        repairService.updateRepair(id, newRepair);
+    public ResponseEntity<Object> updateRepair(@PathVariable Long id, @RequestBody RepairDto repairInputDto){
+        repairService.updateRepair(id, repairInputDto);
         return ResponseEntity.noContent().build();
     }
 
