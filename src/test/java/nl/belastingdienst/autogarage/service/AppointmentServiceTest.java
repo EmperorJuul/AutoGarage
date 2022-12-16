@@ -31,6 +31,10 @@ class AppointmentServiceTest {
     Appointment appointment1;
     @Mock
     Appointment appointment2;
+    @Mock
+    AppointmentDto appointmentDto1;
+    @Mock
+    AppointmentDto appointmentDto2;
 
     @BeforeEach
     public void setup(){
@@ -38,6 +42,10 @@ class AppointmentServiceTest {
         appointment1.setId(1L);
         appointment2 = new Appointment(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
         appointment2.setId(2L);
+        appointmentDto1 = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
+        appointmentDto1.setId(1L);
+        appointmentDto2 = new AppointmentDto(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
+        appointmentDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -48,14 +56,9 @@ class AppointmentServiceTest {
         List<Appointment> appointmentList = new ArrayList<>();
         appointmentList.add(appointment1);
         appointmentList.add(appointment2);
-
-        AppointmentDto afspraakDto1 = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        afspraakDto1.setId(1L);
-        AppointmentDto afspraakDto2 = new AppointmentDto(LocalDateTime.of(2020,10,6,11,30), LocalDateTime.of(2020,10,6,12,00));
-        afspraakDto2.setId(2L);
         List<AppointmentDto> verwacht = new ArrayList<>();
-        verwacht.add(afspraakDto1);
-        verwacht.add(afspraakDto2);
+        verwacht.add(appointmentDto1);
+        verwacht.add(appointmentDto2);
 
         Mockito
                 .when(afspraakRepository.findAll())
@@ -74,8 +77,7 @@ class AppointmentServiceTest {
 
     @Test
     void afspraakOpId(){
-        AppointmentDto verwacht = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        verwacht.setId(1L);
+        AppointmentDto verwacht = appointmentDto1;
 
         Mockito
                 .when(afspraakRepository.findById(appointment1.getId()))
@@ -92,14 +94,13 @@ class AppointmentServiceTest {
 
     @Test
     void nieuweAfspraak(){
-        AppointmentDto verwacht = new AppointmentDto(LocalDateTime.of(2020,10,6,10,00), LocalDateTime.of(2020, 10,6,11,00));
-        verwacht.setId(1L);
+        AppointmentDto verwacht = appointmentDto1;
 
         Mockito
-                .when(afspraakRepository.save(appointment1))
+                .when(afspraakRepository.save(Mockito.any()))
                 .thenReturn(appointment1);
 
-        AppointmentDto uitkomst = afspraakService.newAppointment(appointment1);
+        AppointmentDto uitkomst = afspraakService.newAppointment(appointmentDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
@@ -109,21 +110,20 @@ class AppointmentServiceTest {
 
     @Test
     void updateAfspraak(){
-        Appointment nieuweAppointment = new Appointment(LocalDateTime.of(2020,10,6,12,30), LocalDateTime.of(2020,10,6,13,30));
-        nieuweAppointment.setId(1L);
+        AppointmentDto newAppointmentDto = appointmentDto2;
 
         Mockito
                 .when(afspraakRepository.findById(appointment1.getId()))
                 .thenReturn(Optional.of(appointment1));
 
         Mockito
-                .when(afspraakRepository.save(nieuweAppointment))
-                .thenReturn(nieuweAppointment);
+                .when(afspraakRepository.save(appointment1))
+                .thenReturn(appointment1);
 
-        afspraakService.updateAppointment(nieuweAppointment.getId(), nieuweAppointment);
+        afspraakService.updateAppointment(appointment1.getId(), newAppointmentDto);
 
         Mockito.verify(afspraakRepository, Mockito.times(1)).findById(appointment1.getId());
-        Mockito.verify(afspraakRepository, Mockito.times(1)).save(nieuweAppointment);
+        Mockito.verify(afspraakRepository, Mockito.times(1)).save(appointment1);
     }
 
 
