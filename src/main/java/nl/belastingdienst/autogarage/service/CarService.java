@@ -36,10 +36,12 @@ public class CarService {
     }
 
     public void updateCar(Long id, CarDto carInputDto){
-        Car originalCar = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
-        Car newCar = fromDtoToCar(carInputDto);
-        newCar.setId(originalCar.getId());
-        carRepository.save(newCar);
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
+        car.setBrand(carInputDto.getBrand());
+        car.setModel(carInputDto.getModel());
+        car.setYear(carInputDto.getYear());
+        car.setLicenseplate(carInputDto.getLicenseplate());
+        carRepository.save(car);
     }
 
     public void deleteCar(Long id){
