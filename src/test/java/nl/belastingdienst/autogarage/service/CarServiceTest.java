@@ -54,14 +54,9 @@ class CarServiceTest {
         List<Car> carList = new ArrayList<>();
         carList.add(car1);
         carList.add(car2);
-
-        CarDto autoDto1 = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
-        autoDto1.setId(1L);
-        CarDto autoDto2 = new CarDto("Volkswagen", "ID4", 2021, "23-HC-6G");
-        autoDto2.setId(2L);
         List<CarDto> verwacht = new ArrayList<>();
-        verwacht.add(autoDto1);
-        verwacht.add(autoDto2);
+        verwacht.add(carDto1);
+        verwacht.add(carDto2);
 
         Mockito
                 .when(carRepository.findAll())
@@ -84,8 +79,7 @@ class CarServiceTest {
 
     @Test
     void AutoOpId(){
-        CarDto verwacht = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
-        verwacht.setId(1L);
+        CarDto verwacht = carDto1;
 
         Mockito
                 .when(carRepository.findById(car1.getId()))
@@ -103,7 +97,6 @@ class CarServiceTest {
     @Test
     void nieuweAuto(){
         CarDto verwacht = carDto1;
-        verwacht.setId(1l);
 
         Mockito
                 .when(carRepository.save(Mockito.any()))
@@ -121,10 +114,7 @@ class CarServiceTest {
 
     @Test
     void updateAuto(){
-        CarDto newCarDto = new CarDto("Suzuki", "Swift", 2012, "AA-AA-AA");
-        newCarDto.setId(1L);
-
-
+        CarDto newCarDto = carDto2;
 
         Mockito
                 .when(carRepository.findById(car1.getId()))
