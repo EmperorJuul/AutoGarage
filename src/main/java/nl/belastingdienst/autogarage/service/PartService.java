@@ -35,11 +35,11 @@ public class PartService {
         return FromPartToDto(part);
     }
 
-    public void updatePart(Long id, PartDto partInputDto){
-        Part originalPart = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id));
-        Part newPart = fromDtoToPart(partInputDto);
-        newPart.setId(originalPart.getId());
-        partRepository.save(newPart);
+    public void updatePart(Long id, PartDto partInputDto) {
+        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id));
+        part.setBrand(partInputDto.getBrand());
+        part.setName(partInputDto.getName());
+        partRepository.save(part);
     }
 
     public void deletePart(Long id){
@@ -54,6 +54,7 @@ public class PartService {
 
     private Part fromDtoToPart(PartDto partDto){
         Part part = new Part(partDto.getName(), partDto.getBrand());
+        part.setId(partDto.getId());
         return part;
     }
 }
