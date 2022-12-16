@@ -31,6 +31,10 @@ class CustomerServiceTest {
     Customer customer1;
     @Mock
     Customer customer2;
+    @Mock
+    CustomerDto customerDto1;
+    @Mock
+    CustomerDto customerDto2;
 
     @BeforeEach
     public void setup(){
@@ -38,6 +42,10 @@ class CustomerServiceTest {
         customer1.setId(1L);
         customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
         customer2.setId(2L);
+        customerDto1 = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
+        customerDto1.setId(1L);
+        customerDto2 = new CustomerDto("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        customerDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -47,14 +55,9 @@ class CustomerServiceTest {
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customer1);
         customerList.add(customer2);
-
-        CustomerDto klantDto1 = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
-        klantDto1.setId(1L);
-        CustomerDto klantDto2 = new CustomerDto("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        klantDto2.setId(2L);
         List<CustomerDto> verwacht = new ArrayList<>();
-        verwacht.add(klantDto1);
-        verwacht.add(klantDto2);
+        verwacht.add(customerDto1);
+        verwacht.add(customerDto2);
 
         Mockito
                 .when(klantRepository.findAll())
@@ -77,8 +80,7 @@ class CustomerServiceTest {
 
     @Test
     void KlantOpId(){
-        CustomerDto verwacht = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
-        verwacht.setId(1L);
+        CustomerDto verwacht = customerDto1;
 
         Mockito
                 .when(klantRepository.findById(customer1.getId()))
@@ -95,14 +97,13 @@ class CustomerServiceTest {
 
     @Test
     void nieuweKlant(){
-        CustomerDto verwacht = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
-        verwacht.setId(1L);
+        CustomerDto verwacht = customerDto1;
 
         Mockito
-                .when(klantRepository.save(customer1))
+                .when(klantRepository.save(Mockito.any()))
                 .thenReturn(customer1);
 
-        CustomerDto uitkomst = klantService.newCustomer(customer1);
+        CustomerDto uitkomst = klantService.newCustomer(customerDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
@@ -113,21 +114,20 @@ class CustomerServiceTest {
 
     @Test
     void updateKlant(){
-        Customer nieuweCustomer = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
-        nieuweCustomer.setId(1L);
+        CustomerDto newCustomerDto = customerDto2;
 
         Mockito
                 .when(klantRepository.findById(customer1.getId()))
                 .thenReturn(Optional.of(customer1));
 
         Mockito
-                .when(klantRepository.save(nieuweCustomer))
-                .thenReturn(nieuweCustomer);
+                .when(klantRepository.save(customer1))
+                .thenReturn(customer1);
 
-        klantService.updateCustomer(nieuweCustomer.getId(), nieuweCustomer);
+        klantService.updateCustomer(customer1.getId(), newCustomerDto);
 
         Mockito.verify(klantRepository, Mockito.times(1)).findById(customer1.getId());
-        Mockito.verify(klantRepository, Mockito.times(1)).save(nieuweCustomer);
+        Mockito.verify(klantRepository, Mockito.times(1)).save(customer1);
     }
 
     @Test

@@ -36,10 +36,12 @@ public class CustomerService {
     }
 
     public void updateCustomer(Long id, CustomerDto customerInputDto){
-        Customer originalCustomer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-        Customer newCustomer = fromDtoToCustomer(customerInputDto);
-        newCustomer.setId(originalCustomer.getId());
-        customerRepository.save(newCustomer);
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        customer.setFirstname(customerInputDto.getFirstname());
+        customer.setSurname(customerInputDto.getSurname());
+        customer.setEmailAdress(customerInputDto.getEmailAdress());
+        customer.setPhoneNumber(customerInputDto.getPhoneNumber());
+        customerRepository.save(customer);
     }
 
     public void deleteCustomer(Long id){
@@ -54,6 +56,7 @@ public class CustomerService {
 
     private Customer fromDtoToCustomer(CustomerDto customerDto){
         Customer customer = new Customer(customerDto.getFirstname(), customerDto.getSurname(), customerDto.getPhoneNumber(), customerDto.getEmailAdress());
+        customer.setId(customerDto.getId());
         return customer;
     }
 }
