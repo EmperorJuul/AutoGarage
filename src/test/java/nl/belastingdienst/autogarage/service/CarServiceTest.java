@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CarServiceTest {
 
     @Mock
-    CarRepository autoRepository;
+    CarRepository carRepository;
 
     @InjectMocks
-    CarService autoService;
+    CarService carService;
 
     @Mock
     Car car1;
@@ -64,10 +64,10 @@ class CarServiceTest {
         verwacht.add(autoDto2);
 
         Mockito
-                .when(autoRepository.findAll())
+                .when(carRepository.findAll())
                 .thenReturn(carList);
 
-        List<CarDto> uitkomst = autoService.allCars();
+        List<CarDto> uitkomst = carService.allCars();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
@@ -88,10 +88,10 @@ class CarServiceTest {
         verwacht.setId(1L);
 
         Mockito
-                .when(autoRepository.findById(car1.getId()))
+                .when(carRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
-        CarDto uitkomst = autoService.carById(car1.getId());
+        CarDto uitkomst = carService.carById(car1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -103,12 +103,13 @@ class CarServiceTest {
     @Test
     void nieuweAuto(){
         CarDto verwacht = carDto1;
+        verwacht.setId(1l);
 
         Mockito
-                .when(autoRepository.save(car1))
+                .when(carRepository.save(Mockito.any()))
                 .thenReturn(car1);
 
-        CarDto uitkomst = autoService.newCar(carDto1);
+        CarDto uitkomst = carService.newCar(carDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -126,24 +127,24 @@ class CarServiceTest {
 
 
         Mockito
-                .when(autoRepository.findById(car1.getId()))
+                .when(carRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
         Mockito
-                .when(autoRepository.save(car1))
+                .when(carRepository.save(car1))
                 .thenReturn(car1);
 
-        autoService.updateCar(car1.getId(), newCarDto);
+        carService.updateCar(car1.getId(), newCarDto);
 
-        Mockito.verify(autoRepository, Mockito.times(1)).findById(car1.getId());
-        Mockito.verify(autoRepository, Mockito.times(1)).save(car1);
+        Mockito.verify(carRepository, Mockito.times(1)).findById(car1.getId());
+        Mockito.verify(carRepository, Mockito.times(1)).save(car1);
     }
 
     @Test
     void verwijderAuto(){
-        autoService.deleteCar(car1.getId());
+        carService.deleteCar(car1.getId());
 
-        Mockito.verify(autoRepository, Mockito.times(1)).deleteById(car1.getId());
+        Mockito.verify(carRepository, Mockito.times(1)).deleteById(car1.getId());
     }
 
 }

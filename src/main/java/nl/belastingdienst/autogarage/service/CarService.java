@@ -56,6 +56,7 @@ public class CarService {
 
     private Car fromDtoToCar(CarDto carDto){
         Car car = new Car(carDto.getBrand(), carDto.getModel(), carDto.getYear(), carDto.getLicenseplate());
+        car.setId(carDto.getId());
         return car;
     }
 }
