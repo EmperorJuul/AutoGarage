@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CustomerServiceTest {
 
     @Mock
-    CustomerRepository klantRepository;
+    CustomerRepository customerRepository;
 
     @InjectMocks
-    CustomerService klantService;
+    CustomerService customerService;
 
     @Mock
     Customer customer1;
@@ -40,101 +40,101 @@ class CustomerServiceTest {
     public void setup(){
         customer1 = new Customer("Juul", "Konings", "0612345678", "jk@outlook.com");
         customer1.setId(1L);
-        customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        customer2 = new Customer("John", "Smith", "0687654321", "JS@hotmail.com");
         customer2.setId(2L);
         customerDto1 = new CustomerDto("Juul", "Konings", "0612345678", "jk@outlook.com");
         customerDto1.setId(1L);
-        customerDto2 = new CustomerDto("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        customerDto2 = new CustomerDto("John", "Smith", "0687654321", "JS@hotmail.com");
         customerDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
     @Test
-    void alleKlanten(){
+    void allCustomers(){
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customer1);
         customerList.add(customer2);
-        List<CustomerDto> verwacht = new ArrayList<>();
-        verwacht.add(customerDto1);
-        verwacht.add(customerDto2);
+        List<CustomerDto> expected = new ArrayList<>();
+        expected.add(customerDto1);
+        expected.add(customerDto2);
 
         Mockito
-                .when(klantRepository.findAll())
+                .when(customerRepository.findAll())
                 .thenReturn(customerList);
 
-        List<CustomerDto> uitkomst = klantService.allCustomers();
+        List<CustomerDto> actual = customerService.allCustomers();
 
-        assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getFirstname(), uitkomst.get(0).getFirstname());
-        assertEquals(verwacht.get(0).getSurname(), uitkomst.get(0).getSurname());
-        assertEquals(verwacht.get(0).getPhoneNumber(), uitkomst.get(0).getPhoneNumber());
-        assertEquals(verwacht.get(0).getEmailAdress(), uitkomst.get(0).getEmailAdress());
+        assertEquals(expected.get(0).getId(), actual.get(0).getId());
+        assertEquals(expected.get(0).getFirstname(), actual.get(0).getFirstname());
+        assertEquals(expected.get(0).getSurname(), actual.get(0).getSurname());
+        assertEquals(expected.get(0).getPhoneNumber(), actual.get(0).getPhoneNumber());
+        assertEquals(expected.get(0).getEmailAdress(), actual.get(0).getEmailAdress());
 
-        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getFirstname(), uitkomst.get(1).getFirstname());
-        assertEquals(verwacht.get(1).getSurname(), uitkomst.get(1).getSurname());
-        assertEquals(verwacht.get(1).getPhoneNumber(), uitkomst.get(1).getPhoneNumber());
-        assertEquals(verwacht.get(1).getEmailAdress(), uitkomst.get(1).getEmailAdress());
+        assertEquals(expected.get(1).getId(), actual.get(1).getId());
+        assertEquals(expected.get(1).getFirstname(), actual.get(1).getFirstname());
+        assertEquals(expected.get(1).getSurname(), actual.get(1).getSurname());
+        assertEquals(expected.get(1).getPhoneNumber(), actual.get(1).getPhoneNumber());
+        assertEquals(expected.get(1).getEmailAdress(), actual.get(1).getEmailAdress());
     }
 
     @Test
-    void KlantOpId(){
-        CustomerDto verwacht = customerDto1;
+    void customerById(){
+        CustomerDto expected = customerDto1;
 
         Mockito
-                .when(klantRepository.findById(customer1.getId()))
+                .when(customerRepository.findById(customer1.getId()))
                 .thenReturn(Optional.of(customer1));
 
-        CustomerDto uitkomst = klantService.customerById(customer1.getId());
+        CustomerDto actual = customerService.customerById(customer1.getId());
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
-        assertEquals(verwacht.getSurname(), uitkomst.getSurname());
-        assertEquals(verwacht.getEmailAdress(), uitkomst.getEmailAdress());
-        assertEquals(verwacht.getPhoneNumber(), uitkomst.getPhoneNumber());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getFirstname(), actual.getFirstname());
+        assertEquals(expected.getSurname(), actual.getSurname());
+        assertEquals(expected.getEmailAdress(), actual.getEmailAdress());
+        assertEquals(expected.getPhoneNumber(), actual.getPhoneNumber());
     }
 
     @Test
-    void nieuweKlant(){
-        CustomerDto verwacht = customerDto1;
+    void newCustomer(){
+        CustomerDto exptected = customerDto1;
 
         Mockito
-                .when(klantRepository.save(Mockito.any()))
+                .when(customerRepository.save(Mockito.any()))
                 .thenReturn(customer1);
 
-        CustomerDto uitkomst = klantService.newCustomer(customerDto1);
+        CustomerDto actual = customerService.newCustomer(customerDto1);
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getFirstname(), uitkomst.getFirstname());
-        assertEquals(verwacht.getSurname(), uitkomst.getSurname());
-        assertEquals(verwacht.getEmailAdress(), uitkomst.getEmailAdress());
-        assertEquals(verwacht.getPhoneNumber(), uitkomst.getPhoneNumber());
+        assertEquals(exptected.getId(), actual.getId());
+        assertEquals(exptected.getFirstname(), actual.getFirstname());
+        assertEquals(exptected.getSurname(), actual.getSurname());
+        assertEquals(exptected.getEmailAdress(), actual.getEmailAdress());
+        assertEquals(exptected.getPhoneNumber(), actual.getPhoneNumber());
     }
 
     @Test
-    void updateKlant(){
+    void updateCustomer(){
         CustomerDto newCustomerDto = customerDto2;
 
         Mockito
-                .when(klantRepository.findById(customer1.getId()))
+                .when(customerRepository.findById(customer1.getId()))
                 .thenReturn(Optional.of(customer1));
 
         Mockito
-                .when(klantRepository.save(customer1))
+                .when(customerRepository.save(customer1))
                 .thenReturn(customer1);
 
-        klantService.updateCustomer(customer1.getId(), newCustomerDto);
+        customerService.updateCustomer(customer1.getId(), newCustomerDto);
 
-        Mockito.verify(klantRepository, Mockito.times(1)).findById(customer1.getId());
-        Mockito.verify(klantRepository, Mockito.times(1)).save(customer1);
+        Mockito.verify(customerRepository, Mockito.times(1)).findById(customer1.getId());
+        Mockito.verify(customerRepository, Mockito.times(1)).save(customer1);
     }
 
     @Test
-    void verwijderAfsrpaak(){
-        klantService.deleteCustomer(customer1.getId());
+    void deleteCustomer(){
+        customerService.deleteCustomer(customer1.getId());
 
-        Mockito.verify(klantRepository, Mockito.times(1)).deleteById(customer1.getId());
+        Mockito.verify(customerRepository, Mockito.times(1)).deleteById(customer1.getId());
     }
 
 }

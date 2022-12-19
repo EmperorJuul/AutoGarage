@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PartServiceTest {
 
     @Mock
-    PartRepository onderdeelRepository;
+    PartRepository partRepository;
 
     @InjectMocks
-    PartService onderdeelService;
+    PartService partService;
 
     @Mock
     Part part1;
@@ -37,95 +37,95 @@ class PartServiceTest {
 
     @BeforeEach
     public void setup(){
-        part1 = new Part("Band", "Michelin");
+        part1 = new Part("Tire", "Michelin");
         part1.setId(1L);
-        part2 = new Part("Ruit", "Noordglas");
+        part2 = new Part("Window", "Noordglass");
         part2.setId(2L);
-        partDto1 = new PartDto("Band", "Michelin");
+        partDto1 = new PartDto("Tire", "Michelin");
         partDto1.setId(1L);
-        partDto2 = new PartDto("Ruit", "Noordglas");
+        partDto2 = new PartDto("Window", "Noordglass");
         partDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
     @Test
-    void alleOnderdelen(){
+    void allParts(){
         List<Part> partList = new ArrayList<>();
         partList.add(part1);
         partList.add(part2);
-        List<PartDto> verwacht = new ArrayList<>();
-        verwacht.add(partDto1);
-        verwacht.add(partDto2);
+        List<PartDto> expected = new ArrayList<>();
+        expected.add(partDto1);
+        expected.add(partDto2);
 
         Mockito
-                .when(onderdeelRepository.findAll())
+                .when(partRepository.findAll())
                 .thenReturn(partList);
 
-        List<PartDto> uitkomst = onderdeelService.allParts();
+        List<PartDto> actual = partService.allParts();
 
-        assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
-        assertEquals(verwacht.get(0).getBrand(), uitkomst.get(0).getBrand());
+        assertEquals(expected.get(0).getId(), actual.get(0).getId());
+        assertEquals(expected.get(0).getName(), actual.get(0).getName());
+        assertEquals(expected.get(0).getBrand(), actual.get(0).getBrand());
 
-        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getName(), uitkomst.get(1).getName());
-        assertEquals(verwacht.get(1).getBrand(), uitkomst.get(1).getBrand());
+        assertEquals(expected.get(1).getId(), actual.get(1).getId());
+        assertEquals(expected.get(1).getName(), actual.get(1).getName());
+        assertEquals(expected.get(1).getBrand(), actual.get(1).getBrand());
     }
 
     @Test
-    void onderdeelOpId(){
-        PartDto verwacht = partDto1;
+    void partById(){
+        PartDto expected = partDto1;
 
         Mockito
-                .when(onderdeelRepository.findById(part1.getId()))
+                .when(partRepository.findById(part1.getId()))
                 .thenReturn(Optional.of(part1));
 
-        PartDto uitkomst = onderdeelService.partById(part1.getId());
+        PartDto actual = partService.partById(part1.getId());
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getName(), uitkomst.getName());
-        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getBrand(), actual.getBrand());
     }
 
     @Test
-    void nieuwOnderdeel(){
-        PartDto verwacht = partDto1;
+    void newPart(){
+        PartDto expected = partDto1;
 
         Mockito
-                .when(onderdeelRepository.save(Mockito.any()))
+                .when(partRepository.save(Mockito.any()))
                 .thenReturn(part1);
 
-        PartDto uitkomst = onderdeelService.newPart(partDto1);
+        PartDto actual = partService.newPart(partDto1);
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getName(), uitkomst.getName());
-        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getBrand(), actual.getBrand());
     }
 
     @Test
-    void updateOnderdeel(){
+    void updatePart(){
         PartDto newPartDto = partDto2;
 
         Mockito
-                .when(onderdeelRepository.findById(part1.getId()))
+                .when(partRepository.findById(part1.getId()))
                 .thenReturn(Optional.of(part1));
 
         Mockito
-                .when(onderdeelRepository.save(part1))
+                .when(partRepository.save(part1))
                 .thenReturn(part1);
 
-        onderdeelService.updatePart(part1.getId(), newPartDto);
+        partService.updatePart(part1.getId(), newPartDto);
 
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).findById(part1.getId());
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).save(part1);
+        Mockito.verify(partRepository, Mockito.times(1)).findById(part1.getId());
+        Mockito.verify(partRepository, Mockito.times(1)).save(part1);
     }
 
     @Test
-    void verwijderOnderdeel(){
-        onderdeelService.deletePart(part1.getId());
+    void deletePart(){
+        partService.deletePart(part1.getId());
 
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).deleteById(part1.getId());
+        Mockito.verify(partRepository, Mockito.times(1)).deleteById(part1.getId());
     }
 
 }

@@ -68,12 +68,12 @@ public class DataLoader {
         authorityRepository.save(authority3);
 
         Customer customer1 = new Customer("Juul", "Konings", "0612345678", "jk@outlook.com");
-        Customer customer2 = new Customer("Pieter", "Hogeboboom", "0687654321", "PH@hotmail.com");
+        Customer customer2 = new Customer("John", "Smith", "0687654321", "JS@hotmail.com");
         customerRepository.save(customer1);
         customerRepository.save(customer2);
 
         Part part1 = new Part("Tire", "Michelin");
-        Part part2 = new Part("Window", "Noordglas");
+        Part part2 = new Part("Window", "Noordglass");
         partRepository.save(part1);
         partRepository.save(part2);
 
