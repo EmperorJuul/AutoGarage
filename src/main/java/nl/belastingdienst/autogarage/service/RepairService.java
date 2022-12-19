@@ -29,15 +29,17 @@ public class RepairService {
         return fromRepairToDto(repairRepository.findById(id).orElseThrow(() -> new RepairNotFoundException(id)));
     }
 
-    public RepairDto newRepair(Repair repair){
+    public RepairDto newRepair(RepairDto repairDto){
+        Repair repair = fromDtoToRepair(repairDto);
         repairRepository.save(repair);
         return fromRepairToDto(repair);
     }
 
-    public void updateRepair(Long id, Repair newRepair){
+    public void updateRepair(Long id, RepairDto repairInputDto) {
         Repair repair = repairRepository.findById(id).orElseThrow(() -> new RepairNotFoundException(id));
-        newRepair.setId(repair.getId());
-        repairRepository.save(newRepair);
+        repair.setName(repairInputDto.getName());
+        repair.setPrice(repairInputDto.getPrice());
+        repairRepository.save(repair);
     }
 
     public void deleteRepair(Long id){
@@ -48,5 +50,11 @@ public class RepairService {
         RepairDto repairDto = new RepairDto(repair.getName(), repair.getPrice());
         repairDto.setId(repair.getId());
         return repairDto;
+    }
+
+    private Repair fromDtoToRepair(RepairDto repairDto){
+        Repair repair = new Repair(repairDto.getName(), repairDto.getPrice());
+        repair.setId(repairDto.getId());
+        return repair;
     }
 }

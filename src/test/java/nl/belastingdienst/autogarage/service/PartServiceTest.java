@@ -30,6 +30,10 @@ class PartServiceTest {
     Part part1;
     @Mock
     Part part2;
+    @Mock
+    PartDto partDto1;
+    @Mock
+    PartDto partDto2;
 
     @BeforeEach
     public void setup(){
@@ -37,6 +41,10 @@ class PartServiceTest {
         part1.setId(1L);
         part2 = new Part("Ruit", "Noordglas");
         part2.setId(2L);
+        partDto1 = new PartDto("Band", "Michelin");
+        partDto1.setId(1L);
+        partDto2 = new PartDto("Ruit", "Noordglas");
+        partDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -46,14 +54,9 @@ class PartServiceTest {
         List<Part> partList = new ArrayList<>();
         partList.add(part1);
         partList.add(part2);
-
-        PartDto onderdeelDto1 = new PartDto("Band", "Michelin");
-        onderdeelDto1.setId(1L);
-        PartDto onderdeelDto2 = new PartDto("Ruit", "Noordglas");
-        onderdeelDto2.setId(2L);
         List<PartDto> verwacht = new ArrayList<>();
-        verwacht.add(onderdeelDto1);
-        verwacht.add(onderdeelDto2);
+        verwacht.add(partDto1);
+        verwacht.add(partDto2);
 
         Mockito
                 .when(onderdeelRepository.findAll())
@@ -72,8 +75,7 @@ class PartServiceTest {
 
     @Test
     void onderdeelOpId(){
-        PartDto verwacht = new PartDto("Band", "Michelin");
-        verwacht.setId(1L);
+        PartDto verwacht = partDto1;
 
         Mockito
                 .when(onderdeelRepository.findById(part1.getId()))
@@ -88,14 +90,13 @@ class PartServiceTest {
 
     @Test
     void nieuwOnderdeel(){
-        PartDto verwacht = new PartDto("Band", "Michelin");
-        verwacht.setId(1L);
+        PartDto verwacht = partDto1;
 
         Mockito
-                .when(onderdeelRepository.save(part1))
+                .when(onderdeelRepository.save(Mockito.any()))
                 .thenReturn(part1);
 
-        PartDto uitkomst = onderdeelService.newPart(part1);
+        PartDto uitkomst = onderdeelService.newPart(partDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -104,21 +105,20 @@ class PartServiceTest {
 
     @Test
     void updateOnderdeel(){
-        Part nieuwPart = new Part("Ruit", "Noordglas");
-        nieuwPart.setId(1L);
+        PartDto newPartDto = partDto2;
 
         Mockito
                 .when(onderdeelRepository.findById(part1.getId()))
                 .thenReturn(Optional.of(part1));
 
         Mockito
-                .when(onderdeelRepository.save(nieuwPart))
-                .thenReturn(nieuwPart);
+                .when(onderdeelRepository.save(part1))
+                .thenReturn(part1);
 
-        onderdeelService.updatePart(nieuwPart.getId(), nieuwPart);
+        onderdeelService.updatePart(part1.getId(), newPartDto);
 
         Mockito.verify(onderdeelRepository, Mockito.times(1)).findById(part1.getId());
-        Mockito.verify(onderdeelRepository, Mockito.times(1)).save(nieuwPart);
+        Mockito.verify(onderdeelRepository, Mockito.times(1)).save(part1);
     }
 
     @Test

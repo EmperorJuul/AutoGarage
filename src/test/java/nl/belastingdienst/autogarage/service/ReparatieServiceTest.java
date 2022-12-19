@@ -27,16 +27,24 @@ class ReparatieServiceTest {
     RepairService reparatieService;
 
     @Mock
-    Repair reparatie1;
+    Repair repair1;
     @Mock
-    Repair reparatie2;
+    Repair repair2;
+    @Mock
+    RepairDto repairDto1;
+    @Mock
+    RepairDto repairDto2;
 
     @BeforeEach
     public void setup(){
-        reparatie1 = new Repair("Banden vervangen", 104);
-        reparatie1.setId(1L);
-        reparatie2 = new Repair("Olie vervangen", 90);
-        reparatie2.setId(2L);
+        repair1 = new Repair("Banden vervangen", 104);
+        repair1.setId(1L);
+        repair2 = new Repair("Olie vervangen", 90);
+        repair2.setId(2L);
+        repairDto1 = new RepairDto("Banden vervangen", 104);
+        repairDto1.setId(1L);
+        repairDto2 = new RepairDto("Olie vervangen", 90);
+        repairDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -44,16 +52,11 @@ class ReparatieServiceTest {
     @Test
     void alleReparaties(){
         List<Repair> reparatieList = new ArrayList<>();
-        reparatieList.add(reparatie1);
-        reparatieList.add(reparatie2);
-
-        RepairDto reparatieDto1 = new RepairDto("Banden vervangen", 104);
-        reparatieDto1.setId(1L);
-        RepairDto reparatieDto2 = new RepairDto("Olie vervangen", 90);
-        reparatieDto2.setId(2L);
+        reparatieList.add(repair1);
+        reparatieList.add(repair2);
         List<RepairDto> verwacht = new ArrayList<>();
-        verwacht.add(reparatieDto1);
-        verwacht.add(reparatieDto2);
+        verwacht.add(repairDto1);
+        verwacht.add(repairDto2);
 
         Mockito
                 .when(reparatieRepository.findAll())
@@ -72,14 +75,13 @@ class ReparatieServiceTest {
 
     @Test
     void reparatieOpId(){
-        RepairDto verwacht = new RepairDto("Banden vervangen", 104);
-        verwacht.setId(1L);
+        RepairDto verwacht = repairDto1;
 
         Mockito
-                .when(reparatieRepository.findById(reparatie1.getId()))
-                .thenReturn(Optional.of(reparatie1));
+                .when(reparatieRepository.findById(repair1.getId()))
+                .thenReturn(Optional.of(repair1));
 
-        RepairDto uitkomst = reparatieService.repairById(reparatie1.getId());
+        RepairDto uitkomst = reparatieService.repairById(repair1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -88,14 +90,13 @@ class ReparatieServiceTest {
 
     @Test
     void nieuweReparatie(){
-        RepairDto verwacht = new RepairDto("Banden vervangen", 104);
-        verwacht.setId(1L);
+        RepairDto verwacht = repairDto1;
 
         Mockito
-                .when(reparatieRepository.save(reparatie1))
-                .thenReturn(reparatie1);
+                .when(reparatieRepository.save(Mockito.any()))
+                .thenReturn(repair1);
 
-        RepairDto uitkomst = reparatieService.newRepair(reparatie1);
+        RepairDto uitkomst = reparatieService.newRepair(repairDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getName(), uitkomst.getName());
@@ -104,28 +105,27 @@ class ReparatieServiceTest {
 
     @Test
     void updateReparatie(){
-        Repair nieuweReparatie = new Repair("Olie vervangen", 90);
-        nieuweReparatie.setId(1L);
+        RepairDto newRepairDto = repairDto2;
 
         Mockito
-                .when(reparatieRepository.findById(reparatie1.getId()))
-                .thenReturn(Optional.of(reparatie1));
+                .when(reparatieRepository.findById(repair1.getId()))
+                .thenReturn(Optional.of(repair1));
 
         Mockito
-                .when(reparatieRepository.save(nieuweReparatie))
-                .thenReturn(nieuweReparatie);
+                .when(reparatieRepository.save(repair1))
+                .thenReturn(repair1);
 
-        reparatieService.updateRepair(nieuweReparatie.getId(), nieuweReparatie);
+        reparatieService.updateRepair(repair1.getId(), newRepairDto);
 
-        Mockito.verify(reparatieRepository, Mockito.times(1)).findById(reparatie1.getId());
-        Mockito.verify(reparatieRepository, Mockito.times(1)).save(nieuweReparatie);
+        Mockito.verify(reparatieRepository, Mockito.times(1)).findById(repair1.getId());
+        Mockito.verify(reparatieRepository, Mockito.times(1)).save(repair1);
     }
 
     @Test
     void verwijderReparatie(){
-        reparatieService.deleteRepair(reparatie1.getId());
+        reparatieService.deleteRepair(repair1.getId());
 
-        Mockito.verify(reparatieRepository, Mockito.times(1)).deleteById(reparatie1.getId());
+        Mockito.verify(reparatieRepository, Mockito.times(1)).deleteById(repair1.getId());
     }
 
 }

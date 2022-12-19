@@ -1,7 +1,6 @@
 package nl.belastingdienst.autogarage.controller;
 
 import nl.belastingdienst.autogarage.dto.PartDto;
-import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +28,16 @@ public class PartController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> newPart(@RequestBody Part part){
-        PartDto partDto = partService.newPart(part);
+    public ResponseEntity<Object> newPart(@RequestBody PartDto partInputDto){
+        PartDto partOutputDto = partService.newPart(partInputDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(partDto.getId()).toUri();
+                .buildAndExpand(partOutputDto .getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePart(@PathVariable Long id, @RequestBody Part newPart){
-        partService.updatePart(id, newPart);
+    public ResponseEntity<Object> updatePart(@PathVariable Long id, @RequestBody PartDto partInputDto){
+        partService.updatePart(id, partInputDto);
         return ResponseEntity.noContent().build();
     }
 

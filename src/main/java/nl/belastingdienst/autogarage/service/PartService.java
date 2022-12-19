@@ -29,15 +29,17 @@ public class PartService {
         return FromPartToDto(partRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id)));
     }
 
-    public PartDto newPart(Part part){
+    public PartDto newPart(PartDto partInputDto){
+        Part part = fromDtoToPart(partInputDto);
         partRepository.save(part);
         return FromPartToDto(part);
     }
 
-    public void updatePart(Long id, Part newPart){
+    public void updatePart(Long id, PartDto partInputDto) {
         Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException(id));
-        newPart.setId(part.getId());
-        partRepository.save(newPart);
+        part.setBrand(partInputDto.getBrand());
+        part.setName(partInputDto.getName());
+        partRepository.save(part);
     }
 
     public void deletePart(Long id){
@@ -48,5 +50,11 @@ public class PartService {
         PartDto partDto = new PartDto(part.getName(), part.getBrand());
         partDto.setId(part.getId());
         return partDto;
+    }
+
+    private Part fromDtoToPart(PartDto partDto){
+        Part part = new Part(partDto.getName(), partDto.getBrand());
+        part.setId(partDto.getId());
+        return part;
     }
 }

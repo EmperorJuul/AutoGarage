@@ -29,15 +29,19 @@ public class CarService {
         return fromCarToDto(carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id)));
     }
 
-    public CarDto newCar(Car car){
+    public CarDto newCar(CarDto carInputDto){
+        Car car = fromDtoToCar(carInputDto);
         carRepository.save(car);
         return fromCarToDto(car);
     }
 
-    public void updateCar(Long id, Car newCar){
+    public void updateCar(Long id, CarDto carInputDto){
         Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
-        newCar.setId(car.getId());
-        carRepository.save(newCar);
+        car.setBrand(carInputDto.getBrand());
+        car.setModel(carInputDto.getModel());
+        car.setYear(carInputDto.getYear());
+        car.setLicenseplate(carInputDto.getLicenseplate());
+        carRepository.save(car);
     }
 
     public void deleteCar(Long id){
@@ -48,5 +52,11 @@ public class CarService {
         CarDto carDto = new CarDto(car.getBrand(), car.getModel(), car.getYear(), car.getLicenseplate());
         carDto.setId(car.getId());
         return carDto;
+    }
+
+    private Car fromDtoToCar(CarDto carDto){
+        Car car = new Car(carDto.getBrand(), carDto.getModel(), carDto.getYear(), carDto.getLicenseplate());
+        car.setId(carDto.getId());
+        return car;
     }
 }

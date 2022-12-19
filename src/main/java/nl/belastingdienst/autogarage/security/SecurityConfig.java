@@ -29,12 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/part").hasAnyRole("BACKOFFICE", "MECHANIC", "ADMIN")
+                .antMatchers("/repair").hasAnyRole("BACKOFFICE", "MECHANIC", "ADMIN")
+                .antMatchers("/appointment").hasAnyRole("MECHANIC", "ADMIN")
+                .antMatchers("/car").hasAnyRole("MECHANIC", "ADMIN")
+                .antMatchers("/customer").hasAnyRole("MECHANIC", "ADMIN")
+                .antMatchers("/file").hasAnyRole("MECHANIC", "ADMIN")
+                .antMatchers("/user").hasAnyRole("MECHANIC", "ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
-                .antMatchers("/appointment").hasRole("MECHANIC")
-                .antMatchers("/car").hasRole("MECHANIC")
-                .antMatchers("/customer").hasRole("MECHANIC")
-                .antMatchers("/part").hasAnyRole("BACKOFFICE", "MECHANIC")
-                .antMatchers("/repair").hasAnyRole("BACKOFFICE", "MECHANIC")
                 .and().httpBasic();
 
     }

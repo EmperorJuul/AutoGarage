@@ -21,15 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CarServiceTest {
 
     @Mock
-    CarRepository autoRepository;
+    CarRepository carRepository;
 
     @InjectMocks
-    CarService autoService;
+    CarService carService;
 
     @Mock
     Car car1;
     @Mock
     Car car2;
+    @Mock
+    CarDto carDto1;
+    @Mock
+    CarDto carDto2;
 
     @BeforeEach
     public void setup(){
@@ -37,6 +41,10 @@ class CarServiceTest {
         car1.setId(1L);
         car2 = new Car("Volkswagen", "ID4", 2021, "23-HC-6G");
         car2.setId(2L);
+        carDto1 = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
+        carDto1.setId(1L);
+        carDto2 = new CarDto("Volkswagen", "ID4", 2021, "23-HC-6G");
+        carDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
@@ -46,20 +54,15 @@ class CarServiceTest {
         List<Car> carList = new ArrayList<>();
         carList.add(car1);
         carList.add(car2);
-
-        CarDto autoDto1 = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
-        autoDto1.setId(1L);
-        CarDto autoDto2 = new CarDto("Volkswagen", "ID4", 2021, "23-HC-6G");
-        autoDto2.setId(2L);
         List<CarDto> verwacht = new ArrayList<>();
-        verwacht.add(autoDto1);
-        verwacht.add(autoDto2);
+        verwacht.add(carDto1);
+        verwacht.add(carDto2);
 
         Mockito
-                .when(autoRepository.findAll())
+                .when(carRepository.findAll())
                 .thenReturn(carList);
 
-        List<CarDto> uitkomst = autoService.allCars();
+        List<CarDto> uitkomst = carService.allCars();
 
         assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
         assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
@@ -76,14 +79,13 @@ class CarServiceTest {
 
     @Test
     void AutoOpId(){
-        CarDto verwacht = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
-        verwacht.setId(1L);
+        CarDto verwacht = carDto1;
 
         Mockito
-                .when(autoRepository.findById(car1.getId()))
+                .when(carRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
-        CarDto uitkomst = autoService.carById(car1.getId());
+        CarDto uitkomst = carService.carById(car1.getId());
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -94,14 +96,13 @@ class CarServiceTest {
 
     @Test
     void nieuweAuto(){
-        CarDto verwacht = new CarDto("Opel", "Corsa", 2006, "DF-45-A4");
-        verwacht.setId(1L);
+        CarDto verwacht = carDto1;
 
         Mockito
-                .when(autoRepository.save(car1))
+                .when(carRepository.save(Mockito.any()))
                 .thenReturn(car1);
 
-        CarDto uitkomst = autoService.newCar(car1);
+        CarDto uitkomst = carService.newCar(carDto1);
 
         assertEquals(verwacht.getId(), uitkomst.getId());
         assertEquals(verwacht.getBrand(), uitkomst.getBrand());
@@ -113,28 +114,27 @@ class CarServiceTest {
 
     @Test
     void updateAuto(){
-        Car nieuweCar = new Car("Suzuki", "Swift", 2012, "AA-AA-AA");
-        nieuweCar.setId(1L);
+        CarDto newCarDto = carDto2;
 
         Mockito
-                .when(autoRepository.findById(car1.getId()))
+                .when(carRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
         Mockito
-                .when(autoRepository.save(nieuweCar))
-                .thenReturn(nieuweCar);
+                .when(carRepository.save(car1))
+                .thenReturn(car1);
 
-        autoService.updateCar(nieuweCar.getId(), nieuweCar);
+        carService.updateCar(car1.getId(), newCarDto);
 
-        Mockito.verify(autoRepository, Mockito.times(1)).findById(car1.getId());
-        Mockito.verify(autoRepository, Mockito.times(1)).save(nieuweCar);
+        Mockito.verify(carRepository, Mockito.times(1)).findById(car1.getId());
+        Mockito.verify(carRepository, Mockito.times(1)).save(car1);
     }
 
     @Test
     void verwijderAuto(){
-        autoService.deleteCar(car1.getId());
+        carService.deleteCar(car1.getId());
 
-        Mockito.verify(autoRepository, Mockito.times(1)).deleteById(car1.getId());
+        Mockito.verify(carRepository, Mockito.times(1)).deleteById(car1.getId());
     }
 
 }

@@ -1,7 +1,7 @@
 package nl.belastingdienst.autogarage.controller;
 
-import nl.belastingdienst.autogarage.dto.UserDto;
-import nl.belastingdienst.autogarage.model.User;
+import nl.belastingdienst.autogarage.dto.UserInputDto;
+import nl.belastingdienst.autogarage.dto.UserOutputDto;
 import nl.belastingdienst.autogarage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +19,25 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> allUsers(){
+    public ResponseEntity<List<UserOutputDto>> allUsers(){
         return ResponseEntity.ok(userService.allUsers());
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserDto> userByUsername(@PathVariable String username){
+    public ResponseEntity<UserOutputDto> userByUsername(@PathVariable String username){
         return ResponseEntity.ok(userService.userByUsername(username));
     }
 
     @PostMapping
-    public ResponseEntity<Object> newUser(@RequestBody User user){
-        UserDto userDto = userService.newUser(user);
+    public ResponseEntity<Object> newUser(@RequestBody UserInputDto userInputDto){
+        UserOutputDto userOutputDto = userService.newUser(userInputDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(userDto.getUsername()).toUri();
+                .buildAndExpand(userInputDto.getUsername()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<Object> updateUser(@PathVariable String username, @RequestBody User newUser){
+    public ResponseEntity<Object> updateUser(@PathVariable String username, @RequestBody UserInputDto newUser){
         userService.updateUser(username, newUser);
         return ResponseEntity.noContent().build();
     }

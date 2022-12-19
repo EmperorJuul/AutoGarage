@@ -29,15 +29,19 @@ public class CustomerService {
         return fromCustomerToDto(customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id)));
     }
 
-    public CustomerDto newCustomer(Customer customer){
+    public CustomerDto newCustomer(CustomerDto customerInputDto){
+        Customer customer = fromDtoToCustomer(customerInputDto);
         customerRepository.save(customer);
         return fromCustomerToDto(customer);
     }
 
-    public void updateCustomer(Long id, Customer newCustomer){
+    public void updateCustomer(Long id, CustomerDto customerInputDto){
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-        newCustomer.setId(customer.getId());
-        customerRepository.save(newCustomer);
+        customer.setFirstname(customerInputDto.getFirstname());
+        customer.setSurname(customerInputDto.getSurname());
+        customer.setEmailAdress(customerInputDto.getEmailAdress());
+        customer.setPhoneNumber(customerInputDto.getPhoneNumber());
+        customerRepository.save(customer);
     }
 
     public void deleteCustomer(Long id){
@@ -48,5 +52,11 @@ public class CustomerService {
         CustomerDto customerDto = new CustomerDto(customer.getFirstname(), customer.getSurname(), customer.getPhoneNumber(), customer.getEmailAdress());
         customerDto.setId(customer.getId());
         return customerDto;
+    }
+
+    private Customer fromDtoToCustomer(CustomerDto customerDto){
+        Customer customer = new Customer(customerDto.getFirstname(), customerDto.getSurname(), customerDto.getPhoneNumber(), customerDto.getEmailAdress());
+        customer.setId(customerDto.getId());
+        return customer;
     }
 }
