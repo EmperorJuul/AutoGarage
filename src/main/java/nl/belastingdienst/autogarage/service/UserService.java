@@ -7,6 +7,8 @@ import nl.belastingdienst.autogarage.model.Authority;
 import nl.belastingdienst.autogarage.model.User;
 import nl.belastingdienst.autogarage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     public List<UserOutputDto> allUsers(){
         List<User> userList = userRepository.findAll();
@@ -34,6 +40,7 @@ public class UserService {
 
     public UserOutputDto newUser(UserInputDto userInputDto){
         User user = fromDtoToUser(userInputDto);
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
         return fromUserToDto(user);
     }
