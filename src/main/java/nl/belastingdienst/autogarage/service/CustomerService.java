@@ -1,8 +1,11 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.CustomerDto;
+import nl.belastingdienst.autogarage.exception.CarNotFoundException;
 import nl.belastingdienst.autogarage.exception.CustomerNotFoundException;
+import nl.belastingdienst.autogarage.model.Car;
 import nl.belastingdienst.autogarage.model.Customer;
+import nl.belastingdienst.autogarage.repository.CarRepository;
 import nl.belastingdienst.autogarage.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     public List<CustomerDto> allCustomers(){
         List<Customer> customerList = customerRepository.findAll();
@@ -59,4 +65,29 @@ public class CustomerService {
         customer.setId(customerDto.getId());
         return customer;
     }
+
+    public void addCar(Long customerId, Long carId){
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarNotFoundException(carId));
+        customer.addToCarlist(car);
+        car.setCustomer(customer);
+        customerRepository.save(customer);
+        carRepository.save(car);
+    }
+
+    public void removeCar(Long customerId, Long carId){
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarNotFoundException(carId));
+        if(customer.getCarList().contains(car)) {
+            customer.removeFromCarList(car);
+            car.setCustomer(null);
+            customerRepository.save(customer);
+            carRepository.save(car);
+        }
+        else{
+            throw new CarNotFoundException("Car was not linked to this customer");
+        }
+    }
+
+
 }

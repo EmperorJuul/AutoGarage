@@ -22,8 +22,8 @@ public class Car {
     @Column(unique = true)
     private String licenseplate;
 
-    @ManyToMany
-    private List<Customer> customerList;
+    @ManyToOne
+    private Customer customer;
 
     @OneToMany
     private List<Appointment> appointmentList;
@@ -46,11 +46,4 @@ public class Car {
         appointmentList.remove(appointment);
     }
 
-    public void addToCustomerList(Customer customer){
-        customerList.add(customer);
-    }
-
-    public void removeFromCustomerList(Customer customer){
-        customerList.remove(customer);
-    }
 }
