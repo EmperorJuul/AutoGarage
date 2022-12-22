@@ -50,70 +50,70 @@ class CarServiceTest {
     }
 
     @Test
-    void alleAutos(){
+    void allCars(){
         List<Car> carList = new ArrayList<>();
         carList.add(car1);
         carList.add(car2);
-        List<CarDto> verwacht = new ArrayList<>();
-        verwacht.add(carDto1);
-        verwacht.add(carDto2);
+        List<CarDto> expected = new ArrayList<>();
+        expected.add(carDto1);
+        expected.add(carDto2);
 
         Mockito
                 .when(carRepository.findAll())
                 .thenReturn(carList);
 
-        List<CarDto> uitkomst = carService.allCars();
+        List<CarDto> actual = carService.allCars();
 
-        assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getYear(), uitkomst.get(0).getYear());
-        assertEquals(verwacht.get(0).getModel(), uitkomst.get(0).getModel());
-        assertEquals(verwacht.get(0).getBrand(), uitkomst.get(0).getBrand());
-        assertEquals(verwacht.get(0).getLicenseplate(), uitkomst.get(0).getLicenseplate());
+        assertEquals(expected.get(0).getId(), actual.get(0).getId());
+        assertEquals(expected.get(0).getYear(), actual.get(0).getYear());
+        assertEquals(expected.get(0).getModel(), actual.get(0).getModel());
+        assertEquals(expected.get(0).getBrand(), actual.get(0).getBrand());
+        assertEquals(expected.get(0).getLicenseplate(), actual.get(0).getLicenseplate());
 
-        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getYear(), uitkomst.get(1).getYear());
-        assertEquals(verwacht.get(1).getModel(), uitkomst.get(1).getModel());
-        assertEquals(verwacht.get(1).getBrand(), uitkomst.get(1).getBrand());
-        assertEquals(verwacht.get(1).getLicenseplate(), uitkomst.get(1).getLicenseplate());
+        assertEquals(expected.get(1).getId(), actual.get(1).getId());
+        assertEquals(expected.get(1).getYear(), actual.get(1).getYear());
+        assertEquals(expected.get(1).getModel(), actual.get(1).getModel());
+        assertEquals(expected.get(1).getBrand(), actual.get(1).getBrand());
+        assertEquals(expected.get(1).getLicenseplate(), actual.get(1).getLicenseplate());
     }
 
     @Test
-    void AutoOpId(){
-        CarDto verwacht = carDto1;
+    void carById(){
+        CarDto expected = carDto1;
 
         Mockito
                 .when(carRepository.findById(car1.getId()))
                 .thenReturn(Optional.of(car1));
 
-        CarDto uitkomst = carService.carById(car1.getId());
+        CarDto actual = carService.carById(car1.getId());
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
-        assertEquals(verwacht.getModel(), uitkomst.getModel());
-        assertEquals(verwacht.getYear(), uitkomst.getYear());
-        assertEquals(verwacht.getLicenseplate(), uitkomst.getLicenseplate());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getBrand(), actual.getBrand());
+        assertEquals(expected.getModel(), actual.getModel());
+        assertEquals(expected.getYear(), actual.getYear());
+        assertEquals(expected.getLicenseplate(), actual.getLicenseplate());
     }
 
     @Test
-    void nieuweAuto(){
-        CarDto verwacht = carDto1;
+    void newCar(){
+        CarDto expected = carDto1;
 
         Mockito
                 .when(carRepository.save(Mockito.any()))
                 .thenReturn(car1);
 
-        CarDto uitkomst = carService.newCar(carDto1);
+        CarDto actual = carService.newCar(carDto1);
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getBrand(), uitkomst.getBrand());
-        assertEquals(verwacht.getModel(), uitkomst.getModel());
-        assertEquals(verwacht.getYear(), uitkomst.getYear());
-        assertEquals(verwacht.getLicenseplate(), uitkomst.getLicenseplate());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getBrand(), actual.getBrand());
+        assertEquals(expected.getModel(), actual.getModel());
+        assertEquals(expected.getYear(), actual.getYear());
+        assertEquals(expected.getLicenseplate(), actual.getLicenseplate());
 
     }
 
     @Test
-    void updateAuto(){
+    void updateCar(){
         CarDto newCarDto = carDto2;
 
         Mockito
@@ -131,7 +131,7 @@ class CarServiceTest {
     }
 
     @Test
-    void verwijderAuto(){
+    void deleteCar(){
         carService.deleteCar(car1.getId());
 
         Mockito.verify(carRepository, Mockito.times(1)).deleteById(car1.getId());

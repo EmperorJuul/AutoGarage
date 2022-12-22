@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AppointmentServiceTest {
 
     @Mock
-    AppointmentRepository afspraakRepository;
+    AppointmentRepository appointmentRepository;
 
     @InjectMocks
-    AppointmentService afspraakService;
+    AppointmentService appointmentService;
 
     @Mock
     Appointment appointment1;
@@ -52,86 +52,86 @@ class AppointmentServiceTest {
 
 
     @Test
-    void alleAfspraken(){
+    void allAppointments(){
         List<Appointment> appointmentList = new ArrayList<>();
         appointmentList.add(appointment1);
         appointmentList.add(appointment2);
-        List<AppointmentDto> verwacht = new ArrayList<>();
-        verwacht.add(appointmentDto1);
-        verwacht.add(appointmentDto2);
+        List<AppointmentDto> expected = new ArrayList<>();
+        expected.add(appointmentDto1);
+        expected.add(appointmentDto2);
 
         Mockito
-                .when(afspraakRepository.findAll())
+                .when(appointmentRepository.findAll())
                 .thenReturn(appointmentList);
 
-        List<AppointmentDto> uitkomst =  afspraakService.allAppointments();
+        List<AppointmentDto> actual =  appointmentService.allAppointments();
 
-        assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getStartAppointment(), uitkomst.get(0).getStartAppointment());
-        assertEquals(verwacht.get(0).getEndAppointment(), uitkomst.get(0).getEndAppointment());
+        assertEquals(expected.get(0).getId(), actual.get(0).getId());
+        assertEquals(expected.get(0).getStartAppointment(), actual.get(0).getStartAppointment());
+        assertEquals(expected.get(0).getEndAppointment(), actual.get(0).getEndAppointment());
 
-        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getStartAppointment(), uitkomst.get(1).getStartAppointment());
-        assertEquals(verwacht.get(1).getEndAppointment(), uitkomst.get(1).getEndAppointment());
+        assertEquals(expected.get(1).getId(), actual.get(1).getId());
+        assertEquals(expected.get(1).getStartAppointment(), actual.get(1).getStartAppointment());
+        assertEquals(expected.get(1).getEndAppointment(), actual.get(1).getEndAppointment());
     }
 
     @Test
-    void afspraakOpId(){
-        AppointmentDto verwacht = appointmentDto1;
+    void appointmentById(){
+        AppointmentDto expected = appointmentDto1;
 
         Mockito
-                .when(afspraakRepository.findById(appointment1.getId()))
+                .when(appointmentRepository.findById(appointment1.getId()))
                 .thenReturn(Optional.of(appointment1));
 
-        AppointmentDto uitkomst = afspraakService.appointmentById(appointment1.getId());
+        AppointmentDto actual = appointmentService.appointmentById(appointment1.getId());
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
-        assertEquals(verwacht.getEndAppointment(), uitkomst.getEndAppointment());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getStartAppointment(), actual.getStartAppointment());
+        assertEquals(expected.getEndAppointment(), actual.getEndAppointment());
 
     }
 
 
     @Test
-    void nieuweAfspraak(){
-        AppointmentDto verwacht = appointmentDto1;
+    void newAppointment(){
+        AppointmentDto expected = appointmentDto1;
 
         Mockito
-                .when(afspraakRepository.save(Mockito.any()))
+                .when(appointmentRepository.save(Mockito.any()))
                 .thenReturn(appointment1);
 
-        AppointmentDto uitkomst = afspraakService.newAppointment(appointmentDto1);
+        AppointmentDto actual = appointmentService.newAppointment(appointmentDto1);
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getStartAppointment(), uitkomst.getStartAppointment());
-        assertEquals(verwacht.getEndAppointment(), uitkomst.getEndAppointment());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getStartAppointment(), actual.getStartAppointment());
+        assertEquals(expected.getEndAppointment(), actual.getEndAppointment());
     }
 
 
     @Test
-    void updateAfspraak(){
+    void updateAppointment(){
         AppointmentDto newAppointmentDto = appointmentDto2;
 
         Mockito
-                .when(afspraakRepository.findById(appointment1.getId()))
+                .when(appointmentRepository.findById(appointment1.getId()))
                 .thenReturn(Optional.of(appointment1));
 
         Mockito
-                .when(afspraakRepository.save(appointment1))
+                .when(appointmentRepository.save(appointment1))
                 .thenReturn(appointment1);
 
-        afspraakService.updateAppointment(appointment1.getId(), newAppointmentDto);
+        appointmentService.updateAppointment(appointment1.getId(), newAppointmentDto);
 
-        Mockito.verify(afspraakRepository, Mockito.times(1)).findById(appointment1.getId());
-        Mockito.verify(afspraakRepository, Mockito.times(1)).save(appointment1);
+        Mockito.verify(appointmentRepository, Mockito.times(1)).findById(appointment1.getId());
+        Mockito.verify(appointmentRepository, Mockito.times(1)).save(appointment1);
     }
 
 
     @Test
-    void verwijderAfspraak(){
-        afspraakService.deleteAppointment(appointment1.getId());
+    void deleteAppointment(){
+        appointmentService.deleteAppointment(appointment1.getId());
 
-        Mockito.verify(afspraakRepository, Mockito.times(1)).deleteById(appointment1.getId());
+        Mockito.verify(appointmentRepository, Mockito.times(1)).deleteById(appointment1.getId());
     }
 
 

@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ReparatieServiceTest {
 
     @Mock
-    RepairRepository reparatieRepository;
+    RepairRepository repairRepository;
 
     @InjectMocks
-    RepairService reparatieService;
+    RepairService repairService;
 
     @Mock
     Repair repair1;
@@ -37,95 +37,95 @@ class ReparatieServiceTest {
 
     @BeforeEach
     public void setup(){
-        repair1 = new Repair("Banden vervangen", 104);
+        repair1 = new Repair("Replace tires", 104);
         repair1.setId(1L);
-        repair2 = new Repair("Olie vervangen", 90);
+        repair2 = new Repair("Change oil", 90);
         repair2.setId(2L);
-        repairDto1 = new RepairDto("Banden vervangen", 104);
+        repairDto1 = new RepairDto("Replace tires", 104);
         repairDto1.setId(1L);
-        repairDto2 = new RepairDto("Olie vervangen", 90);
+        repairDto2 = new RepairDto("Change oil", 90);
         repairDto2.setId(2L);
         //Id wordt in het programma geregeld door springboot
         //om de test te laten slagen worden ze hier handmatig overschreven
     }
 
     @Test
-    void alleReparaties(){
+    void allRepairs(){
         List<Repair> reparatieList = new ArrayList<>();
         reparatieList.add(repair1);
         reparatieList.add(repair2);
-        List<RepairDto> verwacht = new ArrayList<>();
-        verwacht.add(repairDto1);
-        verwacht.add(repairDto2);
+        List<RepairDto> expected = new ArrayList<>();
+        expected.add(repairDto1);
+        expected.add(repairDto2);
 
         Mockito
-                .when(reparatieRepository.findAll())
+                .when(repairRepository.findAll())
                 .thenReturn(reparatieList);
 
-        List<RepairDto> uitkomst = reparatieService.allRepairs();
+        List<RepairDto> actual = repairService.allRepairs();
 
-        assertEquals(verwacht.get(0).getId(), uitkomst.get(0).getId());
-        assertEquals(verwacht.get(0).getName(), uitkomst.get(0).getName());
-        assertEquals(verwacht.get(0).getPrice(), uitkomst.get(0).getPrice());
+        assertEquals(expected.get(0).getId(), actual.get(0).getId());
+        assertEquals(expected.get(0).getName(), actual.get(0).getName());
+        assertEquals(expected.get(0).getPrice(), actual.get(0).getPrice());
 
-        assertEquals(verwacht.get(1).getId(), uitkomst.get(1).getId());
-        assertEquals(verwacht.get(1).getName(), uitkomst.get(1).getName());
-        assertEquals(verwacht.get(1).getPrice(), uitkomst.get(1).getPrice());
+        assertEquals(expected.get(1).getId(), actual.get(1).getId());
+        assertEquals(expected.get(1).getName(), actual.get(1).getName());
+        assertEquals(expected.get(1).getPrice(), actual.get(1).getPrice());
     }
 
     @Test
-    void reparatieOpId(){
-        RepairDto verwacht = repairDto1;
+    void repairById(){
+        RepairDto expected = repairDto1;
 
         Mockito
-                .when(reparatieRepository.findById(repair1.getId()))
+                .when(repairRepository.findById(repair1.getId()))
                 .thenReturn(Optional.of(repair1));
 
-        RepairDto uitkomst = reparatieService.repairById(repair1.getId());
+        RepairDto actual = repairService.repairById(repair1.getId());
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getName(), uitkomst.getName());
-        assertEquals(verwacht.getPrice(), uitkomst.getPrice());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getPrice(), actual.getPrice());
     }
 
     @Test
-    void nieuweReparatie(){
-        RepairDto verwacht = repairDto1;
+    void newRepair(){
+        RepairDto expected = repairDto1;
 
         Mockito
-                .when(reparatieRepository.save(Mockito.any()))
+                .when(repairRepository.save(Mockito.any()))
                 .thenReturn(repair1);
 
-        RepairDto uitkomst = reparatieService.newRepair(repairDto1);
+        RepairDto actual = repairService.newRepair(repairDto1);
 
-        assertEquals(verwacht.getId(), uitkomst.getId());
-        assertEquals(verwacht.getName(), uitkomst.getName());
-        assertEquals(verwacht.getPrice(), uitkomst.getPrice());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getPrice(), actual.getPrice());
     }
 
     @Test
-    void updateReparatie(){
+    void updateRepair(){
         RepairDto newRepairDto = repairDto2;
 
         Mockito
-                .when(reparatieRepository.findById(repair1.getId()))
+                .when(repairRepository.findById(repair1.getId()))
                 .thenReturn(Optional.of(repair1));
 
         Mockito
-                .when(reparatieRepository.save(repair1))
+                .when(repairRepository.save(repair1))
                 .thenReturn(repair1);
 
-        reparatieService.updateRepair(repair1.getId(), newRepairDto);
+        repairService.updateRepair(repair1.getId(), newRepairDto);
 
-        Mockito.verify(reparatieRepository, Mockito.times(1)).findById(repair1.getId());
-        Mockito.verify(reparatieRepository, Mockito.times(1)).save(repair1);
+        Mockito.verify(repairRepository, Mockito.times(1)).findById(repair1.getId());
+        Mockito.verify(repairRepository, Mockito.times(1)).save(repair1);
     }
 
     @Test
-    void verwijderReparatie(){
-        reparatieService.deleteRepair(repair1.getId());
+    void deleteRepair(){
+        repairService.deleteRepair(repair1.getId());
 
-        Mockito.verify(reparatieRepository, Mockito.times(1)).deleteById(repair1.getId());
+        Mockito.verify(repairRepository, Mockito.times(1)).deleteById(repair1.getId());
     }
 
 }
