@@ -2,8 +2,14 @@ package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.exception.AppointmentNotFoundException;
+import nl.belastingdienst.autogarage.exception.CarNotFoundException;
+import nl.belastingdienst.autogarage.exception.RepairNotFoundException;
 import nl.belastingdienst.autogarage.model.Appointment;
+import nl.belastingdienst.autogarage.model.Car;
+import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.repository.AppointmentRepository;
+import nl.belastingdienst.autogarage.repository.CarRepository;
+import nl.belastingdienst.autogarage.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +21,12 @@ public class AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private RepairRepository repairRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     public List<AppointmentDto> allAppointments(){
         List<Appointment> appointmentList = appointmentRepository.findAll();
@@ -56,5 +68,51 @@ public class AppointmentService {
         Appointment appointment = new Appointment(appointmentDto.getStartAppointment(), appointmentDto.getEndAppointment());
         appointment.setId(appointmentDto.getId());
         return appointment;
+    }
+
+    public void addRepair(Long appointmentId, Long repairId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Repair repair = repairRepository.findById(repairId).orElseThrow(() -> new RepairNotFoundException(repairId));
+        appointment.addToRepairList(repair);
+        repair.addToAppointmentList(appointment);
+        appointmentRepository.save(appointment);
+        repairRepository.save(repair);
+    }
+
+    public void removeRepair(Long appointmentId, Long repairId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Repair repair = repairRepository.findById(repairId).orElseThrow(() -> new RepairNotFoundException(repairId));
+        if(appointment.getRepairList().contains(repair)){
+            appointment.removeFromRepairList(repair);
+            repair.removeFromAppointmentList(appointment);
+            appointmentRepository.save(appointment);
+            repairRepository.save(repair);
+        }
+        else{
+            throw new RepairNotFoundException("Repair was not linked to appointment");
+        }
+    }
+
+    public void addCar(Long appointmentId, Long carId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarNotFoundException(carId));
+        appointment.setCar(car);
+        car.addToAppointmentList(appointment);
+        appointmentRepository.save(appointment);
+        carRepository.save(car);
+    }
+
+    public void removeCar(Long appointmentId, Long carId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CarNotFoundException(carId));
+        if (appointment.getCar() == car){
+            appointment.setCar(null);
+            car.removeFromAppointmentList(appointment);
+            appointmentRepository.save(appointment);
+            carRepository.save(car);
+        }
+        else {
+            throw new CarNotFoundException("Car was not linked to this appointment");
+        }
     }
 }

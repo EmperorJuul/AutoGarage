@@ -37,4 +37,20 @@ public class Car {
         this.year = year;
         this.licenseplate = licenseplate;
     }
+
+    public void addToAppointmentList(Appointment appointment){
+        appointmentList.add(appointment);
+    }
+
+    public void removeFromAppointmentList(Appointment appointment){
+        appointmentList.remove(appointment);
+    }
+
+    public void addToCustomerList(Customer customer){
+        customerList.add(customer);
+    }
+
+    public void removeFromCustomerList(Customer customer){
+        customerList.remove(customer);
+    }
 }

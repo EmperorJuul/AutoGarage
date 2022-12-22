@@ -20,7 +20,7 @@ public class Appointment {
     private LocalDateTime endAppointment;
 
     @ManyToMany
-    private List<Repair> repair;
+    private List<Repair> repairList;
 
     @ManyToOne
     private Car car;
@@ -34,5 +34,13 @@ public class Appointment {
     public Appointment(LocalDateTime startAppointment, LocalDateTime endAppointment) {
         this.startAppointment = startAppointment;
         this.endAppointment = endAppointment;
+    }
+
+    public void addToRepairList(Repair repair){
+        repairList.add(repair);
+    }
+
+    public void removeFromRepairList(Repair repair){
+        repairList.remove(repair);
     }
 }

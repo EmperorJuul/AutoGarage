@@ -46,4 +46,28 @@ public class AppointmentController {
         appointmentService.deleteAppointment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/repair/{appointmentId}/{repairId}")
+    public ResponseEntity<Object> addRepair(@PathVariable Long appointmentId, @PathVariable Long repairId){
+        appointmentService.addRepair(appointmentId, repairId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/repair/{appointmentId}/{repairId}")
+    public ResponseEntity<Object> removeRepair(@PathVariable Long appointmentId, @PathVariable Long repairId){
+        appointmentService.removeRepair(appointmentId, repairId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/car/{appointmentId}/{carId}")
+    public ResponseEntity<Object> addCar(@PathVariable Long appointmentId, @PathVariable Long carId){
+        appointmentService.addCar(appointmentId, carId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/car/{appointmentId}/{carId}")
+    public ResponseEntity<Object> removeCar(@PathVariable Long appointmentId, @PathVariable Long carId) {
+        appointmentService.removeCar(appointmentId, carId);
+        return ResponseEntity.noContent().build();
+    }
 }
