@@ -1,8 +1,11 @@
 package nl.belastingdienst.autogarage.service;
 
 import nl.belastingdienst.autogarage.dto.RepairDto;
+import nl.belastingdienst.autogarage.exception.PartNotFoundException;
 import nl.belastingdienst.autogarage.exception.RepairNotFoundException;
+import nl.belastingdienst.autogarage.model.Part;
 import nl.belastingdienst.autogarage.model.Repair;
+import nl.belastingdienst.autogarage.repository.PartRepository;
 import nl.belastingdienst.autogarage.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class RepairService {
 
     @Autowired
     private RepairRepository repairRepository;
+
+    @Autowired
+    private PartRepository partRepository;
 
     public List<RepairDto> allRepairs(){
         List<Repair> repairList = repairRepository.findAll();
@@ -56,5 +62,23 @@ public class RepairService {
         Repair repair = new Repair(repairDto.getName(), repairDto.getPrice());
         repair.setId(repairDto.getId());
         return repair;
+    }
+
+    public void addPart(Long repairId, Long partID){
+        Repair repair = repairRepository.findById(repairId).orElseThrow(() -> new RepairNotFoundException(repairId));
+        Part part = partRepository.findById(partID).orElseThrow(() -> new PartNotFoundException(partID));
+        repair.setPart(part);
+        part.addToRepairList(repair);
+        partRepository.save(part);
+        repairRepository.save(repair);
+    }
+
+    public void removePart(Long repairId){
+        Repair repair = repairRepository.findById(repairId).orElseThrow(() -> new RepairNotFoundException(repairId));
+        Part part = repair.getPart();
+        repair.setPart(null);
+        part.removeFromRepairList(repair);
+        repairRepository.save(repair);
+        partRepository.save(part);
     }
 }
