@@ -3,12 +3,15 @@ package nl.belastingdienst.autogarage.service;
 import nl.belastingdienst.autogarage.dto.AppointmentDto;
 import nl.belastingdienst.autogarage.exception.AppointmentNotFoundException;
 import nl.belastingdienst.autogarage.exception.CarNotFoundException;
+import nl.belastingdienst.autogarage.exception.CustomerNotFoundException;
 import nl.belastingdienst.autogarage.exception.RepairNotFoundException;
 import nl.belastingdienst.autogarage.model.Appointment;
 import nl.belastingdienst.autogarage.model.Car;
+import nl.belastingdienst.autogarage.model.Customer;
 import nl.belastingdienst.autogarage.model.Repair;
 import nl.belastingdienst.autogarage.repository.AppointmentRepository;
 import nl.belastingdienst.autogarage.repository.CarRepository;
+import nl.belastingdienst.autogarage.repository.CustomerRepository;
 import nl.belastingdienst.autogarage.repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class AppointmentService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public List<AppointmentDto> allAppointments(){
         List<Appointment> appointmentList = appointmentRepository.findAll();
@@ -113,6 +119,29 @@ public class AppointmentService {
         }
         else {
             throw new CarNotFoundException("Car was not linked to this appointment");
+        }
+    }
+
+    public void addCustomer(Long appointmentId, Long customerId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+        appointment.setCustomer(customer);
+        customer.addToAppointmentList(appointment);
+        appointmentRepository.save(appointment);
+        customerRepository.save(customer);
+    }
+
+    public void removeCustomer(Long appointmentId, Long customerId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFoundException(appointmentId));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
+        if(appointment.getCustomer() == customer){
+            appointment.setCustomer(null);
+            customer.removeFromAppointmentList(appointment);
+            appointmentRepository.save(appointment);
+            customerRepository.save(customer);
+        }
+        else {
+            throw new CustomerNotFoundException("Customer was not linked to this appointment");
         }
     }
 }

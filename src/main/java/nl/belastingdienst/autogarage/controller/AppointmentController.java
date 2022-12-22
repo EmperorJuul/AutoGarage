@@ -70,4 +70,16 @@ public class AppointmentController {
         appointmentService.removeCar(appointmentId, carId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/customer/{appointmentId}/{customerId}")
+    public ResponseEntity<Object> addCustomer(@PathVariable Long appointmentId, @PathVariable Long customerId){
+        appointmentService.addCustomer(appointmentId, customerId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/customer/{appointmentId}/{customerId}")
+    public ResponseEntity<Object> removeCustomer(@PathVariable Long appointmentId, @PathVariable Long customerId){
+        appointmentService.removeCustomer(appointmentId, customerId);
+        return ResponseEntity.noContent().build();
+    }
 }
