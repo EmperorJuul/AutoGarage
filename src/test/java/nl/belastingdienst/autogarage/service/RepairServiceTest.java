@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class ReparatieServiceTest {
+class RepairServiceTest {
 
     @Mock
     RepairRepository repairRepository;

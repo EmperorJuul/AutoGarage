@@ -32,4 +32,12 @@ public class Repair {
         this.name = name;
         this.price = price;
     }
+
+    public void addToAppointmentList(Appointment appointment){
+        appointmentList.add(appointment);
+    }
+
+    public void removeFromAppointmentList(Appointment appointment){
+        appointmentList.remove(appointment);
+    }
 }

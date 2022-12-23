@@ -19,7 +19,7 @@ public class Part {
     private String brand;
 
     @OneToMany
-    private List<Repair> reparatieList;
+    private List<Repair> repairList;
 
     public Part() {
     }
@@ -27,5 +27,13 @@ public class Part {
     public Part(String naam, String merk) {
         this.name = naam;
         this.brand = merk;
+    }
+
+    public void addToRepairList(Repair repair){
+        repairList.add(repair);
+    }
+
+    public void removeFromRepairList(Repair repair){
+        repairList.remove(repair);
     }
 }

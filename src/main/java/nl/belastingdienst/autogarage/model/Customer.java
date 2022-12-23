@@ -35,4 +35,20 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.emailAdress = emailAdress;
     }
+
+    public void addToCarlist(Car car){
+        carList.add(car);
+    }
+
+    public void removeFromCarList(Car car){
+        carList.remove(car);
+    }
+
+    public void addToAppointmentList(Appointment appointment){
+        appointmentList.add(appointment);
+    }
+
+    public void removeFromAppointmentList(Appointment appointment){
+        appointmentList.remove(appointment);
+    }
 }

@@ -18,17 +18,17 @@ public class RepairController {
     private RepairService repairService;
 
     @GetMapping
-    public ResponseEntity<List<RepairDto>> allRepairs(){
+    public ResponseEntity<List<RepairDto>> allRepairs() {
         return ResponseEntity.ok(repairService.allRepairs());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RepairDto> repairById(@PathVariable Long id){
+    public ResponseEntity<RepairDto> repairById(@PathVariable Long id) {
         return ResponseEntity.ok(repairService.repairById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Object> newRepair(@RequestBody RepairDto repairInputDto){
+    public ResponseEntity<Object> newRepair(@RequestBody RepairDto repairInputDto) {
         RepairDto repairOutputDto = repairService.newRepair(repairInputDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(repairOutputDto.getId()).toUri();
@@ -36,14 +36,26 @@ public class RepairController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateRepair(@PathVariable Long id, @RequestBody RepairDto repairInputDto){
+    public ResponseEntity<Object> updateRepair(@PathVariable Long id, @RequestBody RepairDto repairInputDto) {
         repairService.updateRepair(id, repairInputDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteRepair(@PathVariable Long id){
+    public ResponseEntity<Object> deleteRepair(@PathVariable Long id) {
         repairService.deleteRepair(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/part/{repairId}/{partId}")
+    public ResponseEntity<Object> addPart(@PathVariable Long repairId, @PathVariable Long partId) {
+        repairService.addPart(repairId, partId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/part/{repairId}")
+    public ResponseEntity<Object> removePart(@PathVariable Long repairId){
+        repairService.removePart(repairId);
         return ResponseEntity.noContent().build();
     }
 }
