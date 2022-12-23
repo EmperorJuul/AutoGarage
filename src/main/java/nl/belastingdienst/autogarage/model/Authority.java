@@ -21,13 +21,13 @@ public class Authority implements GrantedAuthority {
     private String username;
 
     @Column(nullable = false)
-    private String Authority;
+    private String authority;
 
     public Authority() {
     }
 
     public Authority(String username, String authority) {
         this.username = username;
-        Authority = authority;
+        this.authority = authority;
     }
 }
