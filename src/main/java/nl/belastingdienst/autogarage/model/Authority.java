@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "authoriteiten")
+@Table(name = "authorities")
 public class Authority implements GrantedAuthority {
 
 
@@ -18,16 +18,16 @@ public class Authority implements GrantedAuthority {
     private Long id;
 
     @Column(nullable = false)
-    private String gebruikersnaam;
+    private String username;
 
     @Column(nullable = false)
-    private String Authority;
+    private String authority;
 
     public Authority() {
     }
 
-    public Authority(String gebruikersnaam, String authority) {
-        this.gebruikersnaam = gebruikersnaam;
-        Authority = authority;
+    public Authority(String username, String authority) {
+        this.username = username;
+        this.authority = authority;
     }
 }
